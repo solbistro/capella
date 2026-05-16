@@ -1,321 +1,422 @@
-
-<h2 class="sr-only">Plum 訂單管理系統 — 含彈出通知視窗與音效</h2>
-
-<div id="appWrapper" style="position:relative; min-height:640px;">
-
-  <!-- ══ 彈出通知視窗（蓋在內容上方） ══ -->
-  <div id="modalOverlay" style="display:none; position:absolute; inset:0; background:rgba(0,0,0,0.5); z-index:200; border-radius:var(--border-radius-lg); align-items:center; justify-content:center;">
-    <div id="modalCard" style="background:var(--color-background-primary); border-radius:var(--border-radius-lg); padding:2.5rem 2rem 2rem; width:300px; text-align:center; border:0.5px solid var(--color-border-tertiary);">
-      <div style="width:64px; height:64px; border-radius:50%; background:#EEEDFE; display:flex; align-items:center; justify-content:center; margin:0 auto 1.25rem;">
-        <i class="ti ti-bell" style="font-size:32px; color:#534AB7;" aria-hidden="true"></i>
-      </div>
-      <p style="margin:0 0 8px; font-size:20px; font-weight:500; color:var(--color-text-primary);">新訂單！</p>
-      <p style="margin:0 0 6px; font-size:14px; color:var(--color-text-secondary);">新增了</p>
-      <p style="margin:0 0 1.5rem; font-size:40px; font-weight:500; color:#534AB7;" id="notifCount">0</p>
-      <p id="notifTime" style="margin:0 0 1.75rem; font-size:12px; color:var(--color-text-secondary);"></p>
-      <div style="display:flex; gap:8px; justify-content:center;">
-        <button onclick="goToOrders()" style="flex:1; background:#7F77DD; border:none; border-radius:var(--border-radius-md); padding:10px 0; font-size:14px; color:#fff; cursor:pointer; font-weight:500;">查看訂單</button>
-        <button onclick="closeModal()" style="flex:1; border-radius:var(--border-radius-md); padding:10px 0; font-size:14px; cursor:pointer;">關閉</button>
-      </div>
-      <p id="autoCloseLabel" style="margin:1rem 0 0; font-size:11px; color:var(--color-text-secondary);">10 秒後自動關閉</p>
-    </div>
-  </div>
-
-  <!-- ══ 主內容 ══ -->
-  <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:1.25rem; flex-wrap:wrap; gap:8px;">
-    <div style="display:flex; align-items:center; gap:10px;">
-      <div style="width:32px; height:32px; border-radius:8px; background:#EEEDFE; display:flex; align-items:center; justify-content:center;">
-        <i class="ti ti-cake" style="font-size:18px; color:#534AB7;" aria-hidden="true"></i>
-      </div>
-      <div>
-        <p style="margin:0; font-weight:500; font-size:16px; color:var(--color-text-primary);">Plum 訂單系統</p>
-        <p style="margin:0; font-size:11px; color:var(--color-text-secondary); font-family:var(--font-mono);">gviz JSONP · 彈出通知視窗</p>
-      </div>
-    </div>
-    <div style="display:flex; align-items:center; gap:8px; flex-wrap:wrap;">
-      <span id="lastUpdatedLabel" style="font-size:12px; color:var(--color-text-secondary);">尚未更新</span>
-      <button onclick="toggleMute()" id="muteBtn" style="display:flex; align-items:center; gap:4px; font-size:12px; padding:5px 10px; border-radius:var(--border-radius-md);">
-        <i class="ti ti-volume" id="muteIcon" style="font-size:14px;" aria-hidden="true"></i><span id="muteLabel">音效開</span>
-      </button>
-      <button onclick="testNotif()" style="display:flex; align-items:center; gap:4px; font-size:12px; padding:5px 10px; border-radius:var(--border-radius-md); background:#EEEDFE; border:none; color:#534AB7; cursor:pointer; font-weight:500;">
-        <i class="ti ti-bell" style="font-size:13px;" aria-hidden="true"></i>測試彈窗
-      </button>
-      <button onclick="refreshAll()" style="display:flex; align-items:center; gap:5px; font-size:13px; padding:6px 12px; border-radius:var(--border-radius-md);">
-        <i class="ti ti-refresh" id="refreshIcon" style="font-size:15px;" aria-hidden="true"></i>重新整理
-      </button>
-      <span style="font-size:11px; background:#EEEDFE; color:#534AB7; padding:3px 8px; border-radius:20px; font-weight:500;">⏱ <span id="countdown">30</span>s</span>
-    </div>
-  </div>
-
-  <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(120px, 1fr)); gap:10px; margin-bottom:1.25rem;">
-    <div style="background:var(--color-background-secondary); border-radius:var(--border-radius-md); padding:12px 14px;">
-      <p style="margin:0 0 4px; font-size:12px; color:var(--color-text-secondary);">訂單總數</p>
-      <p id="statOrders" style="margin:0; font-size:22px; font-weight:500; color:var(--color-text-primary);">—</p>
-    </div>
-    <div style="background:var(--color-background-secondary); border-radius:var(--border-radius-md); padding:12px 14px;">
-      <p style="margin:0 0 4px; font-size:12px; color:var(--color-text-secondary);">客戶數</p>
-      <p id="statCustomers" style="margin:0; font-size:22px; font-weight:500; color:var(--color-text-primary);">—</p>
-    </div>
-    <div style="background:var(--color-background-secondary); border-radius:var(--border-radius-md); padding:12px 14px;">
-      <p style="margin:0 0 4px; font-size:12px; color:var(--color-text-secondary);">蛋糕品項</p>
-      <p id="statCakes" style="margin:0; font-size:22px; font-weight:500; color:var(--color-text-primary);">—</p>
-    </div>
-    <div style="background:var(--color-background-secondary); border-radius:var(--border-radius-md); padding:12px 14px;">
-      <p style="margin:0 0 4px; font-size:12px; color:var(--color-text-secondary);">來源一筆數</p>
-      <p id="statSource1" style="margin:0; font-size:22px; font-weight:500; color:var(--color-text-primary);">—</p>
-    </div>
-  </div>
-
-  <div style="border-bottom:0.5px solid var(--color-border-tertiary); margin-bottom:1rem; display:flex; overflow-x:auto;">
-    <button class="tabBtn active" data-tab="orders"       onclick="switchTab('orders')"       style="padding:8px 14px; border:none; background:none; font-size:13px; cursor:pointer; border-bottom:2px solid #7F77DD; color:#534AB7; font-weight:500; white-space:nowrap;"><i class="ti ti-clipboard-list" style="font-size:14px; vertical-align:-2px; margin-right:4px;" aria-hidden="true"></i>訂單</button>
-    <button class="tabBtn"        data-tab="customers"    onclick="switchTab('customers')"    style="padding:8px 14px; border:none; background:none; font-size:13px; cursor:pointer; border-bottom:2px solid transparent; color:var(--color-text-secondary); white-space:nowrap;"><i class="ti ti-users" style="font-size:14px; vertical-align:-2px; margin-right:4px;" aria-hidden="true"></i>客戶</button>
-    <button class="tabBtn"        data-tab="cakes"        onclick="switchTab('cakes')"        style="padding:8px 14px; border:none; background:none; font-size:13px; cursor:pointer; border-bottom:2px solid transparent; color:var(--color-text-secondary); white-space:nowrap;"><i class="ti ti-cake" style="font-size:14px; vertical-align:-2px; margin-right:4px;" aria-hidden="true"></i>蛋糕商品</button>
-    <button class="tabBtn"        data-tab="orderitems"   onclick="switchTab('orderitems')"   style="padding:8px 14px; border:none; background:none; font-size:13px; cursor:pointer; border-bottom:2px solid transparent; color:var(--color-text-secondary); white-space:nowrap;"><i class="ti ti-list-details" style="font-size:14px; vertical-align:-2px; margin-right:4px;" aria-hidden="true"></i>訂單明細</button>
-    <button class="tabBtn"        data-tab="orderhistory" onclick="switchTab('orderhistory')" style="padding:8px 14px; border:none; background:none; font-size:13px; cursor:pointer; border-bottom:2px solid transparent; color:var(--color-text-secondary); white-space:nowrap;"><i class="ti ti-history" style="font-size:14px; vertical-align:-2px; margin-right:4px;" aria-hidden="true"></i>訂單歷史</button>
-    <button class="tabBtn"        data-tab="source1"      onclick="switchTab('source1')"      style="padding:8px 14px; border:none; background:none; font-size:13px; cursor:pointer; border-bottom:2px solid transparent; color:var(--color-text-secondary); white-space:nowrap;"><i class="ti ti-database" style="font-size:14px; vertical-align:-2px; margin-right:4px;" aria-hidden="true"></i>來源一</button>
-  </div>
-
-  <div style="display:flex; gap:8px; margin-bottom:1rem; flex-wrap:wrap; align-items:center;">
-    <div style="position:relative; flex:1; min-width:180px;">
-      <i class="ti ti-search" style="position:absolute; left:10px; top:50%; transform:translateY(-50%); font-size:15px; color:var(--color-text-secondary); pointer-events:none;" aria-hidden="true"></i>
-      <input id="searchInput" type="text" placeholder="搜尋..." oninput="filterTable()" style="width:100%; box-sizing:border-box; padding-left:32px; font-size:13px;" aria-label="搜尋">
-    </div>
-  </div>
-
-  <div style="overflow-x:auto; border:0.5px solid var(--color-border-tertiary); border-radius:var(--border-radius-lg); background:var(--color-background-primary);">
-    <div id="loadingState" style="padding:3rem; text-align:center; color:var(--color-text-secondary);">
-      <i class="ti ti-loader" id="loadingSpinner" style="font-size:28px; display:block; margin:0 auto 8px;" aria-hidden="true"></i>
-      <p id="loadingMsg" style="margin:0; font-size:14px;">JSONP 連接中...</p>
-    </div>
-    <table id="dataTable" style="display:none; width:100%; border-collapse:collapse; font-size:13px;">
-      <thead id="tableHead"></thead>
-      <tbody id="tableBody"></tbody>
-    </table>
-  </div>
-
-  <div style="display:flex; align-items:center; justify-content:space-between; margin-top:10px; flex-wrap:wrap; gap:4px;">
-    <p id="rowCountLabel" style="margin:0; font-size:12px; color:var(--color-text-secondary);">顯示 0 筆</p>
-    <div style="display:flex; align-items:center; gap:6px;">
-      <span id="statusDot" style="width:6px; height:6px; border-radius:50%; background:#B4B2A9; display:inline-block;"></span>
-      <p id="statusLabel" style="margin:0; font-size:12px; color:var(--color-text-secondary);">未連線</p>
-    </div>
-  </div>
-
-</div><!-- end appWrapper -->
-
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Plum 訂單系統</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.x/tabler-icons.min.css">
 <style>
-#dataTable th { background:var(--color-background-secondary); padding:8px 12px; text-align:left; font-weight:500; font-size:12px; color:var(--color-text-secondary); border-bottom:0.5px solid var(--color-border-tertiary); white-space:nowrap; }
-#dataTable td { padding:8px 12px; border-bottom:0.5px solid var(--color-border-tertiary); color:var(--color-text-primary); vertical-align:middle; max-width:200px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
-#dataTable tr:last-child td { border-bottom:none; }
-#dataTable tr:hover td { background:var(--color-background-secondary); }
-.tabBtn:hover { color:var(--color-text-primary) !important; background:var(--color-background-secondary); }
-.tabBtn.active { color:#534AB7 !important; border-bottom-color:#7F77DD !important; }
-@keyframes spin { to { transform:rotate(360deg); } }
-.spinning { animation:spin 1s linear infinite; }
-@keyframes popIn { from { opacity:0; transform:scale(0.8); } to { opacity:1; transform:scale(1); } }
-@keyframes fadeIn { from { opacity:0; } to { opacity:1; } }
-#modalOverlay { animation:fadeIn 0.2s ease; }
-#modalCard { animation:popIn 0.25s cubic-bezier(.175,.885,.32,1.275) both; }
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#F7F5F2;color:#1A1916;min-height:100vh;padding:1.5rem;}
+#modalOverlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:500;align-items:center;justify-content:center;}
+#modalCard{background:#fff;border-radius:16px;padding:2.5rem 2rem 2rem;width:320px;text-align:center;box-shadow:0 24px 60px rgba(0,0,0,.18);}
+.header{display:flex;align-items:center;justify-content:space-between;margin-bottom:1.75rem;flex-wrap:wrap;gap:10px;}
+.logo{display:flex;align-items:center;gap:12px;}
+.logo-icon{width:40px;height:40px;border-radius:12px;background:#EEEDFE;display:flex;align-items:center;justify-content:center;}
+.header-actions{display:flex;align-items:center;gap:8px;flex-wrap:wrap;}
+.tabs{display:flex;gap:10px;margin-bottom:1.75rem;overflow-x:auto;padding-bottom:2px;}
+.tab-btn{display:flex;align-items:center;gap:8px;padding:12px 20px;border:1.5px solid #E8E5DE;background:#fff;border-radius:12px;font-size:13px;cursor:pointer;color:#888;white-space:nowrap;flex-shrink:0;transition:all .15s;font-family:inherit;}
+.tab-btn:hover{border-color:#B8B4F0;color:#534AB7;}
+.tab-btn.active{background:#EEEDFE;border-color:#7F77DD;color:#534AB7;font-weight:600;}
+.tab-badge{background:#534AB7;color:#fff;font-size:10px;padding:1px 7px;border-radius:20px;font-weight:700;}
+.tab-badge.red{background:#E24B4A;}
+.panel{display:none;}
+.panel.active{display:block;animation:fadeUp .3s ease both;}
+.cake-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:14px;}
+.cake-card{background:#fff;border:1px solid #EDEAE3;border-radius:14px;padding:1.5rem;transition:box-shadow .15s,border-color .15s;}
+.cake-card:hover{box-shadow:0 6px 24px rgba(83,74,183,.1);border-color:#B8B4F0;}
+.chip{display:inline-flex;align-items:center;gap:4px;padding:3px 10px;border-radius:20px;font-size:11px;font-weight:500;}
+.chip-purple{background:#EEEDFE;color:#534AB7;}
+.chip-gray{background:#F3F1EA;color:#444441;}
+.chip-green{background:#EAF3DE;color:#3B6D11;}
+.chip-red{background:#FCEBEB;color:#A32D2D;}
+.chip-blue{background:#E6F1FB;color:#0C447C;}
+.order-card{background:#fff;border:1px solid #EDEAE3;border-radius:14px;margin-bottom:12px;overflow:hidden;transition:border-color .15s;}
+.order-card:hover{border-color:#B8B4F0;}
+.order-card.new-order{border-left:4px solid #7F77DD;}
+.order-card-header{display:flex;align-items:center;justify-content:space-between;padding:1rem 1.25rem;border-bottom:1px solid #F0EDE6;flex-wrap:wrap;gap:8px;}
+.order-card-body{padding:1rem 1.25rem;}
+.order-card-footer{padding:.75rem 1.25rem;background:#FAFAF8;border-top:1px solid #F0EDE6;}
+.detail-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:12px;}
+.detail-label{font-size:11px;color:#888;font-weight:500;margin-bottom:3px;text-transform:uppercase;letter-spacing:.4px;}
+.detail-value{font-size:13px;color:#1A1916;font-weight:500;word-break:break-word;}
+.detail-value.muted{color:#888;font-weight:400;}
+.detail-value.large{font-size:16px;font-weight:700;color:#534AB7;}
+.section-block{font-size:11px;font-weight:600;color:#B0ADA6;letter-spacing:.5px;margin-bottom:8px;}
+.status-badge{padding:4px 12px;border-radius:20px;font-size:12px;font-weight:600;}
+.btn{padding:7px 14px;border-radius:8px;border:1px solid #E8E5DE;background:#fff;font-size:12px;cursor:pointer;color:#888;font-family:inherit;display:inline-flex;align-items:center;gap:5px;transition:all .15s;}
+.btn:hover{border-color:#B8B4F0;color:#534AB7;}
+.btn-primary{background:#7F77DD;border-color:#7F77DD;color:#fff;}
+.btn-primary:hover{background:#534AB7;border-color:#534AB7;}
+.btn-ghost{background:#EEEDFE;border-color:#EEEDFE;color:#534AB7;}
+.countdown-pill{font-size:11px;background:#EEEDFE;color:#534AB7;padding:4px 10px;border-radius:20px;font-weight:600;}
+.section-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;padding:0 2px;}
+.empty{text-align:center;padding:4rem 1rem;color:#888;}
+.empty i{font-size:40px;display:block;margin:0 auto 12px;opacity:.35;}
+.empty-title{font-size:14px;color:#1A1916;margin-bottom:6px;}
+.status-bar{display:flex;align-items:center;justify-content:space-between;margin-top:16px;}
+.status-dot{width:6px;height:6px;border-radius:50%;background:#ccc;display:inline-block;}
+hr.div{border:none;border-top:1px solid #F0EDE6;margin:12px 0;}
+.note-block{background:#FAFAF8;border-left:3px solid #E8E5DE;border-radius:0 8px 8px 0;padding:8px 12px;font-size:12px;color:#888;line-height:1.6;margin-top:10px;}
+@keyframes spin{to{transform:rotate(360deg);}}
+.spinning{animation:spin 1s linear infinite;}
+@keyframes fadeUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+@keyframes popIn{from{opacity:0;transform:scale(0.82)}to{opacity:1;transform:scale(1)}}
+#modalCard{animation:popIn .25s cubic-bezier(.175,.885,.32,1.275) both;}
 </style>
-
+</head>
+<body>
+ 
+<div id="modalOverlay">
+  <div id="modalCard">
+    <div style="width:64px;height:64px;border-radius:50%;background:#EEEDFE;display:flex;align-items:center;justify-content:center;margin:0 auto 1.25rem;">
+      <i class="ti ti-bell" style="font-size:32px;color:#534AB7;"></i>
+    </div>
+    <p style="font-size:20px;font-weight:600;color:#1A1916;margin-bottom:6px;">新訂單進來了！</p>
+    <p style="font-size:14px;color:#888;margin-bottom:6px;">剛新增了</p>
+    <p id="notifCount" style="font-size:52px;font-weight:700;color:#534AB7;margin-bottom:4px;">0</p>
+    <p style="font-size:13px;color:#888;margin-bottom:.5rem;">筆訂單</p>
+    <p id="notifTime" style="font-size:12px;color:#bbb;margin-bottom:1.75rem;"></p>
+    <div style="display:flex;gap:8px;justify-content:center;">
+      <button class="btn btn-primary" onclick="goToNew()" style="flex:1;justify-content:center;padding:10px 0;">查看新增訂單</button>
+      <button class="btn" onclick="closeModal()" style="flex:1;justify-content:center;padding:10px 0;">關閉</button>
+    </div>
+    <p id="acLabel" style="margin-top:1rem;font-size:11px;color:#bbb;"></p>
+  </div>
+</div>
+ 
+<div class="header">
+  <div class="logo">
+    <div class="logo-icon"><i class="ti ti-cake" style="font-size:22px;color:#534AB7;"></i></div>
+    <div>
+      <div style="font-size:18px;font-weight:600;color:#1A1916;">Plum 訂單系統</div>
+      <div id="todayLabel" style="font-size:12px;color:#888;margin-top:1px;"></div>
+    </div>
+  </div>
+  <div class="header-actions">
+    <button class="btn" onclick="toggleMute()"><i class="ti ti-volume" id="muteIcon"></i><span id="muteLabel">音效</span></button>
+    <button class="btn btn-ghost" onclick="testNotif()"><i class="ti ti-bell"></i> 測試通知</button>
+    <button class="btn" onclick="refreshAll()"><i class="ti ti-refresh" id="refreshIcon"></i> 重新整理</button>
+    <div class="countdown-pill">⏱ <span id="countdown">30</span>s</div>
+  </div>
+</div>
+ 
+<div class="tabs">
+  <button class="tab-btn active" data-tab="cakes" onclick="switchTab('cakes')">
+    <i class="ti ti-cake" style="font-size:17px;"></i>蛋糕介紹
+  </button>
+  <button class="tab-btn" data-tab="today" onclick="switchTab('today')">
+    <i class="ti ti-clipboard-list" style="font-size:17px;"></i>今日所有訂單
+    <span class="tab-badge" id="badgeToday" style="display:none;"></span>
+  </button>
+  <button class="tab-btn" data-tab="new" onclick="switchTab('new')">
+    <i class="ti ti-sparkles" style="font-size:17px;"></i>今日新增訂單
+    <span class="tab-badge red" id="badgeNew" style="display:none;"></span>
+  </button>
+</div>
+ 
+<div id="panelCakes" class="panel active"></div>
+<div id="panelToday" class="panel"></div>
+<div id="panelNew"   class="panel"></div>
+ 
+<div class="status-bar">
+  <div style="display:flex;align-items:center;gap:6px;">
+    <span class="status-dot" id="statusDot"></span>
+    <span style="font-size:12px;color:#888;" id="statusLabel">未連線</span>
+  </div>
+  <span style="font-size:12px;color:#888;" id="lastUpdated"></span>
+</div>
+ 
 <script>
-/* ── 音效 ── */
-let audioCtx = null, muted = false;
-function getCtx() { return audioCtx || (audioCtx = new (window.AudioContext || window.webkitAudioContext)()); }
-function playSound() {
-  if (muted) return;
-  try {
-    const ctx = getCtx();
-    if (ctx.state === 'suspended') ctx.resume();
-    [523.25, 659.25, 783.99].forEach((freq, i) => {
-      const o = ctx.createOscillator(), g = ctx.createGain();
-      o.connect(g); g.connect(ctx.destination);
-      o.type = 'sine';
-      o.frequency.setValueAtTime(freq, ctx.currentTime + i * 0.18);
-      g.gain.setValueAtTime(0, ctx.currentTime + i * 0.18);
-      g.gain.linearRampToValueAtTime(0.4, ctx.currentTime + i * 0.18 + 0.02);
-      g.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + i * 0.18 + 0.35);
-      o.start(ctx.currentTime + i * 0.18);
-      o.stop(ctx.currentTime + i * 0.18 + 0.4);
-    });
-  } catch(e) {}
+const TODAY=new Date();
+document.getElementById('todayLabel').textContent=TODAY.toLocaleDateString('zh-TW',{year:'numeric',month:'long',day:'numeric',weekday:'long'});
+ 
+let audioCtx=null,muted=false;
+function getCtx(){return audioCtx||(audioCtx=new(window.AudioContext||window.webkitAudioContext)());}
+function playSound(){
+  if(muted)return;
+  try{const ctx=getCtx();if(ctx.state==='suspended')ctx.resume();
+  [523.25,659.25,783.99].forEach((f,i)=>{const o=ctx.createOscillator(),g=ctx.createGain();o.connect(g);g.connect(ctx.destination);o.type='sine';o.frequency.setValueAtTime(f,ctx.currentTime+i*.18);g.gain.setValueAtTime(0,ctx.currentTime+i*.18);g.gain.linearRampToValueAtTime(.4,ctx.currentTime+i*.18+.02);g.gain.exponentialRampToValueAtTime(.001,ctx.currentTime+i*.18+.35);o.start(ctx.currentTime+i*.18);o.stop(ctx.currentTime+i*.18+.4);});}catch(e){}}
+function toggleMute(){muted=!muted;document.getElementById('muteIcon').className=muted?'ti ti-volume-off':'ti ti-volume';document.getElementById('muteLabel').textContent=muted?'靜音':'音效';if(!muted)playSound();}
+ 
+let acTimer=null,acInterval=null,acVal=10;
+function showModal(n){
+  clearTimeout(acTimer);clearInterval(acInterval);playSound();
+  document.getElementById('notifCount').textContent=n;
+  document.getElementById('notifTime').textContent=new Date().toLocaleString('zh-TW');
+  const ol=document.getElementById('modalOverlay');ol.style.display='flex';
+  const mc=document.getElementById('modalCard');mc.style.animation='none';void mc.offsetWidth;mc.style.animation='popIn .25s cubic-bezier(.175,.885,.32,1.275) both';
+  acVal=10;document.getElementById('acLabel').textContent=acVal+' 秒後自動關閉';
+  acInterval=setInterval(()=>{acVal--;document.getElementById('acLabel').textContent=acVal+' 秒後自動關閉';if(acVal<=0){clearInterval(acInterval);closeModal();}},1000);
 }
-function toggleMute() {
-  muted = !muted;
-  document.getElementById('muteIcon').className = muted ? 'ti ti-volume-off' : 'ti ti-volume';
-  document.getElementById('muteLabel').textContent = muted ? '已靜音' : '音效開';
-  if (!muted) playSound();
-}
-
-/* ── 彈出視窗 ── */
-let autoCloseTimer = null, autoCloseCountdown = null, acVal = 10;
-
-function showModal(n) {
-  clearTimeout(autoCloseTimer);
-  clearInterval(autoCloseCountdown);
-  playSound();
-  document.getElementById('notifCount').textContent = n;
-  document.getElementById('notifTime').textContent = new Date().toLocaleString('zh-TW');
-
-  const overlay = document.getElementById('modalOverlay');
-  overlay.style.display = 'flex';
-  // 重新觸發動畫
-  const card = document.getElementById('modalCard');
-  card.style.animation = 'none';
-  void card.offsetWidth;
-  card.style.animation = 'popIn 0.25s cubic-bezier(.175,.885,.32,1.275) both';
-
-  acVal = 10;
-  document.getElementById('autoCloseLabel').textContent = `${acVal} 秒後自動關閉`;
-  autoCloseCountdown = setInterval(() => {
-    acVal--;
-    document.getElementById('autoCloseLabel').textContent = `${acVal} 秒後自動關閉`;
-    if (acVal <= 0) { clearInterval(autoCloseCountdown); closeModal(); }
-  }, 1000);
-}
-
-function closeModal() {
-  clearTimeout(autoCloseTimer);
-  clearInterval(autoCloseCountdown);
-  document.getElementById('modalOverlay').style.display = 'none';
-}
-
-function goToOrders() { switchTab('orders'); closeModal(); }
-function testNotif()  { showModal(3); }
-
-/* ── 資料來源 ── */
-const SHEET_ID = '1CuiI3pPMEcej90c0BcgrhwYb4cX9IkojI017lgE1ut4';
-const PUB_ID   = '2PACX-1vQ7kxJjNYB3TblbQVA0pLKbE7WrB4d7FcuFzImENtt7JzIAu_kvkVgoykPGbAcTHtJ7YqUngpm1TlKF';
-const TABS = {
-  orders:       { base:`https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?sheet=orders`,       label:'訂單' },
-  customers:    { base:`https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?sheet=customers`,    label:'客戶' },
-  cakes:        { base:`https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?sheet=cakes`,        label:'蛋糕商品' },
-  orderitems:   { base:`https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?sheet=orderitems`,   label:'訂單明細' },
-  orderhistory: { base:`https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?sheet=orderhistory`, label:'訂單歷史' },
-  source1:      { base:`https://docs.google.com/spreadsheets/d/e/${PUB_ID}/gviz/tq?`,                   label:'來源一' },
-};
-const STAT_MAP = { orders:'statOrders', customers:'statCustomers', cakes:'statCakes', source1:'statSource1' };
-let cache={}, prevCounts={}, currentTab='orders', cdTimer=null, cdVal=30;
-
-/* ── JSONP ── */
-function fetchGvizJSONP(base) {
-  return new Promise((resolve, reject) => {
-    const cb = '_gviz_' + Math.random().toString(36).slice(2,9);
-    const t = setTimeout(() => { cleanup(); reject(new Error('逾時')); }, 10000);
-    window[cb] = resp => {
-      cleanup();
-      if (!resp || resp.status==='error') { reject(new Error((resp&&resp.errors||[]).map(e=>e.message).join('; ')||'存取失敗')); return; }
-      resolve(parseTable(resp.table));
-    };
-    const s = document.createElement('script');
-    s.src = base + (base.includes('?')?'&':'?') + 'tqx=responseHandler:' + cb;
-    s.onerror = () => { cleanup(); reject(new Error('載入失敗（試算表需設為公開）')); };
-    function cleanup() { clearTimeout(t); delete window[cb]; s.parentNode&&s.parentNode.removeChild(s); }
+function closeModal(){clearTimeout(acTimer);clearInterval(acInterval);document.getElementById('modalOverlay').style.display='none';}
+function goToNew(){switchTab('new');closeModal();}
+function testNotif(){showModal(3);}
+ 
+const SHEET_ID='1CuiI3pPMEcej90c0BcgrhwYb4cX9IkojI017lgE1ut4';
+const PUB_ID='2PACX-1vQ7kxJjNYB3TblbQVA0pLKbE7WrB4d7FcuFzImENtt7JzIAu_kvkVgoykPGbAcTHtJ7YqUngpm1TlKF';
+function gviz(s){return 'https://docs.google.com/spreadsheets/d/'+SHEET_ID+'/gviz/tq?sheet='+encodeURIComponent(s);}
+function pub(){return 'https://docs.google.com/spreadsheets/d/e/'+PUB_ID+'/gviz/tq?';}
+ 
+function fetchGviz(base){
+  return new Promise((res,rej)=>{
+    const cb='_g'+Math.random().toString(36).slice(2,8);
+    const t=setTimeout(()=>{cleanup();rej(new Error('逾時'));},10000);
+    window[cb]=resp=>{cleanup();if(!resp||resp.status==='error'){rej(new Error('存取失敗'));return;}res(parseTable(resp.table));};
+    const s=document.createElement('script');
+    s.src=base+(base.includes('?')?'&':'?')+'tqx=responseHandler:'+cb;
+    s.onerror=()=>{cleanup();rej(new Error('載入失敗'));};
+    function cleanup(){clearTimeout(t);delete window[cb];s.parentNode&&s.parentNode.removeChild(s);}
     document.head.appendChild(s);
   });
 }
-function parseTable(tbl) {
-  if (!tbl||!tbl.cols) return [];
-  const cols = tbl.cols.map(c=>(c.label&&c.label.trim())?c.label:c.id);
-  return (tbl.rows||[]).map(row=>{
-    const obj={}; (row.c||[]).forEach((cell,i)=>{obj[cols[i]||'col'+i]=cell?(cell.f!=null?cell.f:(cell.v!=null?String(cell.v):'')):'';});
-    return obj;
-  }).filter(r=>Object.values(r).some(v=>v!==''));
+function parseTable(tbl){
+  if(!tbl||!tbl.cols)return[];
+  const cols=tbl.cols.map(c=>(c.label&&c.label.trim())?c.label:c.id);
+  return(tbl.rows||[]).map(row=>{const obj={};(row.c||[]).forEach((cell,i)=>{obj[cols[i]||'col'+i]=cell?(cell.f!=null?cell.f:(cell.v!=null?String(cell.v):'')):'';});return obj;}).filter(r=>Object.values(r).some(v=>v!==''));
 }
-
-/* ── 新訂單偵測 ── */
-function checkNew(tab, data) {
-  if (tab==='orders'||tab==='source1') {
-    if (prevCounts[tab]!=null && data.length>prevCounts[tab]) showModal(data.length-prevCounts[tab]);
-    prevCounts[tab] = data.length;
-  }
+ 
+function parseDate(val){
+  if(!val)return null;
+  let s=String(val).trim();
+  const gm=s.match(/^Date\((\d+),(\d+),(\d+)/);
+  if(gm)return new Date(+gm[1],+gm[2],+gm[3]);
+  s=s.replace(/\//g,'-');
+  const d=new Date(s);
+  return isNaN(d.getTime())?null:d;
 }
-
-/* ── 載入 ── */
-async function loadTab(tab) {
-  const cfg=TABS[tab]; if(!cfg) return;
-  if (tab===currentTab) {
-    document.getElementById('loadingState').style.display='block';
-    document.getElementById('dataTable').style.display='none';
-    document.getElementById('loadingMsg').textContent=`載入「${cfg.label}」...`;
-    document.getElementById('loadingSpinner').classList.add('spinning');
-  }
-  setStatus('connecting','連線中...');
-  try {
-    const data = await fetchGvizJSONP(cfg.base);
-    cache[tab]=data;
-    if (STAT_MAP[tab]) { const el=document.getElementById(STAT_MAP[tab]); if(el) el.textContent=data.length; }
-    if (tab===currentTab) renderTable(data);
-    checkNew(tab, data);
-    const now=new Date().toLocaleTimeString('zh-TW');
-    setStatus('ok',`已連線 · ${now}`);
-    document.getElementById('lastUpdatedLabel').textContent=`更新於 ${now}`;
-  } catch(err) {
-    if (tab===currentTab) {
-      document.getElementById('loadingSpinner').classList.remove('spinning');
-      document.getElementById('loadingMsg').innerHTML=`<i class="ti ti-cloud-off" style="font-size:24px;display:block;margin:0 auto 8px;color:var(--color-text-secondary);" aria-hidden="true"></i>無法載入「${cfg.label}」<br><span style="font-size:12px;color:var(--color-text-secondary);">${err.message}</span>`;
-    }
-    setStatus('error', err.message.slice(0,30));
-  }
+function isSameDay(val){
+  const d=parseDate(val);if(!d)return false;
+  return d.getFullYear()===TODAY.getFullYear()&&d.getMonth()===TODAY.getMonth()&&d.getDate()===TODAY.getDate();
 }
-
-/* ── 渲染 ── */
-function renderTable(data) {
-  const ls=document.getElementById('loadingState'), tbl=document.getElementById('dataTable');
-  const search=document.getElementById('searchInput').value.toLowerCase().trim();
-  if (!data||data.length===0) {
-    document.getElementById('loadingSpinner').classList.remove('spinning');
-    document.getElementById('loadingMsg').textContent='此分頁目前沒有資料';
-    ls.style.display='block'; tbl.style.display='none'; return;
-  }
+function fmtDate(val){
+  const d=parseDate(val);if(!d)return val||'—';
+  return d.toLocaleDateString('zh-TW',{year:'numeric',month:'2-digit',day:'2-digit'})+' '+d.toLocaleTimeString('zh-TW',{hour:'2-digit',minute:'2-digit'});
+}
+ 
+const SC={完成:'#3B6D11',done:'#3B6D11',pending:'#854F0B',待處理:'#854F0B',cancelled:'#A32D2D',取消:'#A32D2D',confirmed:'#0C447C',processing:'#534AB7',處理中:'#534AB7',paid:'#3B6D11',unpaid:'#A32D2D'};
+const SB={完成:'#EAF3DE',done:'#EAF3DE',pending:'#FAEEDA',待處理:'#FAEEDA',cancelled:'#FCEBEB',取消:'#FCEBEB',confirmed:'#E6F1FB',processing:'#EEEDFE',處理中:'#EEEDFE',paid:'#EAF3DE',unpaid:'#FCEBEB'};
+function sBadge(v){if(!v)return'';const l=v.toLowerCase();return'<span class="status-badge" style="background:'+(SB[l]||'#F3F1EA')+';color:'+(SC[l]||'#444')+';">'+v+'</span>';}
+ 
+let cakesData=[],ordersData=[],src1Data=[],newOrdersList=[],prevCount=null,currentTab='cakes',cdTimer=null,cdVal=30;
+ 
+function gf(r,keys){for(const k of keys)if(r[k]!=null&&r[k]!=='')return r[k];return'';}
+ 
+/* ── 蛋糕介紹 ── */
+function renderCakes(data){
+  const el=document.getElementById('panelCakes');
+  if(!data||!data.length){el.innerHTML=emptyState('ti-cake','尚無蛋糕資料','請確認 cakes 分頁已公開');return;}
   const cols=Object.keys(data[0]);
-  document.getElementById('tableHead').innerHTML='<tr>'+cols.map(c=>`<th>${c}</th>`).join('')+'</tr>';
-  const filtered=search?data.filter(r=>Object.values(r).some(v=>String(v).toLowerCase().includes(search))):data;
-  document.getElementById('tableBody').innerHTML=filtered.map(row=>'<tr>'+cols.map(c=>{const v=row[c]!=null?String(row[c]):'';return `<td title="${v.replace(/"/g,'&quot;')}">${renderCell(c,v)}</td>`;}).join('')+'</tr>').join('');
-  document.getElementById('rowCountLabel').textContent=`顯示 ${filtered.length} / ${data.length} 筆`;
-  ls.style.display='none'; tbl.style.display='table';
-  document.getElementById('loadingSpinner').classList.remove('spinning');
+  const knownKeys=['CakeName','Name','名稱','蛋糕名稱','Description','描述','說明','介紹','Desc','description','Price','售價','單價','price','Size','尺寸','size','大小','Flavor','口味','flavor','Tag','標籤','Category','分類','Type','Stock','庫存','Available','stock','Allergen','過敏原','allergen','Serving','份量','人份','Servings','ShelfLife','保存期限','shelf_life','Days','Note','備註','notes','Notes','Remark'];
+  el.innerHTML='<div class="cake-grid">'+data.map((r,i)=>{
+    const name=gf(r,['CakeName','Name','名稱','蛋糕名稱',cols[0]]);
+    const desc=gf(r,['Description','描述','說明','介紹','Desc','description']);
+    const price=gf(r,['Price','售價','單價','price']);
+    const size=gf(r,['Size','尺寸','size','大小']);
+    const flavor=gf(r,['Flavor','口味','flavor']);
+    const tag=gf(r,['Tag','標籤','Category','分類','Type']);
+    const stock=gf(r,['Stock','庫存','Available','stock']);
+    const allergen=gf(r,['Allergen','過敏原','allergen']);
+    const serve=gf(r,['Serving','份量','人份','Servings']);
+    const days=gf(r,['ShelfLife','保存期限','shelf_life','Days']);
+    const note=gf(r,['Note','備註','notes','Notes','Remark']);
+    const priceNum=parseFloat(String(price).replace(/[^0-9.-]/g,''));
+    const stockNum=parseInt(stock);
+    const extras=cols.filter(k=>!knownKeys.includes(k)&&r[k]);
+    return '<div class="cake-card" style="animation:fadeUp .3s ease '+(i*.06)+'s both;">'
+      +'<div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:14px;">'
+        +'<div style="width:48px;height:48px;border-radius:12px;background:#EEEDFE;display:flex;align-items:center;justify-content:center;flex-shrink:0;"><i class="ti ti-cake" style="font-size:24px;color:#534AB7;"></i></div>'
+        +'<div style="text-align:right;">'+(tag?'<div style="margin-bottom:6px;"><span class="chip chip-gray">'+tag+'</span></div>':'')+(price?'<div style="font-size:18px;font-weight:700;color:#534AB7;">NT$'+(isNaN(priceNum)?price:priceNum.toLocaleString())+'</div>':'')+'</div>'
+      +'</div>'
+      +'<div style="font-size:15px;font-weight:600;color:#1A1916;margin-bottom:6px;">'+(name||'—')+'</div>'
+      +(desc?'<div style="font-size:12px;color:#888;line-height:1.65;margin-bottom:12px;">'+desc+'</div>':'<div style="height:6px;"></div>')
+      +'<hr class="div">'
+      +'<div class="detail-grid" style="grid-template-columns:1fr 1fr;margin-top:10px;gap:10px;">'
+        +(flavor?'<div><div class="detail-label">口味</div><div class="detail-value">'+flavor+'</div></div>':'')
+        +(size?'<div><div class="detail-label">尺寸</div><div class="detail-value">'+size+'</div></div>':'')
+        +(serve?'<div><div class="detail-label">份量</div><div class="detail-value">'+serve+' 人份</div></div>':'')
+        +(days?'<div><div class="detail-label">保存期限</div><div class="detail-value">'+days+'</div></div>':'')
+        +(allergen?'<div style="grid-column:1/-1;"><div class="detail-label">過敏原</div><div class="detail-value muted">'+allergen+'</div></div>':'')
+        +extras.map(k=>'<div><div class="detail-label">'+k+'</div><div class="detail-value">'+r[k]+'</div></div>').join('')
+      +'</div>'
+      +(stock?'<div style="margin-top:10px;"><span class="chip '+(isNaN(stockNum)||stockNum>0?'chip-green':'chip-red')+'">庫存 '+stock+'</span></div>':'')
+      +(note?'<div class="note-block" style="margin-top:10px;">'+note+'</div>':'')
+    +'</div>';
+  }).join('')+'</div>';
 }
-function renderCell(col,val) {
-  if (!val&&val!==0) return '<span style="color:var(--color-text-secondary)">—</span>';
-  const cl=col.toLowerCase();
-  if (cl.includes('status')||cl.includes('狀態')) {
-    const C={'完成':'#3B6D11','done':'#3B6D11','pending':'#854F0B','cancelled':'#A32D2D','confirmed':'#0C447C','processing':'#534AB7'};
-    const B={'完成':'#EAF3DE','done':'#EAF3DE','pending':'#FAEEDA','cancelled':'#FCEBEB','confirmed':'#E6F1FB','processing':'#EEEDFE'};
-    const lv=val.toLowerCase();
-    return `<span style="background:${B[lv]||'#F1EFE8'};color:${C[lv]||'#444441'};padding:2px 8px;border-radius:20px;font-size:11px;font-weight:500;">${val}</span>`;
-  }
-  if (cl.includes('amount')||cl.includes('price')||cl.includes('total')||cl.includes('spent')) {
-    const n=parseFloat(String(val).replace(/[^0-9.-]/g,'')); if (!isNaN(n)) return `<span style="font-weight:500;">NT$${n.toLocaleString()}</span>`;
-  }
-  if (cl.includes('email')) return `<a href="mailto:${val}" style="color:#534AB7;text-decoration:none;">${val}</a>`;
-  if (cl.includes('phone')||cl.includes('電話')) return `<a href="tel:${val}" style="color:var(--color-text-primary);text-decoration:none;">${val}</a>`;
-  return val;
+ 
+/* ── 今日所有訂單 ── */
+function renderToday(){
+  const el=document.getElementById('panelToday');
+  const all=[...ordersData,...src1Data];
+  const dateFields=['OrderDate','Date','date','訂單日期','建立日期','CreatedAt','created_at','PickupDate','Timestamp','timestamp','order_date'];
+  const todayOrders=all.filter(r=>{
+    for(const k of Object.keys(r)){
+      if((k.toLowerCase().includes('date')||k.toLowerCase().includes('time')||k.toLowerCase().includes('created'))&&isSameDay(r[k]))return true;
+    }
+    return false;
+  });
+  const badge=document.getElementById('badgeToday');
+  badge.textContent=todayOrders.length;badge.style.display=todayOrders.length?'inline':'none';
+  if(!todayOrders.length){el.innerHTML=emptyState('ti-calendar-off','今日尚無訂單','系統比對所有日期欄位，當天訂單自動顯示');return;}
+  el.innerHTML='<div class="section-header"><div><div style="font-size:14px;font-weight:600;color:#1A1916;">'+todayOrders.length+' 筆今日訂單</div><div style="font-size:12px;color:#888;">'+TODAY.toLocaleDateString('zh-TW',{month:'long',day:'numeric'})+'</div></div></div>'
+    +todayOrders.map((r,i)=>detailCard(r,i,false)).join('');
 }
-
-/* ── 其他 ── */
-function switchTab(tab) {
+ 
+/* ── 今日新增訂單（依 CreatedAt） ── */
+function renderNew(){
+  const el=document.getElementById('panelNew');
+  const badge=document.getElementById('badgeNew');
+  badge.textContent=newOrdersList.length;badge.style.display=newOrdersList.length?'inline':'none';
+  if(!newOrdersList.length){el.innerHTML=emptyState('ti-sparkles','尚無今日新增訂單','依 CreatedAt 欄位篩選，每 30 秒自動偵測');return;}
+  el.innerHTML='<div class="section-header"><div><div style="font-size:14px;font-weight:600;color:#534AB7;">+ '+newOrdersList.length+' 筆今日新增</div><div style="font-size:12px;color:#888;">依 CreatedAt 欄位</div></div></div>'
+    +newOrdersList.map((r,i)=>detailCard(r,i,true)).join('');
+}
+ 
+/* ── 完整訂單卡片 ── */
+function detailCard(r,i,isNew){
+  const cols=Object.keys(r);
+  const orderId=gf(r,['OrderID','Order_ID','order_id','訂單編號','ID','id','No','NO']);
+  const customer=gf(r,['CustomerName','Customer','客戶姓名','姓名','Name','name','客戶']);
+  const phone=gf(r,['Phone','電話','phone','Tel','tel','手機','Mobile']);
+  const email=gf(r,['Email','email','電子郵件','mail']);
+  const status=gf(r,['Status','狀態','status','OrderStatus']);
+  const payment=gf(r,['PaymentStatus','Payment','付款狀態','付款','PayStatus']);
+  const amt=gf(r,['TotalAmount','Amount','Total','金額','total','price','Price','小計','Subtotal']);
+  const deposit=gf(r,['Deposit','訂金','deposit','定金']);
+  const balance=gf(r,['Balance','餘款','balance','尾款']);
+  const cakeName=gf(r,['CakeName','Cake','蛋糕名稱','蛋糕','Item','item','商品','Product']);
+  const size=gf(r,['Size','尺寸','size','大小','CakeSize']);
+  const flavor=gf(r,['Flavor','口味','flavor','Taste','taste']);
+  const quantity=gf(r,['Quantity','數量','qty','Qty','quantity','Count']);
+  const design=gf(r,['Design','設計','design','Style','style','樣式','造型']);
+  const msg=gf(r,['Message','蛋糕文字','祝福語','Greeting','greeting','文字','msg']);
+  const color=gf(r,['Color','顏色','color','Colour']);
+  const orderDate=gf(r,['OrderDate','Date','訂單日期','date','order_date']);
+  const pickupDate=gf(r,['PickupDate','Pickup','取貨日期','pickup_date','DeliveryDate','交貨日期']);
+  const createdAt=gf(r,['CreatedAt','created_at','Created','建立時間','createdat','CreatedDate','create_time']);
+  const updatedAt=gf(r,['UpdatedAt','updated_at','Updated','更新時間']);
+  const note=gf(r,['Notes','Note','備註','備註事項','Remark','remark','memo','Memo','comment','Comment']);
+  const address=gf(r,['Address','地址','address','Addr','addr','DeliveryAddress','送貨地址']);
+  const source=gf(r,['Source','來源','source','Channel','channel','通路']);
+  const member=gf(r,['MemberID','CustomerID','Member','會員','customer_id']);
+  const amtNum=parseFloat(String(amt).replace(/[^0-9.-]/g,''));
+  const knownKeys=['OrderID','Order_ID','order_id','訂單編號','ID','id','No','NO','CustomerName','Customer','客戶姓名','姓名','Name','name','客戶','Phone','電話','phone','Tel','tel','手機','Mobile','Email','email','電子郵件','mail','Status','狀態','status','OrderStatus','PaymentStatus','Payment','付款狀態','付款','PayStatus','TotalAmount','Amount','Total','金額','total','price','Price','小計','Subtotal','Deposit','訂金','deposit','定金','Balance','餘款','balance','尾款','CakeName','Cake','蛋糕名稱','蛋糕','Item','item','商品','Product','Size','尺寸','size','大小','CakeSize','Flavor','口味','flavor','Taste','taste','Quantity','數量','qty','Qty','quantity','Count','Design','設計','design','Style','style','樣式','造型','Message','蛋糕文字','祝福語','Greeting','greeting','文字','msg','Color','顏色','color','Colour','OrderDate','Date','訂單日期','date','order_date','PickupDate','Pickup','取貨日期','pickup_date','DeliveryDate','交貨日期','CreatedAt','created_at','Created','建立時間','createdat','CreatedDate','create_time','UpdatedAt','updated_at','Updated','更新時間','Notes','Note','備註','備註事項','Remark','remark','memo','Memo','comment','Comment','Address','地址','address','Addr','addr','DeliveryAddress','送貨地址','Source','來源','source','Channel','channel','通路','MemberID','CustomerID','Member','會員','customer_id'];
+  const extras=cols.filter(k=>!knownKeys.includes(k)&&r[k]!=null&&r[k]!=='');
+ 
+  return '<div class="order-card'+(isNew?' new-order':'')+'" style="animation:fadeUp .28s ease '+(i*.05)+'s both;">'
+ 
+    /* header */
+    +'<div class="order-card-header">'
+      +'<div style="display:flex;align-items:center;gap:12px;">'
+        +'<div style="width:40px;height:40px;border-radius:10px;background:'+(isNew?'#EEEDFE':'#F3F1EA')+';display:flex;align-items:center;justify-content:center;flex-shrink:0;"><i class="ti ti-'+(isNew?'sparkles':'receipt')+'" style="font-size:18px;color:'+(isNew?'#534AB7':'#888')+'"></i></div>'
+        +'<div>'
+          +'<div style="font-size:14px;font-weight:600;color:#1A1916;">'+(customer||'未知客戶')+(isNew?'<span style="font-size:10px;background:#EEEDFE;color:#534AB7;padding:2px 7px;border-radius:20px;font-weight:700;margin-left:6px;vertical-align:middle;">NEW</span>':'')+'</div>'
+          +'<div style="font-size:11px;color:#888;margin-top:2px;">'+(orderId?'訂單 #'+orderId:'')+(createdAt?' · 建立 '+fmtDate(createdAt):'')+'</div>'
+        +'</div>'
+      +'</div>'
+      +'<div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;">'
+        +sBadge(status)
+        +(!isNaN(amtNum)&&amtNum?'<span style="font-size:16px;font-weight:700;color:#1A1916;">NT$'+amtNum.toLocaleString()+'</span>':'')
+      +'</div>'
+    +'</div>'
+ 
+    /* body */
+    +'<div class="order-card-body">'
+ 
+    /* 聯絡資訊 */
+    +'<div class="section-block">聯絡資訊</div>'
+    +'<div class="detail-grid">'
+      +(customer?'<div><div class="detail-label">客戶姓名</div><div class="detail-value">'+customer+'</div></div>':'')
+      +(phone?'<div><div class="detail-label">電話</div><div class="detail-value"><a href="tel:'+phone+'" style="color:#534AB7;text-decoration:none;">'+phone+'</a></div></div>':'')
+      +(email?'<div><div class="detail-label">Email</div><div class="detail-value"><a href="mailto:'+email+'" style="color:#534AB7;text-decoration:none;font-size:12px;">'+email+'</a></div></div>':'')
+      +(member?'<div><div class="detail-label">會員編號</div><div class="detail-value muted">'+member+'</div></div>':'')
+      +(source?'<div><div class="detail-label">訂單來源</div><div class="detail-value">'+source+'</div></div>':'')
+      +(address?'<div style="grid-column:1/-1;"><div class="detail-label">地址</div><div class="detail-value">'+address+'</div></div>':'')
+    +'</div>'
+ 
+    /* 蛋糕內容 */
+    +(cakeName||size||flavor||quantity||color||design||msg?
+      '<hr class="div"><div class="section-block" style="margin-top:12px;">蛋糕訂單內容</div><div class="detail-grid">'
+        +(cakeName?'<div><div class="detail-label">蛋糕品項</div><div class="detail-value">'+cakeName+'</div></div>':'')
+        +(size?'<div><div class="detail-label">尺寸</div><div class="detail-value">'+size+'</div></div>':'')
+        +(flavor?'<div><div class="detail-label">口味</div><div class="detail-value">'+flavor+'</div></div>':'')
+        +(quantity?'<div><div class="detail-label">數量</div><div class="detail-value">'+quantity+'</div></div>':'')
+        +(color?'<div><div class="detail-label">顏色</div><div class="detail-value">'+color+'</div></div>':'')
+        +(design?'<div style="grid-column:1/-1;"><div class="detail-label">設計風格</div><div class="detail-value">'+design+'</div></div>':'')
+        +(msg?'<div style="grid-column:1/-1;"><div class="detail-label">蛋糕文字 / 祝福語</div><div class="detail-value" style="color:#534AB7;font-style:italic;">&ldquo;'+msg+'&rdquo;</div></div>':'')
+      +'</div>':'')
+ 
+    /* 日期 & 金流 */
+    +'<hr class="div"><div class="section-block" style="margin-top:12px;">日期 &amp; 金流</div><div class="detail-grid">'
+      +(orderDate?'<div><div class="detail-label">訂單日期</div><div class="detail-value">'+fmtDate(orderDate)+'</div></div>':'')
+      +(pickupDate?'<div><div class="detail-label">取貨日期</div><div class="detail-value" style="color:#854F0B;font-weight:600;">'+fmtDate(pickupDate)+'</div></div>':'')
+      +(createdAt?'<div><div class="detail-label">建立時間</div><div class="detail-value muted">'+fmtDate(createdAt)+'</div></div>':'')
+      +(updatedAt?'<div><div class="detail-label">更新時間</div><div class="detail-value muted">'+fmtDate(updatedAt)+'</div></div>':'')
+      +(!isNaN(amtNum)&&amtNum?'<div><div class="detail-label">訂單金額</div><div class="detail-value large">NT$'+amtNum.toLocaleString()+'</div></div>':'')
+      +(payment?'<div><div class="detail-label">付款狀態</div><div class="detail-value">'+sBadge(payment)+'</div></div>':'')
+      +(deposit?'<div><div class="detail-label">訂金</div><div class="detail-value">NT$'+deposit+'</div></div>':'')
+      +(balance?'<div><div class="detail-label">餘款</div><div class="detail-value">NT$'+balance+'</div></div>':'')
+    +'</div>'
+ 
+    /* 其餘欄位 */
+    +(extras.length?'<hr class="div"><div class="section-block" style="margin-top:12px;">其他資訊</div><div class="detail-grid">'+extras.map(k=>'<div><div class="detail-label">'+k+'</div><div class="detail-value">'+r[k]+'</div></div>').join('')+'</div>':'')
+ 
+    +'</div>'
+ 
+    /* footer 備註 */
+    +(note?'<div class="order-card-footer"><div style="display:flex;align-items:flex-start;gap:8px;"><i class="ti ti-message" style="font-size:13px;color:#888;margin-top:1px;flex-shrink:0;"></i><div style="font-size:12px;color:#888;line-height:1.6;">'+note+'</div></div></div>':'')
+ 
+  +'</div>';
+}
+ 
+function emptyState(icon,title,sub){return'<div class="empty"><i class="ti '+icon+'"></i><div class="empty-title">'+title+'</div><div style="font-size:12px;">'+sub+'</div></div>';}
+ 
+/* ── 載入 ── */
+async function loadAll(){
+  setStatus('connecting','連線中...');
+  ['panelCakes','panelToday','panelNew'].forEach(id=>{document.getElementById(id).innerHTML='<div class="empty"><i class="ti ti-loader spinning" style="font-size:32px;"></i><div style="font-size:13px;margin-top:10px;color:#888;">載入中...</div></div>';});
+  const [ck,od,s1]=await Promise.allSettled([fetchGviz(gviz('cakes')),fetchGviz(gviz('orders')),fetchGviz(pub())]);
+  if(ck.status==='fulfilled')cakesData=ck.value;
+  if(od.status==='fulfilled')ordersData=od.value;
+  if(s1.status==='fulfilled')src1Data=s1.value;
+ 
+  const combined=[...ordersData,...src1Data];
+ 
+  /* CreatedAt = 今日的訂單列表 */
+  const todayCreated=combined.filter(r=>isSameDay(gf(r,['CreatedAt','created_at','Created','建立時間','createdat','CreatedDate','create_time'])));
+ 
+  if(prevCount===null){
+    /* 第一次：以今日 CreatedAt 作為基準新增清單 */
+    newOrdersList=todayCreated;
+  } else if(combined.length>prevCount){
+    const diff=combined.length-prevCount;
+    const fresh=combined.slice(-diff).filter(r=>isSameDay(gf(r,['CreatedAt','created_at','Created','建立時間','createdat','CreatedDate','create_time'])));
+    newOrdersList=[...fresh,...newOrdersList];
+    showModal(diff);
+  }
+  prevCount=combined.length;
+ 
+  renderCakes(cakesData);
+  renderToday();
+  renderNew();
+  const now=new Date().toLocaleTimeString('zh-TW');
+  setStatus('ok','已連線');
+  document.getElementById('lastUpdated').textContent='更新於 '+now;
+}
+ 
+function switchTab(tab){
   currentTab=tab;
-  document.querySelectorAll('.tabBtn').forEach(b=>{const on=b.dataset.tab===tab;b.classList.toggle('active',on);b.style.borderBottomColor=on?'#7F77DD':'transparent';b.style.color=on?'#534AB7':'var(--color-text-secondary)';});
-  document.getElementById('searchInput').value='';
-  if (cache[tab]) renderTable(cache[tab]); else loadTab(tab);
+  document.querySelectorAll('.tab-btn').forEach(b=>b.classList.toggle('active',b.dataset.tab===tab));
+  document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
+  document.getElementById('panel'+tab.charAt(0).toUpperCase()+tab.slice(1)).classList.add('active');
 }
-function filterTable() { if(cache[currentTab]) renderTable(cache[currentTab]); }
-function setStatus(t,txt) { document.getElementById('statusDot').style.background={ok:'#639922',error:'#E24B4A',connecting:'#EF9F27'}[t]||'#B4B2A9'; document.getElementById('statusLabel').textContent=txt; }
-function refreshAll() {
-  const icon=document.getElementById('refreshIcon'); icon.style.animation='spin 0.8s linear infinite'; setTimeout(()=>icon.style.animation='',1500);
-  ['orders','source1','customers','cakes'].forEach(t=>{cache[t]=null;loadTab(t);});
-  if (!['orders','source1','customers','cakes'].includes(currentTab)){cache[currentTab]=null;loadTab(currentTab);}
-  resetCountdown();
-}
-function resetCountdown() {
-  clearInterval(cdTimer); cdVal=30; document.getElementById('countdown').textContent=cdVal;
-  cdTimer=setInterval(()=>{ cdVal--; document.getElementById('countdown').textContent=cdVal; if(cdVal<=0) refreshAll(); },1000);
-}
-
-window.switchTab=switchTab; window.refreshAll=refreshAll; window.closeModal=closeModal;
-window.goToOrders=goToOrders; window.testNotif=testNotif; window.filterTable=filterTable; window.toggleMute=toggleMute;
-
-loadTab('orders'); loadTab('source1'); loadTab('customers'); loadTab('cakes');
-resetCountdown();
+function setStatus(t,txt){document.getElementById('statusDot').style.background={ok:'#639922',error:'#E24B4A',connecting:'#EF9F27'}[t]||'#ccc';document.getElementById('statusLabel').textContent=txt;}
+function refreshAll(){const ic=document.getElementById('refreshIcon');ic.style.animation='spin .8s linear infinite';setTimeout(()=>ic.style.animation='',1500);loadAll();resetCountdown();}
+function resetCountdown(){clearInterval(cdTimer);cdVal=30;document.getElementById('countdown').textContent=cdVal;cdTimer=setInterval(()=>{cdVal--;document.getElementById('countdown').textContent=cdVal;if(cdVal<=0)refreshAll();},1000);}
+ 
+renderCakes([]);renderToday();renderNew();
+loadAll();resetCountdown();
 </script>
+</body>
+</html>
