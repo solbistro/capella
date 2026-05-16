@@ -106,7 +106,7 @@ hr.div{border:none;border-top:1px solid #F0EDE6;margin:12px 0;}
     <i class="ti ti-cake" style="font-size:17px;"></i>蛋糕介紹
   </button>
   <button class="tab-btn" data-tab="today" onclick="switchTab('today')">
-    <i class="ti ti-clipboard-list" style="font-size:17px;"></i>今日所有訂單
+    <i class="ti ti-clipboard-list" style="font-size:17px;"></i>今日取貨訂單
     <span class="tab-badge" id="badgeToday" style="display:none;"></span>
   </button>
   <button class="tab-btn" data-tab="new" onclick="switchTab('new')">
@@ -249,17 +249,16 @@ function renderCakes(data){
 function renderToday(){
   const el=document.getElementById('panelToday');
   const all=[...ordersData,...src1Data];
-  const dateFields=['OrderDate','Date','date','訂單日期','建立日期','CreatedAt','created_at','PickupDate','Timestamp','timestamp','order_date'];
+  /* 只依 PickupDate 欄位判斷是否為今日取貨 */
+  const PICKUP_KEYS=['PickupDate','pickup_date','Pickup','取貨日期','DeliveryDate','交貨日期','delivery_date'];
   const todayOrders=all.filter(r=>{
-    for(const k of Object.keys(r)){
-      if((k.toLowerCase().includes('date')||k.toLowerCase().includes('time')||k.toLowerCase().includes('created'))&&isSameDay(r[k]))return true;
-    }
-    return false;
+    const v=gf(r,PICKUP_KEYS);
+    return v&&isSameDay(v);
   });
   const badge=document.getElementById('badgeToday');
   badge.textContent=todayOrders.length;badge.style.display=todayOrders.length?'inline':'none';
-  if(!todayOrders.length){el.innerHTML=emptyState('ti-calendar-off','今日尚無訂單','系統比對所有日期欄位，當天訂單自動顯示');return;}
-  el.innerHTML='<div class="section-header"><div><div style="font-size:14px;font-weight:600;color:#1A1916;">'+todayOrders.length+' 筆今日訂單</div><div style="font-size:12px;color:#888;">'+TODAY.toLocaleDateString('zh-TW',{month:'long',day:'numeric'})+'</div></div></div>'
+  if(!todayOrders.length){el.innerHTML=emptyState('ti-calendar-off','今日無取貨訂單','依 PickupDate 欄位篩選，今日取貨的訂單會顯示於此');return;}
+  el.innerHTML='<div class="section-header"><div><div style="font-size:14px;font-weight:600;color:#1A1916;">'+todayOrders.length+' 筆今日取貨訂單</div><div style="font-size:12px;color:#888;">PickupDate = '+TODAY.toLocaleDateString('zh-TW',{month:'long',day:'numeric'})+'</div></div></div>'
     +todayOrders.map((r,i)=>detailCard(r,i,false)).join('');
 }
  
