@@ -1,4 +1,4 @@
-!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="zh-TW">
 <head>
 <meta charset="UTF-8">
@@ -6,15 +6,600 @@
 <title>Plum 訂單系統</title>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.x/tabler-icons.min.css">
 <style>
-*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
-body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#F7F5F2;color:#1A1916;min-height:100vh;padding:1.5rem;}
-#modalOverlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:500;align-items:center;justify-content:center;}
-#modalCard{background:#fff;border-radius:16px;padding:2.5rem 2rem 2rem;width:320px;text-align:center;box-shadow:0 24px 60px rgba(0,0,0,.18);}
-.header{display:flex;align-items:center;justify-content:space-between;margin-bottom:1.75rem;flex-wrap:wrap;gap:10px;}
-.logo{display:flex;align-items:center;gap:12px;}
-.logo-icon{width:40px;height:40px;border-radius:12px;background:#EEEDFE;display:flex;align-items:center;justify-content:center;}
-.header-actions{display:flex;align-items:center;gap:8px;flex-wrap:wrap;}
-.tabs{display:flex;gap:10px;margin-bottom:1.75rem;overflow-x:auto;padding-bottom:2px;}
-.tab-btn{display:flex;align-items:center;gap:8px;padding:12px 20px;border:1.5px solid #E8E5DE;background:#fff;border-radius:12px;font-size:13px;cursor:pointer;color:#888;white-space:nowrap;flex-shrink:0;transition:all .15s;font-family:inherit;}
-.tab-btn:hover{border-color:#B8B4F0;color:#534AB7;}
-.tab-btn.active{background:#EEEDFE;border-color:#7F77DD;color:#534AB7;font-weight
+*, *::before, *::after { box-sizing:border-box; margin:0; padding:0; }
+body { font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif; background:#F7F5F2; color:#1A1916; min-height:100vh; padding:1.5rem; }
+
+/* Modal */
+#modalOverlay { display:none; position:fixed; inset:0; background:rgba(0,0,0,0.5); z-index:500; align-items:center; justify-content:center; }
+#modalCard { background:#fff; border-radius:16px; padding:2.5rem 2rem 2rem; width:320px; text-align:center; box-shadow:0 24px 60px rgba(0,0,0,.18); }
+
+/* Layout */
+.header { display:flex; align-items:center; justify-content:space-between; margin-bottom:1.75rem; flex-wrap:wrap; gap:10px; }
+.logo { display:flex; align-items:center; gap:12px; }
+.logo-icon { width:40px; height:40px; border-radius:12px; background:#EEEDFE; display:flex; align-items:center; justify-content:center; }
+.header-actions { display:flex; align-items:center; gap:8px; flex-wrap:wrap; }
+
+/* Tabs */
+.tabs { display:flex; gap:10px; margin-bottom:1.75rem; overflow-x:auto; padding-bottom:2px; }
+.tab-btn { display:flex; align-items:center; gap:8px; padding:12px 20px; border:1.5px solid #E8E5DE; background:#fff; border-radius:12px; font-size:13px; cursor:pointer; color:#888; white-space:nowrap; flex-shrink:0; transition:all .15s; font-family:inherit; }
+.tab-btn:hover { border-color:#B8B4F0; color:#534AB7; }
+.tab-btn.active { background:#EEEDFE; border-color:#7F77DD; color:#534AB7; font-weight:600; }
+.tab-badge { background:#534AB7; color:#fff; font-size:10px; padding:1px 7px; border-radius:20px; font-weight:700; }
+.tab-badge.red { background:#E24B4A; }
+
+/* Panels */
+.panel { display:none; }
+.panel.active { display:block; animation:fadeUp .3s ease both; }
+
+/* Cake cards */
+.cake-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(260px,1fr)); gap:14px; }
+.cake-card { background:#fff; border:1px solid #EDEAE3; border-radius:14px; padding:1.5rem; transition:box-shadow .15s,border-color .15s; }
+.cake-card:hover { box-shadow:0 6px 24px rgba(83,74,183,.1); border-color:#B8B4F0; }
+
+/* Order card — detailed */
+.order-card { background:#fff; border:1px solid #EDEAE3; border-radius:14px; margin-bottom:12px; overflow:hidden; transition:border-color .15s; }
+.order-card:hover { border-color:#B8B4F0; }
+.order-card.new-order { border-left:4px solid #7F77DD; }
+.order-card-header { display:flex; align-items:center; justify-content:space-between; padding:1rem 1.25rem; border-bottom:1px solid #F0EDE6; flex-wrap:wrap; gap:8px; }
+.order-card-body { padding:1rem 1.25rem; }
+.order-card-footer { padding:.75rem 1.25rem; background:#FAFAF8; border-top:1px solid #F0EDE6; }
+
+/* Detail grid */
+.detail-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(180px,1fr)); gap:12px; }
+.detail-item { }
+.detail-label { font-size:11px; color:#888; font-weight:500; margin-bottom:3px; text-transform:uppercase; letter-spacing:.4px; }
+.detail-value { font-size:13px; color:#1A1916; font-weight:500; word-break:break-word; }
+.detail-value.muted { color:#888; font-weight:400; }
+.detail-value.large { font-size:16px; font-weight:700; color:#534AB7; }
+
+/* Chips */
+.chip { display:inline-flex; align-items:center; gap:4px; padding:3px 10px; border-radius:20px; font-size:11px; font-weight:500; }
+.chip-purple { background:#EEEDFE; color:#534AB7; }
+.chip-gray   { background:#F3F1EA; color:#444441; }
+.chip-green  { background:#EAF3DE; color:#3B6D11; }
+.chip-red    { background:#FCEBEB; color:#A32D2D; }
+.chip-blue   { background:#E6F1FB; color:#0C447C; }
+.chip-yellow { background:#FAEEDA; color:#854F0B; }
+
+/* Status badge */
+.status-badge { padding:4px 12px; border-radius:20px; font-size:12px; font-weight:600; }
+
+/* Buttons */
+.btn { padding:7px 14px; border-radius:8px; border:1px solid #E8E5DE; background:#fff; font-size:12px; cursor:pointer; color:#888; font-family:inherit; display:inline-flex; align-items:center; gap:5px; transition:all .15s; }
+.btn:hover { border-color:#B8B4F0; color:#534AB7; }
+.btn-primary { background:#7F77DD; border-color:#7F77DD; color:#fff; }
+.btn-primary:hover { background:#534AB7; border-color:#534AB7; }
+.btn-ghost { background:#EEEDFE; border-color:#EEEDFE; color:#534AB7; }
+.countdown-pill { font-size:11px; background:#EEEDFE; color:#534AB7; padding:4px 10px; border-radius:20px; font-weight:600; }
+
+/* Section header */
+.section-header { display:flex; align-items:center; justify-content:space-between; margin-bottom:14px; padding:0 2px; }
+.section-count { font-size:14px; font-weight:600; color:#1A1916; }
+.section-sub { font-size:12px; color:#888; }
+
+/* Empty */
+.empty { text-align:center; padding:4rem 1rem; color:#888; }
+.empty i { font-size:40px; display:block; margin:0 auto 12px; opacity:.35; }
+.empty-title { font-size:14px; color:#1A1916; margin-bottom:6px; }
+
+/* Status bar */
+.status-bar { display:flex; align-items:center; justify-content:space-between; margin-top:16px; }
+.status-dot { width:6px; height:6px; border-radius:50%; background:#ccc; display:inline-block; }
+
+/* Divider */
+.divider { border:none; border-top:1px solid #F0EDE6; margin:10px 0; }
+
+/* Note block */
+.note-block { background:#FAFAF8; border-left:3px solid #E8E5DE; border-radius:0 8px 8px 0; padding:8px 12px; font-size:12px; color:#888; line-height:1.6; margin-top:10px; }
+
+@keyframes spin { to{transform:rotate(360deg);} }
+.spinning { animation:spin 1s linear infinite; }
+@keyframes fadeUp { from{opacity:0;transform:translateY(10px)} to{opacity:1;transform:translateY(0)} }
+@keyframes popIn { from{opacity:0;transform:scale(0.82)} to{opacity:1;transform:scale(1)} }
+#modalCard { animation:popIn .25s cubic-bezier(.175,.885,.32,1.275) both; }
+</style>
+</head>
+<body>
+
+<!-- ══ Modal 彈出視窗 ══ -->
+<div id="modalOverlay">
+  <div id="modalCard">
+    <div style="width:64px;height:64px;border-radius:50%;background:#EEEDFE;display:flex;align-items:center;justify-content:center;margin:0 auto 1.25rem;">
+      <i class="ti ti-bell" style="font-size:32px;color:#534AB7;"></i>
+    </div>
+    <p style="font-size:20px;font-weight:600;color:#1A1916;margin-bottom:6px;">新訂單進來了！</p>
+    <p style="font-size:14px;color:#888;margin-bottom:6px;">剛新增了</p>
+    <p id="notifCount" style="font-size:52px;font-weight:700;color:#534AB7;margin-bottom:4px;">0</p>
+    <p style="font-size:13px;color:#888;margin-bottom:.5rem;">筆訂單</p>
+    <p id="notifTime" style="font-size:12px;color:#bbb;margin-bottom:1.75rem;"></p>
+    <div style="display:flex;gap:8px;justify-content:center;">
+      <button class="btn btn-primary" onclick="goToNew()" style="flex:1;justify-content:center;padding:10px 0;">查看新增訂單</button>
+      <button class="btn" onclick="closeModal()" style="flex:1;justify-content:center;padding:10px 0;">關閉</button>
+    </div>
+    <p id="acLabel" style="margin-top:1rem;font-size:11px;color:#bbb;"></p>
+  </div>
+</div>
+
+<!-- ══ Header ══ -->
+<div class="header">
+  <div class="logo">
+    <div class="logo-icon"><i class="ti ti-cake" style="font-size:22px;color:#534AB7;"></i></div>
+    <div>
+      <div style="font-size:18px;font-weight:600;color:#1A1916;">Plum 訂單系統</div>
+      <div id="todayLabel" style="font-size:12px;color:#888;margin-top:1px;"></div>
+    </div>
+  </div>
+  <div class="header-actions">
+    <button class="btn" id="muteBtn" onclick="toggleMute()">
+      <i class="ti ti-volume" id="muteIcon"></i><span id="muteLabel">音效</span>
+    </button>
+    <button class="btn btn-ghost" onclick="testNotif()">
+      <i class="ti ti-bell"></i> 測試通知
+    </button>
+    <button class="btn" onclick="refreshAll()">
+      <i class="ti ti-refresh" id="refreshIcon"></i> 重新整理
+    </button>
+    <div class="countdown-pill">⏱ <span id="countdown">30</span>s</div>
+  </div>
+</div>
+
+<!-- ══ Tabs ══ -->
+<div class="tabs">
+  <button class="tab-btn active" data-tab="cakes" onclick="switchTab('cakes')">
+    <i class="ti ti-cake" style="font-size:17px;"></i> 蛋糕介紹
+  </button>
+  <button class="tab-btn" data-tab="today" onclick="switchTab('today')">
+    <i class="ti ti-clipboard-list" style="font-size:17px;"></i> 今日所有訂單
+    <span class="tab-badge" id="badgeToday" style="display:none;"></span>
+  </button>
+  <button class="tab-btn" data-tab="new" onclick="switchTab('new')">
+    <i class="ti ti-sparkles" style="font-size:17px;"></i> 今日新增訂單
+    <span class="tab-badge red" id="badgeNew" style="display:none;"></span>
+  </button>
+</div>
+
+<!-- ══ Panels ══ -->
+<div id="panelCakes" class="panel active"></div>
+<div id="panelToday" class="panel"></div>
+<div id="panelNew"   class="panel"></div>
+
+<!-- Status -->
+<div class="status-bar">
+  <div style="display:flex;align-items:center;gap:6px;">
+    <span class="status-dot" id="statusDot"></span>
+    <span style="font-size:12px;color:#888;" id="statusLabel">未連線</span>
+  </div>
+  <span style="font-size:12px;color:#888;" id="lastUpdated"></span>
+</div>
+
+<script>
+/* ── 今日 ── */
+const TODAY = new Date();
+document.getElementById('todayLabel').textContent = TODAY.toLocaleDateString('zh-TW',{year:'numeric',month:'long',day:'numeric',weekday:'long'});
+
+/* ── 音效 ── */
+let audioCtx=null, muted=false;
+function getCtx(){ return audioCtx||(audioCtx=new(window.AudioContext||window.webkitAudioContext)()); }
+function playSound(){
+  if(muted) return;
+  try{
+    const ctx=getCtx(); if(ctx.state==='suspended') ctx.resume();
+    [523.25,659.25,783.99].forEach((f,i)=>{
+      const o=ctx.createOscillator(),g=ctx.createGain();
+      o.connect(g); g.connect(ctx.destination); o.type='sine';
+      o.frequency.setValueAtTime(f,ctx.currentTime+i*.18);
+      g.gain.setValueAtTime(0,ctx.currentTime+i*.18);
+      g.gain.linearRampToValueAtTime(.4,ctx.currentTime+i*.18+.02);
+      g.gain.exponentialRampToValueAtTime(.001,ctx.currentTime+i*.18+.35);
+      o.start(ctx.currentTime+i*.18); o.stop(ctx.currentTime+i*.18+.4);
+    });
+  }catch(e){}
+}
+function toggleMute(){
+  muted=!muted;
+  document.getElementById('muteIcon').className=muted?'ti ti-volume-off':'ti ti-volume';
+  document.getElementById('muteLabel').textContent=muted?'靜音':'音效';
+  if(!muted) playSound();
+}
+
+/* ── Modal ── */
+let acTimer=null,acInterval=null,acVal=10;
+function showModal(n){
+  clearTimeout(acTimer); clearInterval(acInterval); playSound();
+  document.getElementById('notifCount').textContent=n;
+  document.getElementById('notifTime').textContent=new Date().toLocaleString('zh-TW');
+  const ol=document.getElementById('modalOverlay'); ol.style.display='flex';
+  const mc=document.getElementById('modalCard'); mc.style.animation='none'; void mc.offsetWidth;
+  mc.style.animation='popIn .25s cubic-bezier(.175,.885,.32,1.275) both';
+  acVal=10; document.getElementById('acLabel').textContent=`${acVal} 秒後自動關閉`;
+  acInterval=setInterval(()=>{ acVal--; document.getElementById('acLabel').textContent=`${acVal} 秒後自動關閉`; if(acVal<=0){clearInterval(acInterval);closeModal();}},1000);
+}
+function closeModal(){ clearTimeout(acTimer); clearInterval(acInterval); document.getElementById('modalOverlay').style.display='none'; }
+function goToNew(){ switchTab('new'); closeModal(); }
+function testNotif(){ showModal(3); }
+
+/* ── JSONP ── */
+const SHEET_ID='1CuiI3pPMEcej90c0BcgrhwYb4cX9IkojI017lgE1ut4';
+const PUB_ID='2PACX-1vQ7kxJjNYB3TblbQVA0pLKbE7WrB4d7FcuFzImENtt7JzIAu_kvkVgoykPGbAcTHtJ7YqUngpm1TlKF';
+function gviz(s){ return `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?sheet=${encodeURIComponent(s)}`; }
+function pub(){ return `https://docs.google.com/spreadsheets/d/e/${PUB_ID}/gviz/tq?`; }
+
+function fetchGviz(base){
+  return new Promise((res,rej)=>{
+    const cb='_g'+Math.random().toString(36).slice(2,8);
+    const t=setTimeout(()=>{cleanup();rej(new Error('逾時'));},10000);
+    window[cb]=resp=>{ cleanup(); if(!resp||resp.status==='error'){rej(new Error('存取失敗'));return;} res(parseTable(resp.table)); };
+    const s=document.createElement('script');
+    s.src=base+(base.includes('?')?'&':'?')+'tqx=responseHandler:'+cb;
+    s.onerror=()=>{cleanup();rej(new Error('載入失敗（請確認試算表已公開）'));};
+    function cleanup(){clearTimeout(t);delete window[cb];s.parentNode&&s.parentNode.removeChild(s);}
+    document.head.appendChild(s);
+  });
+}
+function parseTable(tbl){
+  if(!tbl||!tbl.cols) return [];
+  const cols=tbl.cols.map(c=>(c.label&&c.label.trim())?c.label:c.id);
+  return (tbl.rows||[]).map(row=>{
+    const obj={};
+    (row.c||[]).forEach((cell,i)=>{ obj[cols[i]||'col'+i]=cell?(cell.f!=null?cell.f:(cell.v!=null?String(cell.v):'')):''; });
+    return obj;
+  }).filter(r=>Object.values(r).some(v=>v!==''));
+}
+
+/* ── 日期工具 ── */
+function parseDate(val){
+  if(!val) return null;
+  let s=String(val).trim();
+  // Google Sheets Date() 格式：Date(2024,0,15) → 月份從 0 開始
+  const gm=s.match(/^Date\((\d+),(\d+),(\d+)/);
+  if(gm) return new Date(+gm[1], +gm[2], +gm[3]);
+  s=s.replace(/\//g,'-');
+  const d=new Date(s);
+  return isNaN(d.getTime())?null:d;
+}
+function isSameDay(val){
+  const d=parseDate(val); if(!d) return false;
+  return d.getFullYear()===TODAY.getFullYear() && d.getMonth()===TODAY.getMonth() && d.getDate()===TODAY.getDate();
+}
+function fmtDate(val){
+  const d=parseDate(val); if(!d) return val||'—';
+  return d.toLocaleDateString('zh-TW',{year:'numeric',month:'2-digit',day:'2-digit'}) + ' ' + d.toLocaleTimeString('zh-TW',{hour:'2-digit',minute:'2-digit'});
+}
+
+/* ── 狀態色 ── */
+const STATUS_C={完成:'#3B6D11',done:'#3B6D11',pending:'#854F0B',待處理:'#854F0B',cancelled:'#A32D2D',取消:'#A32D2D',confirmed:'#0C447C',processing:'#534AB7',處理中:'#534AB7',paid:'#3B6D11',unpaid:'#A32D2D'};
+const STATUS_B={完成:'#EAF3DE',done:'#EAF3DE',pending:'#FAEEDA',待處理:'#FAEEDA',cancelled:'#FCEBEB',取消:'#FCEBEB',confirmed:'#E6F1FB',processing:'#EEEDFE',處理中:'#EEEDFE',paid:'#EAF3DE',unpaid:'#FCEBEB'};
+function statusBadge(v){ if(!v) return ''; const l=v.toLowerCase(); return `<span class="status-badge" style="background:${STATUS_B[l]||'#F3F1EA'};color:${STATUS_C[l]||'#444'};">${v}</span>`; }
+
+/* ── State ── */
+let cakesData=[], ordersData=[], src1Data=[];
+let newOrdersList=[], prevCount=null, currentTab='cakes', cdTimer=null, cdVal=30;
+
+/* ══════════════════════════════════════
+   渲染一：蛋糕介紹
+   ══════════════════════════════════════ */
+function renderCakes(data){
+  const el=document.getElementById('panelCakes');
+  if(!data||!data.length){el.innerHTML=emptyState('ti-cake','尚無蛋糕資料','請確認 cakes 分頁已公開');return;}
+  const cols=Object.keys(data[0]);
+  const gf=(r,keys)=>{for(const k of keys) if(r[k]!=null&&r[k]!=='') return r[k]; return '';};
+
+  el.innerHTML=`<div class="cake-grid">${data.map((r,i)=>{
+    const name=gf(r,['CakeName','Name','名稱','蛋糕名稱',cols[0]]);
+    const desc=gf(r,['Description','描述','說明','介紹','Desc','description']);
+    const price=gf(r,['Price','售價','單價','price']);
+    const size=gf(r,['Size','尺寸','size','大小']);
+    const flavor=gf(r,['Flavor','口味','flavor']);
+    const tag=gf(r,['Tag','標籤','Category','分類','Type']);
+    const stock=gf(r,['Stock','庫存','Available','stock']);
+    const allergen=gf(r,['Allergen','過敏原','allergen']);
+    const serve=gf(r,['Serving','份量','人份','Servings','serve']);
+    const days=gf(r,['ShelfLife','保存期限','shelf_life','Days','Shelf']);
+    const note=gf(r,['Note','備註','notes','Notes','Remark']);
+    const priceNum=parseFloat(String(price).replace(/[^0-9.-]/g,''));
+    const stockNum=parseInt(stock);
+
+    // 其餘未列出欄位
+    const knownKeys=['CakeName','Name','名稱','蛋糕名稱','Description','描述','說明','介紹','Desc','description','Price','售價','單價','price','Size','尺寸','size','大小','Flavor','口味','flavor','Tag','標籤','Category','分類','Type','Stock','庫存','Available','stock','Allergen','過敏原','allergen','Serving','份量','人份','Servings','serve','ShelfLife','保存期限','shelf_life','Days','Shelf','Note','備註','notes','Notes','Remark'];
+    const extras=cols.filter(k=>!knownKeys.includes(k)&&r[k]);
+
+    return `<div class="cake-card" style="animation:fadeUp .3s ease ${i*.06}s both;">
+      <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:14px;">
+        <div style="width:48px;height:48px;border-radius:12px;background:#EEEDFE;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+          <i class="ti ti-cake" style="font-size:24px;color:#534AB7;"></i>
+        </div>
+        <div style="text-align:right;">
+          ${tag?`<div style="margin-bottom:6px;"><span class="chip chip-gray">${tag}</span></div>`:''}
+          ${price?`<div style="font-size:18px;font-weight:700;color:#534AB7;">NT$${isNaN(priceNum)?price:priceNum.toLocaleString()}</div>`:''}
+        </div>
+      </div>
+
+      <div style="font-size:15px;font-weight:600;color:#1A1916;margin-bottom:6px;">${name||'—'}</div>
+      ${desc?`<div style="font-size:12px;color:#888;line-height:1.65;margin-bottom:12px;">${desc}</div>`:'<div style="height:6px;"></div>'}
+
+      <hr class="divider">
+
+      <div class="detail-grid" style="grid-template-columns:1fr 1fr;margin-top:10px;gap:10px;">
+        ${flavor?`<div class="detail-item"><div class="detail-label">口味</div><div class="detail-value">${flavor}</div></div>`:''}
+        ${size?`<div class="detail-item"><div class="detail-label">尺寸</div><div class="detail-value">${size}</div></div>`:''}
+        ${serve?`<div class="detail-item"><div class="detail-label">份量</div><div class="detail-value">${serve} 人份</div></div>`:''}
+        ${days?`<div class="detail-item"><div class="detail-label">保存期限</div><div class="detail-value">${days}</div></div>`:''}
+        ${allergen?`<div class="detail-item" style="grid-column:1/-1;"><div class="detail-label">過敏原</div><div class="detail-value muted">${allergen}</div></div>`:''}
+        ${extras.map(k=>`<div class="detail-item"><div class="detail-label">${k}</div><div class="detail-value">${r[k]}</div></div>`).join('')}
+      </div>
+
+      <div style="margin-top:12px;display:flex;flex-wrap:wrap;gap:6px;">
+        ${stock?`<span class="chip ${isNaN(stockNum)||stockNum>0?'chip-green':'chip-red'}">庫存 ${stock}</span>`:''}
+      </div>
+      ${note?`<div class="note-block" style="margin-top:10px;">${note}</div>`:''}
+    </div>`;
+  }).join('')}</div>`;
+}
+
+/* ══════════════════════════════════════
+   渲染二：今日所有訂單（完整詳細）
+   ══════════════════════════════════════ */
+function renderToday(){
+  const el=document.getElementById('panelToday');
+  const all=[...ordersData,...src1Data];
+
+  // 以 OrderDate / Date / 任何 date 欄位篩選今日
+  const todayOrders=all.filter(r=>{
+    const keys=Object.keys(r).filter(k=>k.toLowerCase().includes('date')||k.toLowerCase().includes('time')||k.toLowerCase().includes('created'));
+    for(const k of keys){ if(isSameDay(r[k])) return true; }
+    return false;
+  });
+
+  const badge=document.getElementById('badgeToday');
+  badge.textContent=todayOrders.length; badge.style.display=todayOrders.length?'inline':'none';
+
+  if(!todayOrders.length){
+    el.innerHTML=emptyState('ti-calendar-off','今日尚無訂單','系統將自動比對所有日期相關欄位');
+    return;
+  }
+
+  el.innerHTML=`
+    <div class="section-header">
+      <div>
+        <div class="section-count">${todayOrders.length} 筆今日訂單</div>
+        <div class="section-sub">${TODAY.toLocaleDateString('zh-TW',{month:'long',day:'numeric'})}</div>
+      </div>
+    </div>
+    ${todayOrders.map((r,i)=>detailOrderCard(r,i,false)).join('')}`;
+}
+
+/* ══════════════════════════════════════
+   渲染三：今日新增訂單（依 CreatedAt）
+   ══════════════════════════════════════ */
+function renderNew(){
+  const el=document.getElementById('panelNew');
+  const badge=document.getElementById('badgeNew');
+  badge.textContent=newOrdersList.length; badge.style.display=newOrdersList.length?'inline':'none';
+
+  if(!newOrdersList.length){
+    el.innerHTML=emptyState('ti-sparkles','尚無今日新增訂單','依據 CreatedAt 欄位篩選今日新增，每 30 秒自動偵測');
+    return;
+  }
+
+  el.innerHTML=`
+    <div class="section-header">
+      <div>
+        <div class="section-count" style="color:#534AB7;">+ ${newOrdersList.length} 筆今日新增</div>
+        <div class="section-sub">依 CreatedAt 欄位</div>
+      </div>
+    </div>
+    ${newOrdersList.map((r,i)=>detailOrderCard(r,i,true)).join('')}`;
+}
+
+/* ── 完整訂單卡片 ── */
+function detailOrderCard(r, i, isNew){
+  const cols=Object.keys(r);
+  const gf=(keys)=>{for(const k of keys) if(r[k]!=null&&r[k]!=='') return r[k]; return '';};
+
+  // 主要識別欄位
+  const orderId  = gf(['OrderID','Order_ID','order_id','訂單編號','ID','id','No','NO']);
+  const customer = gf(['CustomerName','Customer','客戶姓名','姓名','Name','name','客戶']);
+  const phone    = gf(['Phone','電話','phone','Tel','tel','手機','Mobile']);
+  const email    = gf(['Email','email','電子郵件','mail']);
+  const status   = gf(['Status','狀態','status','OrderStatus']);
+  const payment  = gf(['PaymentStatus','Payment','付款狀態','付款','PayStatus']);
+  const amt      = gf(['TotalAmount','Amount','Total','金額','total','price','Price','小計','Subtotal']);
+  const deposit  = gf(['Deposit','訂金','deposit','定金']);
+  const balance  = gf(['Balance','餘款','balance','尾款']);
+
+  // 蛋糕訂單欄位
+  const cakeName  = gf(['CakeName','Cake','蛋糕名稱','蛋糕','Item','item','商品','Product']);
+  const size      = gf(['Size','尺寸','size','大小','CakeSize']);
+  const flavor    = gf(['Flavor','口味','flavor','Taste','taste']);
+  const quantity  = gf(['Quantity','數量','qty','Qty','quantity','Count']);
+  const design    = gf(['Design','設計','design','Style','style','樣式','造型']);
+  const message   = gf(['Message','蛋糕文字','祝福語','Greeting','greeting','文字','msg']);
+  const color     = gf(['Color','顏色','color','Colour']);
+
+  // 時間欄位
+  const orderDate   = gf(['OrderDate','Date','訂單日期','date','order_date']);
+  const pickupDate  = gf(['PickupDate','Pickup','取貨日期','pickup_date','DeliveryDate','交貨日期']);
+  const createdAt   = gf(['CreatedAt','created_at','Created','建立時間','createdat','CreatedDate','create_time']);
+  const updatedAt   = gf(['UpdatedAt','updated_at','Updated','更新時間']);
+
+  // 其他
+  const note      = gf(['Notes','Note','備註','備註事項','Remark','remark','memo','Memo','comment','Comment']);
+  const address   = gf(['Address','地址','address','Addr','addr','DeliveryAddress','送貨地址']);
+  const source    = gf(['Source','來源','source','Channel','channel','通路']);
+  const member    = gf(['MemberID','CustomerID','Member','會員','customer_id']);
+
+  const amtNum=parseFloat(String(amt).replace(/[^0-9.-]/g,''));
+
+  // 已知欄位清單（用於顯示其餘欄位）
+  const knownKeys=['OrderID','Order_ID','order_id','訂單編號','ID','id','No','NO','CustomerName','Customer','客戶姓名','姓名','Name','name','客戶','Phone','電話','phone','Tel','tel','手機','Mobile','Email','email','電子郵件','mail','Status','狀態','status','OrderStatus','PaymentStatus','Payment','付款狀態','付款','PayStatus','TotalAmount','Amount','Total','金額','total','price','Price','小計','Subtotal','Deposit','訂金','deposit','定金','Balance','餘款','balance','尾款','CakeName','Cake','蛋糕名稱','蛋糕','Item','item','商品','Product','Size','尺寸','size','大小','CakeSize','Flavor','口味','flavor','Taste','taste','Quantity','數量','qty','Qty','quantity','Count','Design','設計','design','Style','style','樣式','造型','Message','蛋糕文字','祝福語','Greeting','greeting','文字','msg','Color','顏色','color','Colour','OrderDate','Date','訂單日期','date','order_date','PickupDate','Pickup','取貨日期','pickup_date','DeliveryDate','交貨日期','CreatedAt','created_at','Created','建立時間','createdat','CreatedDate','create_time','UpdatedAt','updated_at','Updated','更新時間','Notes','Note','備註','備註事項','Remark','remark','memo','Memo','comment','Comment','Address','地址','address','Addr','addr','DeliveryAddress','送貨地址','Source','來源','source','Channel','channel','通路','MemberID','CustomerID','Member','會員','customer_id'];
+  const extras=cols.filter(k=>!knownKeys.includes(k)&&r[k]!=null&&r[k]!=='');
+
+  return `<div class="order-card${isNew?' new-order':''}" style="animation:fadeUp .28s ease ${i*.05}s both;">
+
+    <!-- 卡片標題列 -->
+    <div class="order-card-header">
+      <div style="display:flex;align-items:center;gap:12px;">
+        <div style="width:40px;height:40px;border-radius:10px;background:${isNew?'#EEEDFE':'#F3F1EA'};display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+          <i class="ti ti-${isNew?'sparkles':'receipt'}" style="font-size:18px;color:${isNew?'#534AB7':'#888'};"></i>
+        </div>
+        <div>
+          <div style="font-size:14px;font-weight:600;color:#1A1916;">
+            ${customer||'未知客戶'}
+            ${isNew?'<span style="font-size:10px;background:#EEEDFE;color:#534AB7;padding:2px 7px;border-radius:20px;font-weight:700;margin-left:6px;vertical-align:middle;">NEW</span>':''}
+          </div>
+          <div style="font-size:11px;color:#888;margin-top:2px;">
+            ${orderId?`訂單 #${orderId}`:''}
+            ${createdAt?` · 建立 ${fmtDate(createdAt)}`:''}
+          </div>
+        </div>
+      </div>
+      <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
+        ${statusBadge(status)}
+        ${!isNaN(amtNum)&&amtNum?`<span style="font-size:16px;font-weight:700;color:#1A1916;">NT$${amtNum.toLocaleString()}</span>`:''}
+      </div>
+    </div>
+
+    <!-- 卡片主體 -->
+    <div class="order-card-body">
+
+      <!-- 區塊一：聯絡資訊 -->
+      <div style="margin-bottom:14px;">
+        <div style="font-size:11px;font-weight:600;color:#B0ADA6;letter-spacing:.5px;margin-bottom:8px;">聯絡資訊</div>
+        <div class="detail-grid">
+          ${customer?`<div class="detail-item"><div class="detail-label">客戶姓名</div><div class="detail-value">${customer}</div></div>`:''}
+          ${phone?`<div class="detail-item"><div class="detail-label">電話</div><div class="detail-value"><a href="tel:${phone}" style="color:#534AB7;text-decoration:none;">${phone}</a></div></div>`:''}
+          ${email?`<div class="detail-item"><div class="detail-label">Email</div><div class="detail-value"><a href="mailto:${email}" style="color:#534AB7;text-decoration:none;font-size:12px;">${email}</a></div></div>`:''}
+          ${member?`<div class="detail-item"><div class="detail-label">會員編號</div><div class="detail-value muted">${member}</div></div>`:''}
+          ${source?`<div class="detail-item"><div class="detail-label">訂單來源</div><div class="detail-value">${source}</div></div>`:''}
+          ${address?`<div class="detail-item" style="grid-column:1/-1;"><div class="detail-label">地址</div><div class="detail-value">${address}</div></div>`:''}
+        </div>
+      </div>
+
+      <hr class="divider">
+
+      <!-- 區塊二：蛋糕內容 -->
+      <div style="margin:14px 0;">
+        <div style="font-size:11px;font-weight:600;color:#B0ADA6;letter-spacing:.5px;margin-bottom:8px;">蛋糕訂單內容</div>
+        <div class="detail-grid">
+          ${cakeName?`<div class="detail-item"><div class="detail-label">蛋糕品項</div><div class="detail-value">${cakeName}</div></div>`:''}
+          ${size?`<div class="detail-item"><div class="detail-label">尺寸</div><div class="detail-value">${size}</div></div>`:''}
+          ${flavor?`<div class="detail-item"><div class="detail-label">口味</div><div class="detail-value">${flavor}</div></div>`:''}
+          ${quantity?`<div class="detail-item"><div class="detail-label">數量</div><div class="detail-value">${quantity}</div></div>`:''}
+          ${color?`<div class="detail-item"><div class="detail-label">顏色</div><div class="detail-value">${color}</div></div>`:''}
+          ${design?`<div class="detail-item" style="grid-column:1/-1;"><div class="detail-label">設計風格</div><div class="detail-value">${design}</div></div>`:''}
+          ${message?`<div class="detail-item" style="grid-column:1/-1;"><div class="detail-label">蛋糕文字 / 祝福語</div><div class="detail-value" style="color:#534AB7;font-style:italic;">"${message}"</div></div>`:''}
+        </div>
+      </div>
+
+      <hr class="divider">
+
+      <!-- 區塊三：日期 & 金流 -->
+      <div style="margin:14px 0;">
+        <div style="font-size:11px;font-weight:600;color:#B0ADA6;letter-spacing:.5px;margin-bottom:8px;">日期 & 金流</div>
+        <div class="detail-grid">
+          ${orderDate?`<div class="detail-item"><div class="detail-label">訂單日期</div><div class="detail-value">${fmtDate(orderDate)}</div></div>`:''}
+          ${pickupDate?`<div class="detail-item"><div class="detail-label">取貨日期</div><div class="detail-value" style="color:#854F0B;font-weight:600;">${fmtDate(pickupDate)}</div></div>`:''}
+          ${createdAt?`<div class="detail-item"><div class="detail-label">建立時間</div><div class="detail-value muted">${fmtDate(createdAt)}</div></div>`:''}
+          ${updatedAt?`<div class="detail-item"><div class="detail-label">更新時間</div><div class="detail-value muted">${fmtDate(updatedAt)}</div></div>`:''}
+          ${!isNaN(amtNum)&&amtNum?`<div class="detail-item"><div class="detail-label">訂單金額</div><div class="detail-value large">NT$${amtNum.toLocaleString()}</div></div>`:''}
+          ${payment?`<div class="detail-item"><div class="detail-label">付款狀態</div><div class="detail-value">${statusBadge(payment)}</div></div>`:''}
+          ${deposit?`<div class="detail-item"><div class="detail-label">訂金</div><div class="detail-value">NT$${deposit}</div></div>`:''}
+          ${balance?`<div class="detail-item"><div class="detail-label">餘款</div><div class="detail-value">NT$${balance}</div></div>`:''}
+        </div>
+      </div>
+
+      <!-- 其餘未分類欄位 -->
+      ${extras.length?`
+      <hr class="divider">
+      <div style="margin-top:14px;">
+        <div style="font-size:11px;font-weight:600;color:#B0ADA6;letter-spacing:.5px;margin-bottom:8px;">其他資訊</div>
+        <div class="detail-grid">
+          ${extras.map(k=>`<div class="detail-item"><div class="detail-label">${k}</div><div class="detail-value">${r[k]}</div></div>`).join('')}
+        </div>
+      </div>`:''}
+    </div>
+
+    <!-- 備註 footer -->
+    ${note?`<div class="order-card-footer">
+      <div style="display:flex;align-items:flex-start;gap:8px;">
+        <i class="ti ti-message" style="font-size:13px;color:#888;margin-top:1px;flex-shrink:0;"></i>
+        <div style="font-size:12px;color:#888;line-height:1.6;">${note}</div>
+      </div>
+    </div>`:''}
+  </div>`;
+}
+
+function emptyState(icon,title,sub){
+  return `<div class="empty"><i class="ti ${icon}"></i><div class="empty-title">${title}</div><div style="font-size:12px;">${sub}</div></div>`;
+}
+
+/* ── 載入 ── */
+async function loadAll(){
+  setStatus('connecting','連線中...');
+  ['panelCakes','panelToday','panelNew'].forEach(id=>{
+    document.getElementById(id).innerHTML=`<div class="empty"><i class="ti ti-loader spinning" style="font-size:32px;"></i><div style="font-size:13px;margin-top:10px;color:#888;">載入中...</div></div>`;
+  });
+
+  const [ck,od,s1]=await Promise.allSettled([fetchGviz(gviz('cakes')),fetchGviz(gviz('orders')),fetchGviz(pub())]);
+  if(ck.status==='fulfilled') cakesData=ck.value;
+  if(od.status==='fulfilled') ordersData=od.value;
+  if(s1.status==='fulfilled') src1Data=s1.value;
+
+  // ── 新增訂單偵測（用 CreatedAt 欄位比對今日）──
+  const combined=[...ordersData,...src1Data];
+
+  // 篩選 CreatedAt = 今日的訂單（全部，不只是新增的）
+  const todayCreated=combined.filter(r=>{
+    const v=r['CreatedAt']||r['created_at']||r['Created']||r['建立時間']||r['createdat']||r['CreatedDate']||r['create_time'];
+    return isSameDay(v);
+  });
+
+  // 偵測新增（本次刷新比上次多的部分）
+  if(prevCount!==null && combined.length>prevCount){
+    const diff=combined.length-prevCount;
+    showModal(diff);
+  }
+  if(prevCount===null){
+    // 第一次載入：把今日 CreatedAt 的訂單加入新增清單
+    newOrdersList=todayCreated;
+  } else if(combined.length>prevCount){
+    // 後續刷新：只加新增的
+    const fresh=combined.slice(-( combined.length-prevCount));
+    newOrdersList=[...fresh.filter(r=>isSameDay(r['CreatedAt']||r['created_at']||r['Created']||r['建立時間']||r['createdat']||r['CreatedDate']||r['create_time'])),...newOrdersList];
+  }
+  prevCount=combined.length;
+
+  renderCakes(cakesData);
+  renderToday();
+  renderNew();
+
+  const now=new Date().toLocaleTimeString('zh-TW');
+  setStatus('ok','已連線');
+  document.getElementById('lastUpdated').textContent=`更新於 ${now}`;
+}
+
+/* ── Tab & 工具 ── */
+function switchTab(tab){
+  currentTab=tab;
+  document.querySelectorAll('.tab-btn').forEach(b=>b.classList.toggle('active',b.dataset.tab===tab));
+  document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
+  document.getElementById('panel'+tab.charAt(0).toUpperCase()+tab.slice(1)).classList.add('active');
+}
+function setStatus(t,txt){
+  document.getElementById('statusDot').style.background={ok:'#639922',error:'#E24B4A',connecting:'#EF9F27'}[t]||'#ccc';
+  document.getElementById('statusLabel').textContent=txt;
+}
+function refreshAll(){
+  const ic=document.getElementById('refreshIcon'); ic.style.animation='spin .8s linear infinite'; setTimeout(()=>ic.style.animation='',1500);
+  loadAll(); resetCountdown();
+}
+function resetCountdown(){
+  clearInterval(cdTimer); cdVal=30; document.getElementById('countdown').textContent=cdVal;
+  cdTimer=setInterval(()=>{ cdVal--; document.getElementById('countdown').textContent=cdVal; if(cdVal<=0) refreshAll(); },1000);
+}
+
+renderCakes([]); renderToday(); renderNew();
+loadAll(); resetCountdown();
+</script>
+</body>
+</html>
