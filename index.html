@@ -9,17 +9,17 @@
 /* ─── Reset & Base ─── */
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
 body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#F7F5F2;color:#1A1916;min-height:100vh;padding:1.5rem;}
-
+ 
 /* ─── Modal ─── */
 #modalOverlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:500;align-items:center;justify-content:center;}
 #modalCard{background:#fff;border-radius:16px;padding:2.5rem 2rem 2rem;width:320px;text-align:center;box-shadow:0 24px 60px rgba(0,0,0,.18);animation:popIn .25s cubic-bezier(.175,.885,.32,1.275) both;}
-
+ 
 /* ─── Header ─── */
 .header{display:flex;align-items:center;justify-content:space-between;margin-bottom:1.75rem;flex-wrap:wrap;gap:10px;}
 .logo{display:flex;align-items:center;gap:12px;}
 .logo-icon{width:40px;height:40px;border-radius:12px;background:#EEEDFE;display:flex;align-items:center;justify-content:center;}
 .header-actions{display:flex;align-items:center;gap:8px;flex-wrap:wrap;}
-
+ 
 /* ─── Tabs ─── */
 .tabs{display:flex;gap:10px;margin-bottom:1.75rem;overflow-x:auto;padding-bottom:2px;}
 .tab-btn{display:flex;align-items:center;gap:8px;padding:12px 20px;border:1.5px solid #E8E5DE;background:#fff;border-radius:12px;font-size:13px;cursor:pointer;color:#888;white-space:nowrap;flex-shrink:0;transition:all .15s;font-family:inherit;}
@@ -27,23 +27,23 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 .tab-btn.active{background:#EEEDFE;border-color:#7F77DD;color:#534AB7;font-weight:600;}
 .tab-badge{background:#534AB7;color:#fff;font-size:10px;padding:1px 7px;border-radius:20px;font-weight:700;}
 .tab-badge.red{background:#E24B4A;}
-
+ 
 /* ─── Search Bar ─── */
 .search-bar{display:flex;gap:8px;margin-bottom:1.25rem;flex-wrap:wrap;}
 .search-input{flex:1;min-width:180px;padding:9px 14px 9px 36px;border:1.5px solid #E8E5DE;border-radius:10px;font-size:13px;font-family:inherit;background:#fff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%23aaa' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='11' cy='11' r='8'/%3E%3Cpath d='m21 21-4.35-4.35'/%3E%3C/svg%3E") no-repeat 12px center;outline:none;transition:border-color .15s;}
 .search-input:focus{border-color:#7F77DD;}
 .filter-select{padding:9px 12px;border:1.5px solid #E8E5DE;border-radius:10px;font-size:13px;font-family:inherit;background:#fff;outline:none;cursor:pointer;transition:border-color .15s;color:#555;}
 .filter-select:focus{border-color:#7F77DD;}
-
+ 
 /* ─── Panels ─── */
 .panel{display:none;}
 .panel.active{display:block;animation:fadeUp .3s ease both;}
-
+ 
 /* ─── Cake Grid ─── */
 .cake-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:14px;}
 .cake-card{background:#fff;border:1px solid #EDEAE3;border-radius:14px;padding:1.5rem;transition:box-shadow .15s,border-color .15s;}
 .cake-card:hover{box-shadow:0 6px 24px rgba(83,74,183,.1);border-color:#B8B4F0;}
-
+ 
 /* ─── Chips ─── */
 .chip{display:inline-flex;align-items:center;gap:4px;padding:3px 10px;border-radius:20px;font-size:11px;font-weight:500;}
 .chip-purple{background:#EEEDFE;color:#534AB7;}
@@ -51,7 +51,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 .chip-green{background:#EAF3DE;color:#3B6D11;}
 .chip-red{background:#FCEBEB;color:#A32D2D;}
 .chip-blue{background:#E6F1FB;color:#0C447C;}
-
+ 
 /* ─── Order Cards ─── */
 .order-card{background:#fff;border:1px solid #EDEAE3;border-radius:14px;margin-bottom:12px;overflow:hidden;transition:border-color .15s;}
 .order-card:hover{border-color:#B8B4F0;}
@@ -60,7 +60,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 .order-card-header{display:flex;align-items:center;justify-content:space-between;padding:1rem 1.25rem;border-bottom:1px solid #F0EDE6;flex-wrap:wrap;gap:8px;}
 .order-card-body{padding:1rem 1.25rem;}
 .order-card-footer{padding:.75rem 1.25rem;background:#FAFAF8;border-top:1px solid #F0EDE6;}
-
+ 
 /* ─── Detail Grid ─── */
 .detail-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:12px;}
 .detail-label{font-size:11px;color:#888;font-weight:500;margin-bottom:3px;text-transform:uppercase;letter-spacing:.4px;}
@@ -68,17 +68,17 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 .detail-value.muted{color:#888;font-weight:400;}
 .detail-value.large{font-size:16px;font-weight:700;color:#534AB7;}
 .section-block{font-size:11px;font-weight:600;color:#B0ADA6;letter-spacing:.5px;margin-bottom:8px;}
-
+ 
 /* ─── Status Badge ─── */
 .status-badge{padding:4px 12px;border-radius:20px;font-size:12px;font-weight:600;}
-
+ 
 /* ─── Buttons ─── */
 .btn{padding:7px 14px;border-radius:8px;border:1px solid #E8E5DE;background:#fff;font-size:12px;cursor:pointer;color:#888;font-family:inherit;display:inline-flex;align-items:center;gap:5px;transition:all .15s;}
 .btn:hover{border-color:#B8B4F0;color:#534AB7;}
 .btn-primary{background:#7F77DD;border-color:#7F77DD;color:#fff;}
 .btn-primary:hover{background:#534AB7;border-color:#534AB7;}
 .btn-ghost{background:#EEEDFE;border-color:#EEEDFE;color:#534AB7;}
-
+ 
 /* ─── Misc ─── */
 .countdown-pill{font-size:11px;background:#EEEDFE;color:#534AB7;padding:4px 10px;border-radius:20px;font-weight:600;}
 .section-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;padding:0 2px;}
@@ -89,7 +89,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 .status-dot{width:6px;height:6px;border-radius:50%;background:#ccc;display:inline-block;}
 hr.div{border:none;border-top:1px solid #F0EDE6;margin:12px 0;}
 .note-block{background:#FAFAF8;border-left:3px solid #E8E5DE;border-radius:0 8px 8px 0;padding:8px 12px;font-size:12px;color:#888;line-height:1.6;margin-top:10px;}
-
+ 
 /* ─── Skeleton Loading ─── */
 .skeleton-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:14px;}
 .skeleton-card{background:#fff;border:1px solid #EDEAE3;border-radius:14px;padding:1.5rem;overflow:hidden;}
@@ -106,7 +106,7 @@ hr.div{border:none;border-top:1px solid #F0EDE6;margin:12px 0;}
 .sk-line{height:12px;border-radius:4px;}
 .sk-line.wide{width:50%;margin-bottom:6px;}
 .sk-line.narrow{width:30%;}
-
+ 
 /* ─── All Orders Panel ─── */
 .all-toolbar{display:flex;flex-direction:column;gap:10px;margin-bottom:1.25rem;}
 .all-toolbar-row{display:flex;gap:8px;flex-wrap:wrap;align-items:center;}
@@ -137,7 +137,39 @@ hr.div{border:none;border-top:1px solid #F0EDE6;margin:12px 0;}
 .today-marker{display:inline-block;font-size:10px;background:#534AB7;color:#fff;padding:1px 7px;border-radius:20px;font-weight:700;margin-left:6px;vertical-align:middle;}
 .past-marker{display:inline-block;font-size:10px;background:#F3F1EA;color:#888;padding:1px 7px;border-radius:20px;font-weight:500;margin-left:6px;vertical-align:middle;}
 .future-marker{display:inline-block;font-size:10px;background:#EAF3DE;color:#3B6D11;padding:1px 7px;border-radius:20px;font-weight:700;margin-left:6px;vertical-align:middle;}
-
+ 
+/* ─── Tomorrow Pickup Panel ─── */
+.tmr-hero{background:linear-gradient(135deg,#534AB7 0%,#7F77DD 100%);border-radius:16px;padding:1.5rem 1.75rem;margin-bottom:1.25rem;color:#fff;}
+.tmr-hero-title{font-size:13px;font-weight:600;opacity:.75;letter-spacing:.5px;margin-bottom:6px;text-transform:uppercase;}
+.tmr-hero-date{font-size:22px;font-weight:700;margin-bottom:2px;}
+.tmr-hero-sub{font-size:13px;opacity:.7;}
+.tmr-hero-chips{display:flex;gap:8px;margin-top:14px;flex-wrap:wrap;}
+.tmr-chip{background:rgba(255,255,255,.15);backdrop-filter:blur(4px);border-radius:20px;padding:5px 14px;font-size:12px;font-weight:600;color:#fff;}
+.tmr-chip.accent{background:rgba(255,255,255,.3);}
+ 
+/* Cake Summary Grid */
+.summary-section{margin-bottom:1.5rem;}
+.summary-title{font-size:13px;font-weight:700;color:#1A1916;margin-bottom:10px;display:flex;align-items:center;gap:6px;}
+.summary-title i{font-size:16px;color:#534AB7;}
+.cake-summary-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:10px;}
+.cake-summary-card{background:#fff;border:1px solid #EDEAE3;border-radius:12px;padding:14px 16px;display:flex;align-items:center;gap:14px;transition:box-shadow .15s,border-color .15s;}
+.cake-summary-card:hover{box-shadow:0 4px 16px rgba(83,74,183,.1);border-color:#B8B4F0;}
+.cake-summary-icon{width:44px;height:44px;border-radius:10px;background:#EEEDFE;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.cake-summary-name{font-size:13px;font-weight:600;color:#1A1916;margin-bottom:3px;line-height:1.3;}
+.cake-summary-sub{font-size:11px;color:#888;}
+.cake-summary-qty{font-size:26px;font-weight:800;color:#534AB7;margin-left:auto;flex-shrink:0;line-height:1;}
+.cake-summary-qty-unit{font-size:11px;color:#888;font-weight:500;text-align:right;margin-top:1px;}
+ 
+/* No pickup tomorrow */
+.tmr-empty{text-align:center;padding:3.5rem 1rem;color:#888;}
+.tmr-empty i{font-size:48px;display:block;margin:0 auto 14px;opacity:.25;color:#534AB7;}
+ 
+/* Section divider */
+.section-divider{display:flex;align-items:center;gap:10px;margin:1.5rem 0 1rem;}
+.section-divider-label{font-size:13px;font-weight:700;color:#1A1916;white-space:nowrap;}
+.section-divider-line{flex:1;height:1px;background:#EDEAE3;}
+.section-divider-count{font-size:12px;color:#888;white-space:nowrap;}
+ 
 /* ─── Animations ─── */
 @keyframes shimmer{to{background-position:-200% 0}}
 @keyframes spin{to{transform:rotate(360deg);}}
@@ -152,7 +184,7 @@ hr.div{border:none;border-top:1px solid #F0EDE6;margin:12px 0;}
 </style>
 </head>
 <body>
-
+ 
 <!-- ─── Notification Modal ─── -->
 <div id="modalOverlay">
   <div id="modalCard">
@@ -171,7 +203,7 @@ hr.div{border:none;border-top:1px solid #F0EDE6;margin:12px 0;}
     <p id="acLabel" style="margin-top:1rem;font-size:11px;color:#bbb;"></p>
   </div>
 </div>
-
+ 
 <!-- ─── Header ─── -->
 <div class="header">
   <div class="logo">
@@ -188,7 +220,7 @@ hr.div{border:none;border-top:1px solid #F0EDE6;margin:12px 0;}
     <div class="countdown-pill">⏱ <span id="countdown">30</span>s</div>
   </div>
 </div>
-
+ 
 <!-- ─── Tabs ─── -->
 <div class="tabs">
   <button class="tab-btn active" data-tab="cakes" onclick="switchTab('cakes')">
@@ -206,14 +238,19 @@ hr.div{border:none;border-top:1px solid #F0EDE6;margin:12px 0;}
     <i class="ti ti-list-details" style="font-size:17px;"></i>所有訂單
     <span class="tab-badge" id="badgeAll" style="display:none;"></span>
   </button>
+  <button class="tab-btn" data-tab="tomorrow" onclick="switchTab('tomorrow')">
+    <i class="ti ti-truck-delivery" style="font-size:17px;"></i>明日取貨
+    <span class="tab-badge red" id="badgeTomorrow" style="display:none;"></span>
+  </button>
 </div>
-
+ 
 <!-- ─── Panels ─── -->
 <div id="panelCakes" class="panel active"></div>
 <div id="panelToday" class="panel"></div>
 <div id="panelNew"   class="panel"></div>
-<div id="panelAll"   class="panel"></div>
-
+<div id="panelAll"      class="panel"></div>
+<div id="panelTomorrow" class="panel"></div>
+ 
 <!-- ─── Status Bar ─── -->
 <div class="status-bar">
   <div style="display:flex;align-items:center;gap:6px;">
@@ -222,10 +259,10 @@ hr.div{border:none;border-top:1px solid #F0EDE6;margin:12px 0;}
   </div>
   <span style="font-size:12px;color:#888;" id="lastUpdated"></span>
 </div>
-
+ 
 <script>
 'use strict';
-
+ 
 /* ══════════════════════════════════════════
    1. FIELD MAP — 統一欄位對應
 ══════════════════════════════════════════ */
@@ -266,12 +303,12 @@ const FIELD_MAP = {
   shelfLife:   ['ShelfLife','保存期限','shelf_life','Days'],
   cakeNote:    ['Note','備註','notes','Notes','Remark'],
 };
-
+ 
 /* ══════════════════════════════════════════
    2. 已知欄位 Set（用於「其他資訊」過濾）
 ══════════════════════════════════════════ */
 const KNOWN_KEYS = new Set(Object.values(FIELD_MAP).flat());
-
+ 
 /* ══════════════════════════════════════════
    3. 集中式 State
 ══════════════════════════════════════════ */
@@ -296,7 +333,7 @@ const state = {
     quickRange: 'all',         /* today | week | month | all | custom */
   },
 };
-
+ 
 /* ══════════════════════════════════════════
    4. Google Sheets 設定
 ══════════════════════════════════════════ */
@@ -304,11 +341,11 @@ const SHEET_ID  = '1CuiI3pPMEcej90c0BcgrhwYb4cX9IkojI017lgE1ut4';
 const PUB_ID    = '2PACX-1vQ7kxJjNYB3TblbQVA0pLKbE7WrB4d7FcuFzImENtt7JzIAu_kvkVgoykPGbAcTHtJ7YqUngpm1TlKF';
 const gvizUrl   = s => `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?sheet=${encodeURIComponent(s)}`;
 const pubUrl    = ()  => `https://docs.google.com/spreadsheets/d/e/${PUB_ID}/gviz/tq?`;
-
+ 
 /* ══════════════════════════════════════════
    5. 工具函式
 ══════════════════════════════════════════ */
-
+ 
 /** XSS 防護 */
 function esc(str = '') {
   return String(str)
@@ -318,7 +355,7 @@ function esc(str = '') {
     .replace(/"/g, '&quot;')
     .replace(/'/g, '&#39;');
 }
-
+ 
 /** 取欄位值（使用 FIELD_MAP key 或直接傳陣列） */
 function gf(row, keys) {
   const arr = Array.isArray(keys) ? keys : (FIELD_MAP[keys] || []);
@@ -327,7 +364,7 @@ function gf(row, keys) {
   }
   return '';
 }
-
+ 
 /** 日期解析（只做一次，結果快取在 row.__ts__ 上） */
 function parseDate(val) {
   if (!val) return null;
@@ -337,31 +374,42 @@ function parseDate(val) {
   const d = new Date(s.replace(/\//g, '-'));
   return isNaN(d.getTime()) ? null : d;
 }
-
+ 
 const TODAY = new Date();
 const TODAY_STR = `${TODAY.getFullYear()}-${TODAY.getMonth()}-${TODAY.getDate()}`;
-
+ 
+const TOMORROW = new Date(TODAY);
+TOMORROW.setDate(TODAY.getDate() + 1);
+const TOMORROW_STR = `${TOMORROW.getFullYear()}-${TOMORROW.getMonth()}-${TOMORROW.getDate()}`;
+ 
 function isSameDay(val) {
   const d = parseDate(val);
   if (!d) return false;
   return `${d.getFullYear()}-${d.getMonth()}-${d.getDate()}` === TODAY_STR;
 }
-
+ 
+function isTomorrow(val) {
+  const d = parseDate(val);
+  if (!d) return false;
+  return `${d.getFullYear()}-${d.getMonth()}-${d.getDate()}` === TOMORROW_STR;
+}
+ 
 function fmtDate(val) {
   const d = parseDate(val);
   if (!d) return esc(val) || '—';
   return d.toLocaleDateString('zh-TW', { year:'numeric', month:'2-digit', day:'2-digit' })
     + ' ' + d.toLocaleTimeString('zh-TW', { hour:'2-digit', minute:'2-digit' });
 }
-
+ 
 /** 預先 normalize 資料列（一次性處理時間戳，之後直接比較） */
 function normalizeRow(row) {
   const createdRaw  = gf(row, 'createdAt');
   const orderRaw    = gf(row, 'orderDate');
   const pickupRaw   = gf(row, 'pickupDate');
-  row.__createdTs__  = parseDate(createdRaw)?.getTime()  || 0;
-  row.__orderTs__    = parseDate(orderRaw)?.getTime()    || 0;
-  row.__pickupTs__   = parseDate(pickupRaw)?.getTime()   || 0;
+  row.__createdTs__       = parseDate(createdRaw)?.getTime()  || 0;
+  row.__orderTs__         = parseDate(orderRaw)?.getTime()    || 0;
+  row.__pickupTs__        = parseDate(pickupRaw)?.getTime()   || 0;
+  row.__isTomorrowPickup__ = isTomorrow(pickupRaw);
   row.__isToday__ = false;
   for (const k of Object.keys(row)) {
     if ((k.toLowerCase().includes('date') || k.toLowerCase().includes('time') || k.toLowerCase().includes('created')) && isSameDay(row[k])) {
@@ -371,7 +419,7 @@ function normalizeRow(row) {
   }
   return row;
 }
-
+ 
 /* ══════════════════════════════════════════
    6. 狀態顏色
 ══════════════════════════════════════════ */
@@ -385,7 +433,7 @@ const STATUS_BG = {
   cancelled:'#FCEBEB', 取消:'#FCEBEB', confirmed:'#E6F1FB',
   processing:'#EEEDFE', 處理中:'#EEEDFE', paid:'#EAF3DE', unpaid:'#FCEBEB',
 };
-
+ 
 function statusBadgeHTML(v) {
   if (!v) return '';
   const l = v.toLowerCase();
@@ -393,7 +441,7 @@ function statusBadgeHTML(v) {
   const c  = STATUS_COLOR[l] || '#444';
   return `<span class="status-badge" style="background:${bg};color:${c};">${esc(v)}</span>`;
 }
-
+ 
 /* ══════════════════════════════════════════
    7. 音效
 ══════════════════════════════════════════ */
@@ -423,7 +471,7 @@ function toggleMute() {
   document.getElementById('muteLabel').textContent = state.muted ? '靜音' : '音效';
   if (!state.muted) playSound();
 }
-
+ 
 /* ══════════════════════════════════════════
    8. 通知 Modal
 ══════════════════════════════════════════ */
@@ -447,7 +495,7 @@ function showModal(n) {
 function closeModal() { clearInterval(state.acInterval); document.getElementById('modalOverlay').style.display = 'none'; }
 function goToNew()    { switchTab('new'); closeModal(); }
 function testNotif()  { showModal(3); }
-
+ 
 /* ══════════════════════════════════════════
    9. Fetch with Retry
 ══════════════════════════════════════════ */
@@ -460,7 +508,7 @@ async function retryFetch(fn, retries = 3, delay = 1000) {
     }
   }
 }
-
+ 
 function fetchGviz(base) {
   return new Promise((res, rej) => {
     const cb = '_g' + Math.random().toString(36).slice(2, 8);
@@ -477,7 +525,7 @@ function fetchGviz(base) {
     document.head.appendChild(s);
   });
 }
-
+ 
 function parseGvizTable(tbl) {
   if (!tbl || !tbl.cols) return [];
   const cols = tbl.cols.map(c => (c.label && c.label.trim()) ? c.label : c.id);
@@ -492,7 +540,7 @@ function parseGvizTable(tbl) {
     .filter(r => Object.values(r).some(v => v !== ''))
     .map(normalizeRow);
 }
-
+ 
 /* ══════════════════════════════════════════
    10. Skeleton Loading
 ══════════════════════════════════════════ */
@@ -520,7 +568,7 @@ function skeletonOrders() {
       <div class="sk sk-line" style="width:60%;"></div>
     </div>`).join('');
 }
-
+ 
 /* ══════════════════════════════════════════
    11. 搜尋 / 篩選
 ══════════════════════════════════════════ */
@@ -540,7 +588,7 @@ function filterOrders(orders, keyword, statusFilter) {
     return customer.includes(kw) || phone.includes(kw) || orderId.includes(kw) || cake.includes(kw);
   });
 }
-
+ 
 function getSearchBarHTML(panelId) {
   return `<div class="search-bar">
     <input class="search-input" type="text" placeholder="搜尋姓名、電話、訂單編號、蛋糕…" id="searchInput_${panelId}" oninput="applyFilter('${panelId}')">
@@ -557,7 +605,7 @@ function getSearchBarHTML(panelId) {
     </select>
   </div>`;
 }
-
+ 
 function applyFilter(panelId) {
   const kw     = document.getElementById(`searchInput_${panelId}`)?.value || '';
   const status = document.getElementById(`filterSelect_${panelId}`)?.value || '';
@@ -568,7 +616,7 @@ function applyFilter(panelId) {
   if (!container) return;
   renderOrderList(container, filtered, isNew);
 }
-
+ 
 /* ══════════════════════════════════════════
    12. DOM 建立函式（createDocumentFragment）
 ══════════════════════════════════════════ */
@@ -578,7 +626,7 @@ function emptyStateEl(icon, title, sub) {
   d.innerHTML = `<i class="ti ${esc(icon)}"></i><div class="empty-title">${esc(title)}</div><div style="font-size:12px;">${esc(sub)}</div>`;
   return d;
 }
-
+ 
 function renderOrderList(container, orders, isNew) {
   container.innerHTML = '';
   if (!orders.length) {
@@ -589,7 +637,7 @@ function renderOrderList(container, orders, isNew) {
   orders.forEach((r, i) => frag.appendChild(createOrderCard(r, i, isNew)));
   container.appendChild(frag);
 }
-
+ 
 /* ── 蛋糕卡片 ── */
 function createCakeCard(r, i, cols) {
   const name      = gf(r, 'name') || gf(r, [cols[0]]);
@@ -606,11 +654,11 @@ function createCakeCard(r, i, cols) {
   const priceNum  = parseFloat(String(price).replace(/[^0-9.-]/g, ''));
   const stockNum  = parseInt(stock);
   const extras    = cols.filter(k => !KNOWN_KEYS.has(k) && r[k]);
-
+ 
   const card = document.createElement('div');
   card.className = 'cake-card';
   card.style.cssText = `animation:fadeUp .3s ease ${i * .06}s both`;
-
+ 
   card.innerHTML = `
     <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:14px;">
       <div style="width:48px;height:48px;border-radius:12px;background:#EEEDFE;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
@@ -637,7 +685,7 @@ function createCakeCard(r, i, cols) {
   `;
   return card;
 }
-
+ 
 /* ── 訂單卡片 ── */
 function createOrderCard(r, i, isNew) {
   const cols       = Object.keys(r).filter(k => !k.startsWith('__'));
@@ -667,15 +715,15 @@ function createOrderCard(r, i, isNew) {
   const member     = gf(r, 'member');
   const amtNum     = parseFloat(String(amt).replace(/[^0-9.-]/g, ''));
   const extras     = cols.filter(k => !KNOWN_KEYS.has(k) && r[k] != null && r[k] !== '');
-
+ 
   const card = document.createElement('div');
   card.className = `order-card${isNew ? ' new-order pulse' : ''}`;
   card.style.cssText = `animation:fadeUp .28s ease ${i * .05}s both`;
-
+ 
   const iconName  = isNew ? 'sparkles' : 'receipt';
   const iconColor = isNew ? '#534AB7' : '#888';
   const iconBg    = isNew ? '#EEEDFE' : '#F3F1EA';
-
+ 
   card.innerHTML = `
     <div class="order-card-header">
       <div style="display:flex;align-items:center;gap:12px;">
@@ -697,7 +745,7 @@ function createOrderCard(r, i, isNew) {
         ${!isNaN(amtNum) && amtNum ? `<span style="font-size:16px;font-weight:700;color:#1A1916;">NT$${amtNum.toLocaleString()}</span>` : ''}
       </div>
     </div>
-
+ 
     <div class="order-card-body">
       <div class="section-block">聯絡資訊</div>
       <div class="detail-grid">
@@ -708,7 +756,7 @@ function createOrderCard(r, i, isNew) {
         ${source   ? `<div><div class="detail-label">訂單來源</div><div class="detail-value">${esc(source)}</div></div>` : ''}
         ${address  ? `<div style="grid-column:1/-1;"><div class="detail-label">地址</div><div class="detail-value">${esc(address)}</div></div>` : ''}
       </div>
-
+ 
       ${(cakeName || size || flavor || quantity || color || design || msg) ? `
         <hr class="div">
         <div class="section-block" style="margin-top:12px;">蛋糕訂單內容</div>
@@ -721,7 +769,7 @@ function createOrderCard(r, i, isNew) {
           ${design   ? `<div style="grid-column:1/-1;"><div class="detail-label">設計風格</div><div class="detail-value">${esc(design)}</div></div>` : ''}
           ${msg      ? `<div style="grid-column:1/-1;"><div class="detail-label">蛋糕文字 / 祝福語</div><div class="detail-value" style="color:#534AB7;font-style:italic;">&ldquo;${esc(msg)}&rdquo;</div></div>` : ''}
         </div>` : ''}
-
+ 
       <hr class="div">
       <div class="section-block" style="margin-top:12px;">日期 &amp; 金流</div>
       <div class="detail-grid">
@@ -734,7 +782,7 @@ function createOrderCard(r, i, isNew) {
         ${deposit    ? `<div><div class="detail-label">訂金</div><div class="detail-value">NT$${esc(deposit)}</div></div>` : ''}
         ${balance    ? `<div><div class="detail-label">餘款</div><div class="detail-value">NT$${esc(balance)}</div></div>` : ''}
       </div>
-
+ 
       ${extras.length ? `
         <hr class="div">
         <div class="section-block" style="margin-top:12px;">其他資訊</div>
@@ -742,7 +790,7 @@ function createOrderCard(r, i, isNew) {
           ${extras.map(k => `<div><div class="detail-label">${esc(k)}</div><div class="detail-value">${esc(r[k])}</div></div>`).join('')}
         </div>` : ''}
     </div>
-
+ 
     ${note ? `
       <div class="order-card-footer">
         <div style="display:flex;align-items:flex-start;gap:8px;">
@@ -753,11 +801,11 @@ function createOrderCard(r, i, isNew) {
   `;
   return card;
 }
-
+ 
 /* ══════════════════════════════════════════
    13b. 所有訂單 — 篩選 / 排序 / 分組 / 統計
 ══════════════════════════════════════════ */
-
+ 
 /** 依 quickRange 計算日期區間 timestamp */
 function getQuickRange(range) {
   const now = new Date();
@@ -778,12 +826,12 @@ function getQuickRange(range) {
   }
   return null; // 全部
 }
-
+ 
 /** 主篩選函式 */
 function filterAllOrders(orders, f) {
   const kw  = f.keyword.trim().toLowerCase();
   const st  = f.status.toLowerCase();
-
+ 
   // 日期區間
   let fromTs = 0, toTs = Infinity;
   if (f.quickRange !== 'all' && f.quickRange !== 'custom') {
@@ -793,7 +841,7 @@ function filterAllOrders(orders, f) {
     if (f.dateFrom) fromTs = new Date(f.dateFrom).getTime();
     if (f.dateTo)   toTs   = new Date(f.dateTo).getTime() + 86399999;
   }
-
+ 
   return orders.filter(r => {
     // 關鍵字
     if (kw) {
@@ -812,7 +860,7 @@ function filterAllOrders(orders, f) {
     return true;
   });
 }
-
+ 
 /** 排序 */
 function sortAllOrders(orders, sortBy, dir) {
   const key = { orderDate:'__orderTs__', pickupDate:'__pickupTs__', createdAt:'__createdTs__' }[sortBy] || '__orderTs__';
@@ -823,7 +871,7 @@ function sortAllOrders(orders, sortBy, dir) {
     return 0;
   });
 }
-
+ 
 /** 取代表日期（用於分組）*/
 function getRepDate(r, sortBy) {
   const raw = sortBy === 'pickupDate' ? gf(r,'pickupDate')
@@ -832,12 +880,12 @@ function getRepDate(r, sortBy) {
   const d = parseDate(raw);
   return d ? d : null;
 }
-
+ 
 function dateDayKey(d) {
   if (!d) return '__unknown__';
   return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
 }
-
+ 
 function dateDayLabel(d) {
   if (!d) return '未知日期';
   const str = dateDayKey(d);
@@ -850,7 +898,7 @@ function dateDayLabel(d) {
   if (diff > 0)   return label + `<span class="future-marker">+${diff}天後</span>`;
   return label + `<span class="past-marker">${Math.abs(diff)}天前</span>`;
 }
-
+ 
 /** 計算統計數字 */
 function calcStats(orders) {
   let totalAmt = 0, countOk = 0, countPending = 0;
@@ -863,7 +911,7 @@ function calcStats(orders) {
   }
   return { total: orders.length, totalAmt, countOk, countPending };
 }
-
+ 
 /** 產生工具列 HTML（日期選擇 + 快速範圍 + 搜尋 + 狀態 + 排序） */
 function getAllToolbarHTML() {
   const f = state.allFilter;
@@ -909,7 +957,7 @@ function getAllToolbarHTML() {
     </div>
   </div>`;
 }
-
+ 
 /** 統計卡片 HTML */
 function getStatsBarHTML(stats) {
   return `
@@ -932,28 +980,28 @@ function getStatsBarHTML(stats) {
     </div>
   </div>`;
 }
-
+ 
 /** 主 render 函式 */
 function renderAll() {
   const el = document.getElementById('panelAll');
   const all = getAllOrders();
-
+ 
   // 更新 badge（全部訂單數）
   const badge = document.getElementById('badgeAll');
   badge.textContent = all.length;
   badge.style.display = all.length ? 'inline' : 'none';
-
+ 
   if (!all.length) {
     const toolbar = document.createElement('div');
     toolbar.innerHTML = getAllToolbarHTML();
     el.replaceChildren(toolbar, emptyStateEl('ti-database-off', '尚無訂單資料', '請確認 orders 分頁已公開'));
     return;
   }
-
+ 
   const filtered = filterAllOrders(all, state.allFilter);
   const sorted   = sortAllOrders(filtered, state.allFilter.sortBy, state.allFilter.sortDir);
   const stats    = calcStats(filtered);
-
+ 
   // 分組：依代表日期 (日為單位)
   const groups = new Map(); // key → { label, rows }
   for (const r of sorted) {
@@ -962,10 +1010,10 @@ function renderAll() {
     if (!groups.has(key)) groups.set(key, { d, label: dateDayLabel(d), rows: [] });
     groups.get(key).rows.push(r);
   }
-
+ 
   const wrapper = document.createElement('div');
   wrapper.innerHTML = getAllToolbarHTML() + getStatsBarHTML(stats);
-
+ 
   if (!filtered.length) {
     wrapper.appendChild(emptyStateEl('ti-search', '找不到符合的訂單', '試試調整篩選條件或日期範圍'));
   } else {
@@ -987,10 +1035,10 @@ function renderAll() {
     }
     wrapper.appendChild(listEl);
   }
-
+ 
   el.replaceChildren(wrapper);
 }
-
+ 
 /* ── 所有訂單 filter 事件處理 ── */
 function setAllKeyword(v)  { state.allFilter.keyword    = v;   renderAll(); }
 function setAllStatus(v)   { state.allFilter.status     = v.toLowerCase(); renderAll(); }
@@ -1008,12 +1056,12 @@ function setAllQuick(v) {
   }
   renderAll();
 }
-
+ 
 /* ══════════════════════════════════════════
    13. Render 函式
 ══════════════════════════════════════════ */
 function getAllOrders() { return [...state.orders, ...state.src1]; }
-
+ 
 function renderCakes(data) {
   const el = document.getElementById('panelCakes');
   if (!data || !data.length) { el.replaceChildren(emptyStateEl('ti-cake', '尚無蛋糕資料', '請確認 cakes 分頁已公開')); return; }
@@ -1025,19 +1073,19 @@ function renderCakes(data) {
   grid.appendChild(frag);
   el.replaceChildren(grid);
 }
-
+ 
 function renderToday() {
   const el = document.getElementById('panelToday');
   const todayOrders = getAllOrders().filter(r => r.__isToday__);
   const badge = document.getElementById('badgeToday');
   badge.textContent = todayOrders.length;
   badge.style.display = todayOrders.length ? 'inline' : 'none';
-
+ 
   if (!todayOrders.length) {
     el.replaceChildren(emptyStateEl('ti-calendar-off', '今日尚無訂單', '系統比對所有日期欄位，當天訂單自動顯示'));
     return;
   }
-
+ 
   const wrapper = document.createElement('div');
   wrapper.innerHTML = `
     ${getSearchBarHTML('today')}
@@ -1054,18 +1102,18 @@ function renderToday() {
   wrapper.appendChild(listEl);
   el.replaceChildren(wrapper);
 }
-
+ 
 function renderNew() {
   const el = document.getElementById('panelNew');
   const badge = document.getElementById('badgeNew');
   badge.textContent = state.newOrders.length;
   badge.style.display = state.newOrders.length ? 'inline' : 'none';
-
+ 
   if (!state.newOrders.length) {
     el.replaceChildren(emptyStateEl('ti-sparkles', '尚無今日新增訂單', '依 CreatedAt 欄位篩選，每 30 秒自動偵測'));
     return;
   }
-
+ 
   const wrapper = document.createElement('div');
   wrapper.innerHTML = `
     ${getSearchBarHTML('new')}
@@ -1082,33 +1130,170 @@ function renderNew() {
   wrapper.appendChild(listEl);
   el.replaceChildren(wrapper);
 }
-
+ 
+/* ══════════════════════════════════════════
+   13c. 明日取貨 — 蛋糕彙總 + 訂單列表
+══════════════════════════════════════════ */
+ 
+/**
+ * 將訂單列表彙總成 Map<品項Key, {name,size,flavor,qty,orders[]}>
+ * 品項 Key = cakeName + '|' + size + '|' + flavor
+ */
+function aggregateCakes(orders) {
+  const map = new Map();
+  for (const r of orders) {
+    const name   = gf(r, 'cakeName') || '未指定品項';
+    const size   = gf(r, 'size')    || '';
+    const flavor = gf(r, 'flavor')  || '';
+    const qtyRaw = gf(r, 'quantity');
+    const qty    = parseInt(qtyRaw) || 1;
+    const key    = `${name}|${size}|${flavor}`;
+    if (!map.has(key)) map.set(key, { name, size, flavor, qty: 0, orders: [] });
+    const entry = map.get(key);
+    entry.qty += qty;
+    entry.orders.push(r);
+  }
+  // 依數量降冪排列
+  return [...map.values()].sort((a, b) => b.qty - a.qty);
+}
+ 
+/** 蛋糕彙總卡片 DOM */
+function createCakeSummaryCard(item, idx) {
+  const card = document.createElement('div');
+  card.className = 'cake-summary-card';
+  card.style.cssText = `animation:fadeUp .25s ease ${idx * .05}s both`;
+  const sub = [item.size, item.flavor].filter(Boolean).join('・');
+  card.innerHTML = `
+    <div class="cake-summary-icon">
+      <i class="ti ti-cake" style="font-size:22px;color:#534AB7;"></i>
+    </div>
+    <div style="flex:1;min-width:0;">
+      <div class="cake-summary-name">${esc(item.name)}</div>
+      ${sub ? `<div class="cake-summary-sub">${esc(sub)}</div>` : ''}
+    </div>
+    <div style="text-align:right;flex-shrink:0;">
+      <div class="cake-summary-qty">${item.qty}</div>
+      <div class="cake-summary-qty-unit">個</div>
+    </div>`;
+  return card;
+}
+ 
+function renderTomorrow() {
+  const el     = document.getElementById('panelTomorrow');
+  const orders = getAllOrders().filter(r => r.__isTomorrowPickup__);
+ 
+  // Badge
+  const badge  = document.getElementById('badgeTomorrow');
+  badge.textContent  = orders.length;
+  badge.style.display = orders.length ? 'inline' : 'none';
+ 
+  const tmrLabel = TOMORROW.toLocaleDateString('zh-TW', { year:'numeric', month:'long', day:'numeric', weekday:'long' });
+ 
+  // ── 空狀態 ──
+  if (!orders.length) {
+    const wrap = document.createElement('div');
+    wrap.innerHTML = `
+      <div class="tmr-hero">
+        <div class="tmr-hero-title">明日取貨清單</div>
+        <div class="tmr-hero-date">${esc(tmrLabel)}</div>
+        <div class="tmr-hero-sub">依「取貨日期」欄位篩選</div>
+      </div>`;
+    const empty = document.createElement('div');
+    empty.className = 'tmr-empty';
+    empty.innerHTML = `
+      <i class="ti ti-mood-happy"></i>
+      <div style="font-size:15px;font-weight:600;color:#1A1916;margin-bottom:6px;">明天沒有取貨訂單</div>
+      <div style="font-size:13px;">請確認訂單的「取貨日期」欄位已正確填寫</div>`;
+    wrap.appendChild(empty);
+    el.replaceChildren(wrap);
+    return;
+  }
+ 
+  // ── 彙總蛋糕品項 ──
+  const cakeItems  = aggregateCakes(orders);
+  const totalCakes = cakeItems.reduce((s, i) => s + i.qty, 0);
+  const totalAmt   = orders.reduce((s, r) => {
+    const n = parseFloat(String(gf(r,'amount')).replace(/[^0-9.-]/g,''));
+    return s + (isNaN(n) ? 0 : n);
+  }, 0);
+ 
+  // ── 建立 DOM ──
+  const wrap = document.createElement('div');
+ 
+  // Hero bar
+  wrap.innerHTML = `
+    <div class="tmr-hero">
+      <div class="tmr-hero-title">明日取貨清單</div>
+      <div class="tmr-hero-date">${esc(tmrLabel)}</div>
+      <div class="tmr-hero-sub">依「取貨日期」欄位篩選</div>
+      <div class="tmr-hero-chips">
+        <div class="tmr-chip accent"><i class="ti ti-receipt" style="font-size:13px;margin-right:4px;"></i>${orders.length} 筆訂單</div>
+        <div class="tmr-chip"><i class="ti ti-cake" style="font-size:13px;margin-right:4px;"></i>${totalCakes} 個蛋糕</div>
+        <div class="tmr-chip"><i class="ti ti-coin" style="font-size:13px;margin-right:4px;"></i>NT$${totalAmt.toLocaleString()}</div>
+        <div class="tmr-chip"><i class="ti ti-package" style="font-size:13px;margin-right:4px;"></i>${cakeItems.length} 種品項</div>
+      </div>
+    </div>`;
+ 
+  // ── 蛋糕品項彙總 ──
+  const summarySection = document.createElement('div');
+  summarySection.className = 'summary-section';
+  summarySection.innerHTML = `
+    <div class="summary-title">
+      <i class="ti ti-clipboard-check"></i>需備蛋糕品項彙總
+    </div>`;
+  const grid = document.createElement('div');
+  grid.className = 'cake-summary-grid';
+  const frag1 = document.createDocumentFragment();
+  cakeItems.forEach((item, i) => frag1.appendChild(createCakeSummaryCard(item, i)));
+  grid.appendChild(frag1);
+  summarySection.appendChild(grid);
+  wrap.appendChild(summarySection);
+ 
+  // ── 明日取貨訂單列表 ──
+  const divider = document.createElement('div');
+  divider.className = 'section-divider';
+  divider.innerHTML = `
+    <span class="section-divider-label"><i class="ti ti-truck-delivery" style="margin-right:5px;font-size:14px;color:#534AB7;"></i>明日取貨訂單</span>
+    <span class="section-divider-line"></span>
+    <span class="section-divider-count">${orders.length} 筆</span>`;
+  wrap.appendChild(divider);
+ 
+  const listEl = document.createElement('div');
+  const frag2  = document.createDocumentFragment();
+  orders.forEach((r, i) => frag2.appendChild(createOrderCard(r, i, false)));
+  listEl.appendChild(frag2);
+  wrap.appendChild(listEl);
+ 
+  el.replaceChildren(wrap);
+}
+ 
 /* ══════════════════════════════════════════
    14. 載入資料
 ══════════════════════════════════════════ */
 async function loadAll() {
   setStatus('connecting', '連線中...');
-
+ 
   /* Skeleton Loading */
-  document.getElementById('panelCakes').innerHTML = skeletonCakes();
-  document.getElementById('panelToday').innerHTML = skeletonOrders();
-  document.getElementById('panelNew').innerHTML   = skeletonOrders();
-  document.getElementById('panelAll').innerHTML   = skeletonOrders();
-
+  document.getElementById('panelCakes').innerHTML    = skeletonCakes();
+  document.getElementById('panelToday').innerHTML    = skeletonOrders();
+  document.getElementById('panelNew').innerHTML      = skeletonOrders();
+  document.getElementById('panelAll').innerHTML      = skeletonOrders();
+  document.getElementById('panelTomorrow').innerHTML = skeletonOrders();
+ 
   const [ck, od, s1] = await Promise.allSettled([
     retryFetch(() => fetchGviz(gvizUrl('cakes'))),
     retryFetch(() => fetchGviz(gvizUrl('orders'))),
     retryFetch(() => fetchGviz(pubUrl())),
   ]);
-
+ 
   if (ck.status === 'fulfilled') state.cakes  = ck.value;
   if (od.status === 'fulfilled') state.orders = od.value;
   if (s1.status === 'fulfilled') state.src1   = s1.value;
-
+ 
   const combined = getAllOrders();
-
+ 
   const todayCreated = combined.filter(r => isSameDay(gf(r, 'createdAt')));
-
+ 
   if (state.prevCount === null) {
     /* 第一次：以今日 CreatedAt 為基準 */
     state.newOrders = todayCreated;
@@ -1119,16 +1304,17 @@ async function loadAll() {
     showModal(diff);
   }
   state.prevCount = combined.length;
-
+ 
   renderCakes(state.cakes);
   renderToday();
   renderNew();
   renderAll();
-
+  renderTomorrow();
+ 
   setStatus('ok', '已連線');
   document.getElementById('lastUpdated').textContent = '更新於 ' + new Date().toLocaleTimeString('zh-TW');
 }
-
+ 
 /* ══════════════════════════════════════════
    15. UI 控制
 ══════════════════════════════════════════ */
@@ -1138,12 +1324,12 @@ function switchTab(tab) {
   document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
   document.getElementById('panel' + tab.charAt(0).toUpperCase() + tab.slice(1)).classList.add('active');
 }
-
+ 
 function setStatus(type, txt) {
   document.getElementById('statusDot').style.background = { ok:'#639922', error:'#E24B4A', connecting:'#EF9F27' }[type] || '#ccc';
   document.getElementById('statusLabel').textContent = txt;
 }
-
+ 
 function refreshAll() {
   const ic = document.getElementById('refreshIcon');
   ic.style.animation = 'spin .8s linear infinite';
@@ -1151,7 +1337,7 @@ function refreshAll() {
   loadAll();
   resetCountdown();
 }
-
+ 
 function resetCountdown() {
   clearInterval(state.cdTimer);
   state.countdown = 30;
@@ -1162,13 +1348,13 @@ function resetCountdown() {
     if (state.countdown <= 0) refreshAll();
   }, 1000);
 }
-
+ 
 /* ══════════════════════════════════════════
    16. 初始化
 ══════════════════════════════════════════ */
 document.getElementById('todayLabel').textContent =
   TODAY.toLocaleDateString('zh-TW', { year:'numeric', month:'long', day:'numeric', weekday:'long' });
-
+ 
 loadAll();
 resetCountdown();
 </script>
