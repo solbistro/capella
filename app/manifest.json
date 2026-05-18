@@ -1,0 +1,62 @@
+{
+  "name": "Plum 訂單系統",
+  "short_name": "Plum",
+  "description": "Plum 蛋糕訂單管理與取貨排程",
+  "id": "/plum-order-system",
+  "start_url": "./plum_order_system.html",
+  "scope": "./",
+  "display": "standalone",
+  "display_override": ["standalone", "minimal-ui"],
+  "background_color": "#F7F5F2",
+  "theme_color": "#534AB7",
+  "lang": "zh-TW",
+  "dir": "ltr",
+  "orientation": "portrait-primary",
+  "categories": ["business", "productivity"],
+  "icons": [
+    {
+      "src": "icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    },
+    {
+      "src": "icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "icon-maskable.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "明日取貨",
+      "short_name": "明日",
+      "url": "./plum_order_system.html?tab=tomorrow",
+      "description": "查看明日取貨訂單與品項彙總"
+    },
+    {
+      "name": "今日訂單",
+      "short_name": "今日",
+      "url": "./plum_order_system.html?tab=today",
+      "description": "查看今日所有訂單"
+    },
+    {
+      "name": "所有訂單",
+      "short_name": "訂單",
+      "url": "./plum_order_system.html?tab=all",
+      "description": "搜尋與篩選全部訂單"
+    }
+  ]
+}

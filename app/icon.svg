@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <!-- Background -->
+  <rect width="512" height="512" rx="112" fill="#534AB7"/>
+
+  <!-- Plate / base -->
+  <ellipse cx="256" cy="360" rx="170" ry="26" fill="#EEEDFE" opacity="0.35"/>
+
+  <!-- Cake bottom tier -->
+  <rect x="96" y="280" width="320" height="100" rx="22" fill="white" opacity="0.92"/>
+  <!-- Bottom tier detail line -->
+  <rect x="96" y="310" width="320" height="4" rx="2" fill="#EEEDFE"/>
+  <!-- Dots decoration bottom -->
+  <circle cx="152" cy="330" r="9" fill="#EEEDFE"/>
+  <circle cx="200" cy="330" r="9" fill="#EEEDFE"/>
+  <circle cx="248" cy="330" r="9" fill="#EEEDFE"/>
+  <circle cx="296" cy="330" r="9" fill="#EEEDFE"/>
+  <circle cx="344" cy="330" r="9" fill="#EEEDFE"/>
+  <circle cx="392" cy="330" r="9" fill="#EEEDFE"/>
+
+  <!-- Cake top tier -->
+  <rect x="136" y="200" width="240" height="90" rx="18" fill="white" opacity="0.85"/>
+  <!-- Top tier detail line -->
+  <rect x="136" y="228" width="240" height="3" rx="1.5" fill="#EEEDFE"/>
+  <!-- Dots decoration top -->
+  <circle cx="188" cy="250" r="7" fill="#EEEDFE"/>
+  <circle cx="228" cy="250" r="7" fill="#EEEDFE"/>
+  <circle cx="268" cy="250" r="7" fill="#EEEDFE"/>
+  <circle cx="308" cy="250" r="7" fill="#EEEDFE"/>
+  <circle cx="348" cy="250" r="7" fill="#EEEDFE"/>
+
+  <!-- Candle left -->
+  <rect x="196" y="148" width="20" height="60" rx="6" fill="#FAEEDA"/>
+  <ellipse cx="206" cy="144" rx="10" ry="14" fill="#EF9F27"/>
+  <ellipse cx="206" cy="140" rx="5" ry="7" fill="#FFF3D6"/>
+
+  <!-- Candle center -->
+  <rect x="246" y="128" width="20" height="80" rx="6" fill="#FAEEDA"/>
+  <ellipse cx="256" cy="122" rx="10" ry="14" fill="#EF9F27"/>
+  <ellipse cx="256" cy="117" rx="5" ry="7" fill="#FFF3D6"/>
+
+  <!-- Candle right -->
+  <rect x="296" y="148" width="20" height="60" rx="6" fill="#FAEEDA"/>
+  <ellipse cx="306" cy="144" rx="10" ry="14" fill="#EF9F27"/>
+  <ellipse cx="306" cy="140" rx="5" ry="7" fill="#FFF3D6"/>
+</svg>
