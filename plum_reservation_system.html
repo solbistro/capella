@@ -1,0 +1,1209 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Plum 餐廳預約系統</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garant:ital,wght@0,400;0,600;1,400&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.x/tabler-icons.min.css">
+<style>
+/* ─── CSS Variables ─── */
+:root{
+  --bg:#F5F2EC;
+  --surface:#FFFFFF;
+  --border:#E4DDD0;
+  --border-hover:#BFB49E;
+  --primary:#2B4D3F;
+  --primary-light:#EAF0ED;
+  --primary-mid:#4A7A65;
+  --gold:#B8872A;
+  --gold-light:#F5EDD8;
+  --text:#1C1915;
+  --text-muted:#7A7060;
+  --text-faint:#B0A898;
+  --red:#8B2020;
+  --red-light:#FBEBEB;
+  --amber:#7A4A0A;
+  --amber-light:#FBF0E0;
+  --blue:#1A3D6B;
+  --blue-light:#E6EDF8;
+  --green:#2D5C1E;
+  --green-light:#EAF3E5;
+  --radius:14px;
+  --shadow:0 2px 12px rgba(43,77,63,.07);
+  --shadow-lg:0 8px 32px rgba(43,77,63,.12);
+}
+
+/* ─── Reset & Base ─── */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'DM Sans',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;padding:1.5rem;}
+
+/* ─── Modal ─── */
+#modalOverlay{display:none;position:fixed;inset:0;background:rgba(28,25,21,0.55);z-index:500;align-items:center;justify-content:center;backdrop-filter:blur(4px);}
+#modalCard{background:var(--surface);border-radius:20px;padding:2.5rem 2rem 2rem;width:330px;text-align:center;box-shadow:var(--shadow-lg);border:1px solid var(--border);animation:popIn .25s cubic-bezier(.175,.885,.32,1.275) both;}
+
+/* ─── Header ─── */
+.header{display:flex;align-items:center;justify-content:space-between;margin-bottom:1.75rem;flex-wrap:wrap;gap:10px;}
+.logo{display:flex;align-items:center;gap:14px;}
+.logo-icon{width:44px;height:44px;border-radius:12px;background:var(--primary);display:flex;align-items:center;justify-content:center;box-shadow:0 4px 12px rgba(43,77,63,.25);}
+.logo-title{font-family:'Cormorant Garant',serif;font-size:20px;font-weight:600;color:var(--text);letter-spacing:.3px;}
+.logo-subtitle{font-size:11.5px;color:var(--text-muted);margin-top:1px;font-weight:400;}
+.header-actions{display:flex;align-items:center;gap:8px;flex-wrap:wrap;}
+
+/* ─── Tabs ─── */
+.tabs{display:flex;gap:8px;margin-bottom:1.75rem;overflow-x:auto;padding-bottom:2px;}
+.tab-btn{display:flex;align-items:center;gap:8px;padding:11px 18px;border:1.5px solid var(--border);background:var(--surface);border-radius:11px;font-size:13px;cursor:pointer;color:var(--text-muted);white-space:nowrap;flex-shrink:0;transition:all .15s;font-family:'DM Sans',sans-serif;font-weight:500;}
+.tab-btn:hover{border-color:var(--border-hover);color:var(--primary);}
+.tab-btn.active{background:var(--primary-light);border-color:var(--primary-mid);color:var(--primary);font-weight:600;}
+.tab-badge{background:var(--primary);color:#fff;font-size:10px;padding:1px 7px;border-radius:20px;font-weight:700;}
+.tab-badge.red{background:#C94040;}
+
+/* ─── Search Bar ─── */
+.search-bar{display:flex;gap:8px;margin-bottom:1.25rem;flex-wrap:wrap;}
+.search-input{flex:1;min-width:180px;padding:9px 14px 9px 36px;border:1.5px solid var(--border);border-radius:10px;font-size:13px;font-family:'DM Sans',sans-serif;background:var(--surface) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%23B0A898' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='11' cy='11' r='8'/%3E%3Cpath d='m21 21-4.35-4.35'/%3E%3C/svg%3E") no-repeat 12px center;outline:none;transition:border-color .15s;color:var(--text);}
+.search-input:focus{border-color:var(--primary-mid);}
+.filter-select{padding:9px 12px;border:1.5px solid var(--border);border-radius:10px;font-size:13px;font-family:'DM Sans',sans-serif;background:var(--surface);outline:none;cursor:pointer;transition:border-color .15s;color:var(--text-muted);}
+.filter-select:focus{border-color:var(--primary-mid);}
+
+/* ─── Panels ─── */
+.panel{display:none;}
+.panel.active{display:block;animation:fadeUp .3s ease both;}
+
+/* ─── Menu Grid ─── */
+.menu-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:14px;}
+.menu-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:1.5rem;transition:box-shadow .15s,border-color .15s;position:relative;}
+.menu-card:hover{box-shadow:var(--shadow-lg);border-color:var(--border-hover);}
+.menu-card-accent{position:absolute;top:0;left:0;width:4px;height:100%;border-radius:var(--radius) 0 0 var(--radius);background:var(--primary);}
+
+/* ─── Chips ─── */
+.chip{display:inline-flex;align-items:center;gap:4px;padding:3px 10px;border-radius:20px;font-size:11px;font-weight:600;}
+.chip-primary{background:var(--primary-light);color:var(--primary);}
+.chip-gray{background:#F0EDE5;color:#554E44;}
+.chip-green{background:var(--green-light);color:var(--green);}
+.chip-red{background:var(--red-light);color:var(--red);}
+.chip-blue{background:var(--blue-light);color:var(--blue);}
+.chip-gold{background:var(--gold-light);color:var(--gold);}
+
+/* ─── Reservation Cards ─── */
+.order-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);margin-bottom:12px;overflow:hidden;transition:border-color .15s,box-shadow .15s;}
+.order-card:hover{border-color:var(--border-hover);box-shadow:var(--shadow);}
+.order-card.new-order{border-left:4px solid var(--primary-mid);}
+.order-card.new-order.pulse{animation:pulseGlow 3s ease-out both;}
+.order-card-header{display:flex;align-items:center;justify-content:space-between;padding:1rem 1.25rem;border-bottom:1px solid var(--border);flex-wrap:wrap;gap:8px;background:linear-gradient(135deg,#FDFCF9 0%,var(--surface) 100%);}
+.order-card-body{padding:1rem 1.25rem;}
+.order-card-footer{padding:.75rem 1.25rem;background:#FAFAF7;border-top:1px solid var(--border);}
+
+/* ─── Detail Grid ─── */
+.detail-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:12px;}
+.detail-label{font-size:10.5px;color:var(--text-faint);font-weight:600;margin-bottom:3px;text-transform:uppercase;letter-spacing:.5px;}
+.detail-value{font-size:13px;color:var(--text);font-weight:500;word-break:break-word;}
+.detail-value.muted{color:var(--text-muted);font-weight:400;}
+.detail-value.large{font-size:16px;font-weight:700;color:var(--primary);}
+.detail-value.gold{font-size:15px;font-weight:700;color:var(--gold);}
+.section-block{font-size:10.5px;font-weight:700;color:var(--text-faint);letter-spacing:.6px;margin-bottom:8px;text-transform:uppercase;}
+
+/* ─── Status Badge ─── */
+.status-badge{padding:4px 12px;border-radius:20px;font-size:11.5px;font-weight:600;}
+
+/* ─── Buttons ─── */
+.btn{padding:7px 14px;border-radius:9px;border:1.5px solid var(--border);background:var(--surface);font-size:12.5px;cursor:pointer;color:var(--text-muted);font-family:'DM Sans',sans-serif;display:inline-flex;align-items:center;gap:5px;transition:all .15s;font-weight:500;}
+.btn:hover{border-color:var(--border-hover);color:var(--primary);}
+.btn-primary{background:var(--primary);border-color:var(--primary);color:#fff;}
+.btn-primary:hover{background:#1E3A2D;border-color:#1E3A2D;}
+.btn-ghost{background:var(--primary-light);border-color:var(--primary-light);color:var(--primary);}
+.btn-gold{background:var(--gold-light);border-color:var(--gold-light);color:var(--gold);}
+
+/* ─── Misc ─── */
+.countdown-pill{font-size:11px;background:var(--primary-light);color:var(--primary);padding:4px 10px;border-radius:20px;font-weight:700;}
+.section-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;padding:0 2px;}
+.empty{text-align:center;padding:4rem 1rem;color:var(--text-muted);}
+.empty i{font-size:40px;display:block;margin:0 auto 12px;opacity:.25;}
+.empty-title{font-size:14px;color:var(--text);margin-bottom:6px;font-weight:600;}
+.status-bar{display:flex;align-items:center;justify-content:space-between;margin-top:16px;}
+.status-dot{width:6px;height:6px;border-radius:50%;background:#ccc;display:inline-block;}
+hr.div{border:none;border-top:1px solid var(--border);margin:12px 0;}
+.note-block{background:#FAFAF7;border-left:3px solid var(--border-hover);border-radius:0 8px 8px 0;padding:8px 12px;font-size:12px;color:var(--text-muted);line-height:1.65;margin-top:10px;}
+
+/* ─── Skeleton Loading ─── */
+.skeleton-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:14px;}
+.skeleton-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:1.5rem;overflow:hidden;}
+.sk{background:linear-gradient(90deg,#EDE9E1 25%,#E3DDD4 50%,#EDE9E1 75%);background-size:200% 100%;animation:shimmer 1.4s infinite;border-radius:6px;}
+.sk-icon{width:48px;height:48px;border-radius:12px;margin-bottom:14px;}
+.sk-title{height:16px;width:70%;margin-bottom:8px;}
+.sk-text{height:11px;width:90%;margin-bottom:5px;}
+.sk-text.short{width:55%;}
+.sk-price{height:22px;width:40%;margin-top:12px;}
+.skeleton-order{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);margin-bottom:12px;padding:1.25rem;overflow:hidden;}
+.sk-order-row{display:flex;align-items:center;gap:12px;margin-bottom:14px;}
+.sk-avatar{width:40px;height:40px;border-radius:10px;flex-shrink:0;}
+.sk-line-group{flex:1;}
+.sk-line{height:12px;border-radius:4px;}
+.sk-line.wide{width:50%;margin-bottom:6px;}
+.sk-line.narrow{width:30%;}
+
+/* ─── All Panel ─── */
+.all-toolbar{display:flex;flex-direction:column;gap:10px;margin-bottom:1.25rem;}
+.all-toolbar-row{display:flex;gap:8px;flex-wrap:wrap;align-items:center;}
+.date-input{padding:9px 12px;border:1.5px solid var(--border);border-radius:10px;font-size:13px;font-family:'DM Sans',sans-serif;background:var(--surface);outline:none;cursor:pointer;transition:border-color .15s;color:var(--text-muted);min-width:130px;}
+.date-input:focus{border-color:var(--primary-mid);}
+.date-sep{font-size:13px;color:var(--text-faint);padding:0 2px;}
+.quick-btns{display:flex;gap:6px;flex-wrap:wrap;}
+.quick-btn{padding:6px 12px;border:1.5px solid var(--border);border-radius:8px;font-size:12px;cursor:pointer;color:var(--text-muted);font-family:'DM Sans',sans-serif;background:var(--surface);transition:all .15s;white-space:nowrap;font-weight:500;}
+.quick-btn:hover{border-color:var(--border-hover);color:var(--primary);}
+.quick-btn.active{background:var(--primary-light);border-color:var(--primary-mid);color:var(--primary);font-weight:600;}
+.sort-select{padding:9px 12px;border:1.5px solid var(--border);border-radius:10px;font-size:13px;font-family:'DM Sans',sans-serif;background:var(--surface);outline:none;cursor:pointer;transition:border-color .15s;color:var(--text-muted);}
+.sort-select:focus{border-color:var(--primary-mid);}
+/* Stats bar */
+.stats-bar{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:1.25rem;}
+.stat-card{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:12px 18px;flex:1;min-width:120px;}
+.stat-label{font-size:10.5px;color:var(--text-faint);font-weight:600;margin-bottom:4px;text-transform:uppercase;letter-spacing:.5px;}
+.stat-value{font-size:20px;font-weight:700;color:var(--text);line-height:1;}
+.stat-value.primary{color:var(--primary);}
+.stat-value.green{color:var(--green);}
+.stat-value.amber{color:var(--amber);}
+.stat-value.gold{color:var(--gold);}
+/* Date group header */
+.date-group-header{display:flex;align-items:center;gap:10px;padding:10px 4px 6px;margin-top:8px;}
+.date-group-header:first-child{margin-top:0;}
+.date-group-label{font-size:12px;font-weight:700;color:var(--primary);letter-spacing:.3px;}
+.date-group-line{flex:1;height:1px;background:var(--border);}
+.date-group-count{font-size:11px;color:var(--text-faint);font-weight:500;}
+/* Day markers */
+.today-marker{display:inline-block;font-size:10px;background:var(--primary);color:#fff;padding:1px 7px;border-radius:20px;font-weight:700;margin-left:6px;vertical-align:middle;}
+.past-marker{display:inline-block;font-size:10px;background:#F0EDE5;color:var(--text-muted);padding:1px 7px;border-radius:20px;font-weight:500;margin-left:6px;vertical-align:middle;}
+.future-marker{display:inline-block;font-size:10px;background:var(--green-light);color:var(--green);padding:1px 7px;border-radius:20px;font-weight:700;margin-left:6px;vertical-align:middle;}
+
+/* ─── Guest count badge ─── */
+.guest-badge{display:inline-flex;align-items:center;gap:4px;background:var(--gold-light);color:var(--gold);font-size:13px;font-weight:700;padding:3px 10px;border-radius:20px;}
+
+/* ─── Animations ─── */
+@keyframes shimmer{to{background-position:-200% 0}}
+@keyframes spin{to{transform:rotate(360deg);}}
+.spinning{animation:spin 1s linear infinite;}
+@keyframes fadeUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+@keyframes popIn{from{opacity:0;transform:scale(0.82)}to{opacity:1;transform:scale(1)}}
+@keyframes pulseGlow{
+  0%  {box-shadow:0 0 0 0 rgba(43,77,63,.5);}
+  40% {box-shadow:0 0 0 8px rgba(43,77,63,.1);}
+  100%{box-shadow:0 0 0 0 rgba(43,77,63,0);}
+}
+</style>
+</head>
+<body>
+
+<!-- ─── Notification Modal ─── -->
+<div id="modalOverlay">
+  <div id="modalCard">
+    <div style="width:64px;height:64px;border-radius:50%;background:var(--primary-light);display:flex;align-items:center;justify-content:center;margin:0 auto 1.25rem;">
+      <i class="ti ti-calendar-plus" style="font-size:30px;color:var(--primary);"></i>
+    </div>
+    <p style="font-family:'Cormorant Garant',serif;font-size:22px;font-weight:600;color:var(--text);margin-bottom:6px;">新預約進來了！</p>
+    <p style="font-size:14px;color:var(--text-muted);margin-bottom:6px;">剛新增了</p>
+    <p id="notifCount" style="font-size:52px;font-weight:700;color:var(--primary);margin-bottom:4px;">0</p>
+    <p style="font-size:13px;color:var(--text-muted);margin-bottom:.5rem;">筆預約</p>
+    <p id="notifTime" style="font-size:12px;color:var(--text-faint);margin-bottom:1.75rem;"></p>
+    <div style="display:flex;gap:8px;justify-content:center;">
+      <button class="btn btn-primary" onclick="goToNew()" style="flex:1;justify-content:center;padding:10px 0;">查看新增預約</button>
+      <button class="btn" onclick="closeModal()" style="flex:1;justify-content:center;padding:10px 0;">關閉</button>
+    </div>
+    <p id="acLabel" style="margin-top:1rem;font-size:11px;color:var(--text-faint);"></p>
+  </div>
+</div>
+
+<!-- ─── Header ─── -->
+<div class="header">
+  <div class="logo">
+    <div class="logo-icon"><i class="ti ti-tools-kitchen-2" style="font-size:22px;color:#fff;"></i></div>
+    <div>
+      <div class="logo-title">Plum 餐廳預約系統</div>
+      <div id="todayLabel" class="logo-subtitle"></div>
+    </div>
+  </div>
+  <div class="header-actions">
+    <button class="btn" onclick="toggleMute()"><i class="ti ti-volume" id="muteIcon"></i><span id="muteLabel">音效</span></button>
+    <button class="btn btn-ghost" onclick="testNotif()"><i class="ti ti-bell"></i> 測試通知</button>
+    <button class="btn" onclick="refreshAll()"><i class="ti ti-refresh" id="refreshIcon"></i> 重新整理</button>
+    <div class="countdown-pill">⏱ <span id="countdown">30</span>s</div>
+  </div>
+</div>
+
+<!-- ─── Tabs ─── -->
+<div class="tabs">
+  <button class="tab-btn active" data-tab="menu" onclick="switchTab('menu')">
+    <i class="ti ti-notebook" style="font-size:17px;"></i>菜單 Menu
+  </button>
+  <button class="tab-btn" data-tab="today" onclick="switchTab('today')">
+    <i class="ti ti-calendar-event" style="font-size:17px;"></i>今日訂位
+    <span class="tab-badge" id="badgeToday" style="display:none;"></span>
+  </button>
+  <button class="tab-btn" data-tab="new" onclick="switchTab('new')">
+    <i class="ti ti-sparkles" style="font-size:17px;"></i>新增預約
+    <span class="tab-badge red" id="badgeNew" style="display:none;"></span>
+  </button>
+  <button class="tab-btn" data-tab="all" onclick="switchTab('all')">
+    <i class="ti ti-list-details" style="font-size:17px;"></i>全部預約
+    <span class="tab-badge" id="badgeAll" style="display:none;"></span>
+  </button>
+</div>
+
+<!-- ─── Panels ─── -->
+<div id="panelMenu"  class="panel active"></div>
+<div id="panelToday" class="panel"></div>
+<div id="panelNew"   class="panel"></div>
+<div id="panelAll"   class="panel"></div>
+
+<!-- ─── Status Bar ─── -->
+<div class="status-bar">
+  <div style="display:flex;align-items:center;gap:6px;">
+    <span class="status-dot" id="statusDot"></span>
+    <span style="font-size:12px;color:var(--text-muted);" id="statusLabel">未連線</span>
+  </div>
+  <span style="font-size:12px;color:var(--text-muted);" id="lastUpdated"></span>
+</div>
+
+<script>
+'use strict';
+
+/* ══════════════════════════════════════════
+   1. FIELD MAP — 餐廳預約欄位對應
+══════════════════════════════════════════ */
+const RESERVATION_FIELDS = {
+  reservationId:   ['ReservationID','Reservation_ID','reservation_id','訂位編號','ID','id','No','NO'],
+  customer:        ['CustomerName','Customer','客戶姓名','姓名','Name','name','客人','顧客'],
+  phone:           ['Phone','電話','phone','Tel','tel','手機','Mobile'],
+  email:           ['Email','email','電子郵件','mail'],
+  status:          ['Status','狀態','status','ReservationStatus'],
+  guestCount:      ['GuestCount','Guests','人數','guests','Pax','pax','Guest','guest','人','Count','count','Quantity','quantity'],
+  tableType:       ['TableType','桌型','Table','table','Seat','SeatType','桌位','座位類型'],
+  seatArea:        ['SeatArea','座位區域','Area','area','Zone','zone','區域','Location','location'],
+  occasion:        ['Occasion','慶祝場合','Event','occasion','SpecialOccasion','Special','special','場合','活動'],
+  reservationDate: ['ReservationDate','訂位日期','Date','date','ResDate','PickupDate','pickupDate','OrderDate','orderDate'],
+  reservationTime: ['ReservationTime','訂位時間','Time','time','ResTime','用餐時間'],
+  duration:        ['Duration','用餐時長','duration','Hours','hours','時長'],
+  deposit:         ['Deposit','訂金','deposit','定金'],
+  amount:          ['TotalAmount','Amount','Total','金額','total','price','Price','小計'],
+  balance:         ['Balance','餘款','balance','尾款'],
+  note:            ['Notes','Note','備註','備註事項','Remark','remark','memo','Memo','特殊需求','需求','Request'],
+  source:          ['Source','來源','source','Channel','channel','通路','訂位來源'],
+  member:          ['MemberID','CustomerID','Member','會員','customer_id'],
+  createdAt:       ['CreatedAt','created_at','Created','建立時間','createdat','CreatedDate','create_time'],
+  updatedAt:       ['UpdatedAt','updated_at','Updated','更新時間'],
+};
+
+const MENU_FIELDS = {
+  name:      ['ItemName','Name','名稱','菜名','品項','CakeName'],
+  desc:      ['Description','描述','說明','介紹','Desc','description'],
+  price:     ['Price','售價','單價','price'],
+  category:  ['Category','分類','Type','type','Tag','tag','標籤'],
+  available: ['Available','供應','available','Stock','stock','庫存','Status'],
+  allergen:  ['Allergen','過敏原','allergen'],
+  serving:   ['Serving','份量','人份','Servings'],
+  note:      ['Note','備註','notes','Notes','Remark'],
+};
+
+/* 合併 FIELD_MAP 供「其他資訊」過濾用 */
+const FIELD_MAP = { ...RESERVATION_FIELDS, ...MENU_FIELDS };
+const KNOWN_KEYS = new Set(Object.values(FIELD_MAP).flat());
+
+/* ══════════════════════════════════════════
+   2. 集中式 State
+══════════════════════════════════════════ */
+const state = {
+  menu:       [],
+  orders:     [],
+  src1:       [],
+  newOrders:  [],
+  prevCount:  null,
+  muted:      false,
+  currentTab: 'menu',
+  countdown:  30,
+  cdTimer:    null,
+  acInterval: null,
+  allFilter: {
+    keyword:    '',
+    status:     '',
+    sortBy:     'reservationDate',
+    sortDir:    'asc',
+    dateFrom:   '',
+    dateTo:     '',
+    quickRange: 'all',
+  },
+};
+
+/* ══════════════════════════════════════════
+   3. Google Sheets 設定
+   ⚠️  請將以下 ID 換成您的 Google Sheet ID
+══════════════════════════════════════════ */
+const SHEET_ID  = '1CuiI3pPMEcej90c0BcgrhwYb4cX9IkojI017lgE1ut4';
+const PUB_ID    = '2PACX-1vQ7kxJjNYB3TblbQVA0pLKbE7WrB4d7FcuFzImENtt7JzIAu_kvkVgoykPGbAcTHtJ7YqUngpm1TlKF';
+const gvizUrl   = s => `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?sheet=${encodeURIComponent(s)}`;
+const pubUrl    = ()  => `https://docs.google.com/spreadsheets/d/e/${PUB_ID}/gviz/tq?`;
+
+/* ══════════════════════════════════════════
+   4. 工具函式
+══════════════════════════════════════════ */
+function esc(str = '') {
+  return String(str)
+    .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')
+    .replace(/"/g,'&quot;').replace(/'/g,'&#39;');
+}
+
+function gf(row, keys) {
+  const arr = Array.isArray(keys) ? keys : (FIELD_MAP[keys] || []);
+  for (const k of arr) {
+    if (row[k] != null && row[k] !== '') return row[k];
+  }
+  return '';
+}
+
+function parseDate(val) {
+  if (!val) return null;
+  const s = String(val).trim();
+  const gm = s.match(/^Date\((\d+),(\d+),(\d+)/);
+  if (gm) return new Date(+gm[1], +gm[2], +gm[3]);
+  const d = new Date(s.replace(/\//g, '-'));
+  return isNaN(d.getTime()) ? null : d;
+}
+
+const TODAY = new Date();
+const TODAY_STR = `${TODAY.getFullYear()}-${TODAY.getMonth()}-${TODAY.getDate()}`;
+
+function isSameDay(val) {
+  const d = parseDate(val);
+  if (!d) return false;
+  return `${d.getFullYear()}-${d.getMonth()}-${d.getDate()}` === TODAY_STR;
+}
+
+function fmtDate(val) {
+  const d = parseDate(val);
+  if (!d) return esc(val) || '—';
+  return d.toLocaleDateString('zh-TW', { year:'numeric', month:'2-digit', day:'2-digit' })
+    + ' ' + d.toLocaleTimeString('zh-TW', { hour:'2-digit', minute:'2-digit' });
+}
+
+function fmtDateOnly(val) {
+  const d = parseDate(val);
+  if (!d) return esc(val) || '—';
+  return d.toLocaleDateString('zh-TW', { year:'numeric', month:'2-digit', day:'2-digit', weekday:'short' });
+}
+
+function normalizeRow(row) {
+  const resDateRaw  = gf(row, 'reservationDate');
+  const createdRaw  = gf(row, 'createdAt');
+  row.__resTs__      = parseDate(resDateRaw)?.getTime()   || 0;
+  row.__createdTs__  = parseDate(createdRaw)?.getTime()  || 0;
+  row.__orderTs__    = row.__resTs__;
+  row.__pickupTs__   = row.__resTs__;
+  row.__isToday__ = false;
+  for (const k of Object.keys(row)) {
+    if ((k.toLowerCase().includes('date') || k.toLowerCase().includes('time') || k.toLowerCase().includes('created')) && isSameDay(row[k])) {
+      row.__isToday__ = true;
+      break;
+    }
+  }
+  return row;
+}
+
+/* ══════════════════════════════════════════
+   5. 狀態顏色（餐廳語意）
+══════════════════════════════════════════ */
+const STATUS_MAP = {
+  /* 中文 */
+  '待確認':{bg:'#FBF0E0',c:'#7A4A0A'},
+  '已確認':{bg:'#E6EDF8',c:'#1A3D6B'},
+  '已入座':{bg:'#EAF3E5',c:'#2D5C1E'},
+  '用餐中':{bg:'#EAF3E5',c:'#2D5C1E'},
+  '已完成':{bg:'#EAF3E5',c:'#2D5C1E'},
+  '已取消':{bg:'#FBEBEB',c:'#8B2020'},
+  '未到店':{bg:'#F0EDE5',c:'#554E44'},
+  /* 英文 */
+  'pending':   {bg:'#FBF0E0',c:'#7A4A0A'},
+  'confirmed': {bg:'#E6EDF8',c:'#1A3D6B'},
+  'seated':    {bg:'#EAF3E5',c:'#2D5C1E'},
+  'dining':    {bg:'#EAF3E5',c:'#2D5C1E'},
+  'completed': {bg:'#EAF3E5',c:'#2D5C1E'},
+  'done':      {bg:'#EAF3E5',c:'#2D5C1E'},
+  'cancelled': {bg:'#FBEBEB',c:'#8B2020'},
+  'cancel':    {bg:'#FBEBEB',c:'#8B2020'},
+  '取消':      {bg:'#FBEBEB',c:'#8B2020'},
+  'no_show':   {bg:'#F0EDE5',c:'#554E44'},
+  '完成':      {bg:'#EAF3E5',c:'#2D5C1E'},
+  'processing':{bg:'#EAF3E5',c:'#2D5C1E'},
+};
+
+function statusBadgeHTML(v) {
+  if (!v) return '';
+  const l = v.toLowerCase();
+  const m = STATUS_MAP[v] || STATUS_MAP[l] || {bg:'#F0EDE5',c:'#554E44'};
+  return `<span class="status-badge" style="background:${m.bg};color:${m.c};">${esc(v)}</span>`;
+}
+
+/* ══════════════════════════════════════════
+   6. 音效
+══════════════════════════════════════════ */
+let _audioCtx = null;
+function getAudioCtx() { return _audioCtx || (_audioCtx = new (window.AudioContext || window.webkitAudioContext)()); }
+function playSound() {
+  if (state.muted) return;
+  try {
+    const ctx = getAudioCtx();
+    if (ctx.state === 'suspended') ctx.resume();
+    [523.25, 659.25, 783.99].forEach((f, i) => {
+      const o = ctx.createOscillator(), g = ctx.createGain();
+      o.connect(g); g.connect(ctx.destination);
+      o.type = 'sine';
+      o.frequency.setValueAtTime(f, ctx.currentTime + i * .18);
+      g.gain.setValueAtTime(0, ctx.currentTime + i * .18);
+      g.gain.linearRampToValueAtTime(.35, ctx.currentTime + i * .18 + .02);
+      g.gain.exponentialRampToValueAtTime(.001, ctx.currentTime + i * .18 + .35);
+      o.start(ctx.currentTime + i * .18);
+      o.stop(ctx.currentTime + i * .18 + .4);
+    });
+  } catch(e) {}
+}
+function toggleMute() {
+  state.muted = !state.muted;
+  document.getElementById('muteIcon').className = state.muted ? 'ti ti-volume-off' : 'ti ti-volume';
+  document.getElementById('muteLabel').textContent = state.muted ? '靜音' : '音效';
+  if (!state.muted) playSound();
+}
+
+/* ══════════════════════════════════════════
+   7. 通知 Modal
+══════════════════════════════════════════ */
+function showModal(n) {
+  clearInterval(state.acInterval);
+  playSound();
+  document.getElementById('notifCount').textContent = n;
+  document.getElementById('notifTime').textContent = new Date().toLocaleString('zh-TW');
+  const ol = document.getElementById('modalOverlay');
+  ol.style.display = 'flex';
+  const mc = document.getElementById('modalCard');
+  mc.style.animation = 'none'; void mc.offsetWidth; mc.style.animation = 'popIn .25s cubic-bezier(.175,.885,.32,1.275) both';
+  let acVal = 10;
+  document.getElementById('acLabel').textContent = acVal + ' 秒後自動關閉';
+  state.acInterval = setInterval(() => {
+    acVal--;
+    document.getElementById('acLabel').textContent = acVal + ' 秒後自動關閉';
+    if (acVal <= 0) { clearInterval(state.acInterval); closeModal(); }
+  }, 1000);
+}
+function closeModal() { clearInterval(state.acInterval); document.getElementById('modalOverlay').style.display = 'none'; }
+function goToNew()    { switchTab('new'); closeModal(); }
+function testNotif()  { showModal(3); }
+
+/* ══════════════════════════════════════════
+   8. Fetch with Retry
+══════════════════════════════════════════ */
+async function retryFetch(fn, retries = 3, delay = 1000) {
+  for (let i = 0; i < retries; i++) {
+    try { return await fn(); }
+    catch (err) {
+      if (i === retries - 1) throw err;
+      await new Promise(r => setTimeout(r, delay * (i + 1)));
+    }
+  }
+}
+
+function fetchGviz(base) {
+  return new Promise((res, rej) => {
+    const cb = '_g' + Math.random().toString(36).slice(2, 8);
+    const t = setTimeout(() => { cleanup(); rej(new Error('逾時')); }, 12000);
+    window[cb] = resp => {
+      cleanup();
+      if (!resp || resp.status === 'error') { rej(new Error('存取失敗')); return; }
+      res(parseGvizTable(resp.table));
+    };
+    const s = document.createElement('script');
+    s.src = base + (base.includes('?') ? '&' : '?') + 'tqx=responseHandler:' + cb;
+    s.onerror = () => { cleanup(); rej(new Error('載入失敗')); };
+    function cleanup() { clearTimeout(t); delete window[cb]; s.parentNode?.removeChild(s); }
+    document.head.appendChild(s);
+  });
+}
+
+function parseGvizTable(tbl) {
+  if (!tbl || !tbl.cols) return [];
+  const cols = tbl.cols.map(c => (c.label && c.label.trim()) ? c.label : c.id);
+  return (tbl.rows || [])
+    .map(row => {
+      const obj = {};
+      (row.c || []).forEach((cell, i) => {
+        obj[cols[i] || 'col' + i] = cell ? (cell.f != null ? cell.f : (cell.v != null ? String(cell.v) : '')) : '';
+      });
+      return obj;
+    })
+    .filter(r => Object.values(r).some(v => v !== ''))
+    .map(normalizeRow);
+}
+
+/* ══════════════════════════════════════════
+   9. Skeleton Loading
+══════════════════════════════════════════ */
+function skeletonMenu() {
+  return `<div class="skeleton-grid">${Array(6).fill(0).map(() => `
+    <div class="skeleton-card">
+      <div class="sk sk-icon"></div>
+      <div class="sk sk-title"></div>
+      <div class="sk sk-text"></div>
+      <div class="sk sk-text short"></div>
+      <div class="sk sk-price" style="margin-top:16px;"></div>
+    </div>`).join('')}</div>`;
+}
+function skeletonOrders() {
+  return Array(4).fill(0).map(() => `
+    <div class="skeleton-order">
+      <div class="sk-order-row">
+        <div class="sk sk-avatar"></div>
+        <div class="sk-line-group">
+          <div class="sk sk-line wide"></div>
+          <div class="sk sk-line narrow"></div>
+        </div>
+      </div>
+      <div class="sk sk-line" style="width:80%;margin-bottom:8px;"></div>
+      <div class="sk sk-line" style="width:60%;"></div>
+    </div>`).join('');
+}
+
+/* ══════════════════════════════════════════
+   10. 搜尋 / 篩選
+══════════════════════════════════════════ */
+function filterOrders(orders, keyword, statusFilter) {
+  const kw = keyword.trim().toLowerCase();
+  return orders.filter(r => {
+    if (statusFilter) {
+      const st = gf(r, 'status').toLowerCase();
+      if (!st.includes(statusFilter)) return false;
+    }
+    if (!kw) return true;
+    const fields = [
+      gf(r,'customer'), gf(r,'phone'), gf(r,'reservationId'),
+      gf(r,'tableType'), gf(r,'seatArea'), gf(r,'occasion'), gf(r,'email')
+    ].join(' ').toLowerCase();
+    return fields.includes(kw);
+  });
+}
+
+function getSearchBarHTML(panelId) {
+  return `<div class="search-bar">
+    <input class="search-input" type="text" placeholder="搜尋姓名、電話、桌型、場合…" id="searchInput_${panelId}" oninput="applyFilter('${panelId}')">
+    <select class="filter-select" id="filterSelect_${panelId}" onchange="applyFilter('${panelId}')">
+      <option value="">全部狀態</option>
+      <option value="待確認">待確認</option>
+      <option value="pending">Pending</option>
+      <option value="已確認">已確認</option>
+      <option value="confirmed">Confirmed</option>
+      <option value="已入座">已入座</option>
+      <option value="seated">Seated</option>
+      <option value="用餐中">用餐中</option>
+      <option value="dining">Dining</option>
+      <option value="已完成">已完成</option>
+      <option value="completed">Completed</option>
+      <option value="已取消">已取消</option>
+      <option value="cancelled">Cancelled</option>
+      <option value="未到店">未到店</option>
+      <option value="no_show">No Show</option>
+    </select>
+  </div>`;
+}
+
+function applyFilter(panelId) {
+  const kw     = document.getElementById(`searchInput_${panelId}`)?.value || '';
+  const status = document.getElementById(`filterSelect_${panelId}`)?.value || '';
+  const isNew  = panelId === 'new';
+  const pool   = isNew ? state.newOrders : getAllOrders();
+  const base   = isNew ? pool : pool.filter(r => r.__isToday__);
+  const filtered = filterOrders(base, kw, status.toLowerCase());
+  const container = document.getElementById(`orderList_${panelId}`);
+  if (!container) return;
+  renderOrderList(container, filtered, isNew);
+}
+
+/* ══════════════════════════════════════════
+   11. DOM 建立函式
+══════════════════════════════════════════ */
+function emptyStateEl(icon, title, sub) {
+  const d = document.createElement('div');
+  d.className = 'empty';
+  d.innerHTML = `<i class="ti ${esc(icon)}"></i><div class="empty-title">${esc(title)}</div><div style="font-size:12px;">${esc(sub)}</div>`;
+  return d;
+}
+
+function renderOrderList(container, orders, isNew) {
+  container.innerHTML = '';
+  if (!orders.length) {
+    container.appendChild(emptyStateEl('ti-search', '找不到符合的預約', '試試不同的搜尋關鍵字'));
+    return;
+  }
+  const frag = document.createDocumentFragment();
+  orders.forEach((r, i) => frag.appendChild(createReservationCard(r, i, isNew)));
+  container.appendChild(frag);
+}
+
+/* ── 菜單卡片 ── */
+function createMenuCard(r, i, cols) {
+  const name      = gf(r, 'name') || gf(r, [cols[0]]);
+  const desc      = gf(r, 'desc');
+  const price     = gf(r, 'price');
+  const category  = gf(r, 'category');
+  const available = gf(r, 'available');
+  const allergen  = gf(r, 'allergen');
+  const serving   = gf(r, 'serving');
+  const note      = gf(r, 'note');
+  const priceNum  = parseFloat(String(price).replace(/[^0-9.-]/g, ''));
+  const isAvail   = !available || available.toLowerCase() === 'true' || available === '1' || available === '供應中' || available === 'yes';
+  const extras    = cols.filter(k => !KNOWN_KEYS.has(k) && r[k]);
+
+  const card = document.createElement('div');
+  card.className = 'menu-card';
+  card.style.cssText = `animation:fadeUp .3s ease ${i * .06}s both`;
+
+  card.innerHTML = `
+    <div class="menu-card-accent"></div>
+    <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:14px;padding-left:10px;">
+      <div style="width:46px;height:46px;border-radius:12px;background:var(--primary-light);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+        <i class="ti ti-tools-kitchen-2" style="font-size:22px;color:var(--primary);"></i>
+      </div>
+      <div style="text-align:right;">
+        ${category ? `<div style="margin-bottom:6px;"><span class="chip chip-gray">${esc(category)}</span></div>` : ''}
+        ${price ? `<div style="font-family:'Cormorant Garant',serif;font-size:20px;font-weight:600;color:var(--gold);">NT$${isNaN(priceNum) ? esc(price) : priceNum.toLocaleString()}</div>` : ''}
+      </div>
+    </div>
+    <div style="padding-left:10px;">
+      <div style="font-size:15px;font-weight:600;color:var(--text);margin-bottom:6px;">${esc(name) || '—'}</div>
+      ${desc ? `<div style="font-size:12px;color:var(--text-muted);line-height:1.65;margin-bottom:12px;">${esc(desc)}</div>` : '<div style="height:6px;"></div>'}
+      <hr class="div">
+      <div class="detail-grid" style="grid-template-columns:1fr 1fr;margin-top:10px;gap:10px;">
+        ${serving   ? `<div><div class="detail-label">份量</div><div class="detail-value">${esc(serving)} 人份</div></div>` : ''}
+        ${allergen  ? `<div style="grid-column:1/-1;"><div class="detail-label">過敏原</div><div class="detail-value muted">${esc(allergen)}</div></div>` : ''}
+        ${extras.map(k => `<div><div class="detail-label">${esc(k)}</div><div class="detail-value">${esc(r[k])}</div></div>`).join('')}
+      </div>
+      <div style="margin-top:10px;">
+        <span class="chip ${isAvail ? 'chip-green' : 'chip-red'}">${isAvail ? '✓ 供應中' : '✗ 暫停供應'}</span>
+      </div>
+      ${note ? `<div class="note-block">${esc(note)}</div>` : ''}
+    </div>
+  `;
+  return card;
+}
+
+/* ── 預約卡片 ── */
+function createReservationCard(r, i, isNew) {
+  const cols          = Object.keys(r).filter(k => !k.startsWith('__'));
+  const resId         = gf(r, 'reservationId');
+  const customer      = gf(r, 'customer');
+  const phone         = gf(r, 'phone');
+  const email         = gf(r, 'email');
+  const status        = gf(r, 'status');
+  const guestCount    = gf(r, 'guestCount');
+  const tableType     = gf(r, 'tableType');
+  const seatArea      = gf(r, 'seatArea');
+  const occasion      = gf(r, 'occasion');
+  const resDate       = gf(r, 'reservationDate');
+  const resTime       = gf(r, 'reservationTime');
+  const duration      = gf(r, 'duration');
+  const deposit       = gf(r, 'deposit');
+  const amount        = gf(r, 'amount');
+  const balance       = gf(r, 'balance');
+  const note          = gf(r, 'note');
+  const source        = gf(r, 'source');
+  const member        = gf(r, 'member');
+  const createdAt     = gf(r, 'createdAt');
+  const updatedAt     = gf(r, 'updatedAt');
+  const amtNum        = parseFloat(String(amount).replace(/[^0-9.-]/g, ''));
+  const guestNum      = parseInt(guestCount);
+  const extras        = cols.filter(k => !KNOWN_KEYS.has(k) && r[k] != null && r[k] !== '');
+
+  const card = document.createElement('div');
+  card.className = `order-card${isNew ? ' new-order pulse' : ''}`;
+  card.style.cssText = `animation:fadeUp .28s ease ${i * .05}s both`;
+
+  const iconName  = isNew ? 'sparkles' : 'calendar-event';
+  const iconColor = isNew ? 'var(--primary)' : 'var(--text-muted)';
+  const iconBg    = isNew ? 'var(--primary-light)' : '#F0EDE5';
+
+  card.innerHTML = `
+    <div class="order-card-header">
+      <div style="display:flex;align-items:center;gap:12px;">
+        <div style="width:40px;height:40px;border-radius:10px;background:${iconBg};display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+          <i class="ti ti-${iconName}" style="font-size:18px;color:${iconColor}"></i>
+        </div>
+        <div>
+          <div style="font-size:14px;font-weight:600;color:var(--text);">
+            ${esc(customer) || '未知顧客'}
+            ${isNew ? '<span style="font-size:10px;background:var(--primary-light);color:var(--primary);padding:2px 7px;border-radius:20px;font-weight:700;margin-left:6px;vertical-align:middle;">NEW</span>' : ''}
+          </div>
+          <div style="font-size:11px;color:var(--text-muted);margin-top:2px;">
+            ${resId ? '預約 #' + esc(resId) : ''}${createdAt ? ' · 建立 ' + fmtDate(createdAt) : ''}
+          </div>
+        </div>
+      </div>
+      <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
+        ${statusBadgeHTML(status)}
+        ${!isNaN(guestNum) && guestNum ? `<span class="guest-badge"><i class="ti ti-users" style="font-size:12px;"></i>${guestNum} 位</span>` : ''}
+      </div>
+    </div>
+
+    <div class="order-card-body">
+      <div class="section-block">聯絡資訊</div>
+      <div class="detail-grid">
+        ${customer  ? `<div><div class="detail-label">顧客姓名</div><div class="detail-value">${esc(customer)}</div></div>` : ''}
+        ${phone     ? `<div><div class="detail-label">電話</div><div class="detail-value"><a href="tel:${esc(phone)}" style="color:var(--primary);text-decoration:none;">${esc(phone)}</a></div></div>` : ''}
+        ${email     ? `<div><div class="detail-label">Email</div><div class="detail-value"><a href="mailto:${esc(email)}" style="color:var(--primary);text-decoration:none;font-size:12px;">${esc(email)}</a></div></div>` : ''}
+        ${member    ? `<div><div class="detail-label">會員編號</div><div class="detail-value muted">${esc(member)}</div></div>` : ''}
+        ${source    ? `<div><div class="detail-label">訂位來源</div><div class="detail-value">${esc(source)}</div></div>` : ''}
+      </div>
+
+      <hr class="div">
+      <div class="section-block" style="margin-top:12px;">訂位資訊</div>
+      <div class="detail-grid">
+        ${resDate     ? `<div><div class="detail-label">訂位日期</div><div class="detail-value" style="color:var(--primary);font-weight:600;">${fmtDateOnly(resDate)}</div></div>` : ''}
+        ${resTime     ? `<div><div class="detail-label">用餐時間</div><div class="detail-value" style="color:var(--gold);font-weight:600;">${esc(resTime)}</div></div>` : ''}
+        ${guestCount  ? `<div><div class="detail-label">用餐人數</div><div class="detail-value large">${esc(guestCount)} 位</div></div>` : ''}
+        ${duration    ? `<div><div class="detail-label">用餐時長</div><div class="detail-value">${esc(duration)}</div></div>` : ''}
+        ${tableType   ? `<div><div class="detail-label">桌型</div><div class="detail-value">${esc(tableType)}</div></div>` : ''}
+        ${seatArea    ? `<div><div class="detail-label">座位區域</div><div class="detail-value">${esc(seatArea)}</div></div>` : ''}
+        ${occasion    ? `<div style="grid-column:1/-1;"><div class="detail-label">慶祝場合</div><div class="detail-value" style="color:var(--gold);font-style:italic;">🎉 ${esc(occasion)}</div></div>` : ''}
+      </div>
+
+      ${(deposit || amount || balance) ? `
+        <hr class="div">
+        <div class="section-block" style="margin-top:12px;">金流資訊</div>
+        <div class="detail-grid">
+          ${!isNaN(amtNum) && amtNum ? `<div><div class="detail-label">訂單金額</div><div class="detail-value gold">NT$${amtNum.toLocaleString()}</div></div>` : ''}
+          ${deposit ? `<div><div class="detail-label">訂金</div><div class="detail-value">NT$${esc(deposit)}</div></div>` : ''}
+          ${balance ? `<div><div class="detail-label">餘款</div><div class="detail-value">NT$${esc(balance)}</div></div>` : ''}
+          ${updatedAt ? `<div><div class="detail-label">更新時間</div><div class="detail-value muted">${fmtDate(updatedAt)}</div></div>` : ''}
+        </div>` : ''}
+
+      ${extras.length ? `
+        <hr class="div">
+        <div class="section-block" style="margin-top:12px;">其他資訊</div>
+        <div class="detail-grid">
+          ${extras.map(k => `<div><div class="detail-label">${esc(k)}</div><div class="detail-value">${esc(r[k])}</div></div>`).join('')}
+        </div>` : ''}
+    </div>
+
+    ${note ? `
+      <div class="order-card-footer">
+        <div style="display:flex;align-items:flex-start;gap:8px;">
+          <i class="ti ti-message" style="font-size:13px;color:var(--text-faint);margin-top:1px;flex-shrink:0;"></i>
+          <div style="font-size:12px;color:var(--text-muted);line-height:1.65;">${esc(note)}</div>
+        </div>
+      </div>` : ''}
+  `;
+  return card;
+}
+
+/* ══════════════════════════════════════════
+   12. 所有預約 — 篩選 / 排序 / 分組 / 統計
+══════════════════════════════════════════ */
+function getQuickRange(range) {
+  const now = new Date();
+  const ymd = d => new Date(d.getFullYear(), d.getMonth(), d.getDate());
+  if (range === 'today') {
+    return { from: ymd(now).getTime(), to: ymd(now).getTime() + 86399999 };
+  }
+  if (range === 'week') {
+    const day = now.getDay();
+    const mon = new Date(now); mon.setDate(now.getDate() - (day === 0 ? 6 : day - 1));
+    const sun = new Date(mon); sun.setDate(mon.getDate() + 6);
+    return { from: ymd(mon).getTime(), to: ymd(sun).getTime() + 86399999 };
+  }
+  if (range === 'month') {
+    const first = new Date(now.getFullYear(), now.getMonth(), 1);
+    const last  = new Date(now.getFullYear(), now.getMonth() + 1, 0);
+    return { from: first.getTime(), to: last.getTime() + 86399999 };
+  }
+  return null;
+}
+
+function filterAllOrders(orders, f) {
+  const kw = f.keyword.trim().toLowerCase();
+  const st = f.status.toLowerCase();
+
+  let fromTs = 0, toTs = Infinity;
+  if (f.quickRange !== 'all' && f.quickRange !== 'custom') {
+    const r = getQuickRange(f.quickRange);
+    if (r) { fromTs = r.from; toTs = r.to; }
+  } else if (f.quickRange === 'custom') {
+    if (f.dateFrom) fromTs = new Date(f.dateFrom).getTime();
+    if (f.dateTo)   toTs   = new Date(f.dateTo).getTime() + 86399999;
+  }
+
+  return orders.filter(r => {
+    if (kw) {
+      const fields = [
+        gf(r,'customer'), gf(r,'phone'), gf(r,'reservationId'),
+        gf(r,'tableType'), gf(r,'occasion'), gf(r,'email'), gf(r,'seatArea')
+      ].join(' ').toLowerCase();
+      if (!fields.includes(kw)) return false;
+    }
+    if (st) {
+      const rowSt = gf(r,'status').toLowerCase();
+      if (!rowSt.includes(st)) return false;
+    }
+    const ts = r.__resTs__ || r.__createdTs__;
+    if (ts && (ts < fromTs || ts > toTs)) return false;
+    return true;
+  });
+}
+
+function sortAllOrders(orders, sortBy, dir) {
+  const key = sortBy === 'createdAt' ? '__createdTs__' : '__resTs__';
+  const mul = dir === 'asc' ? 1 : -1;
+  return [...orders].sort((a, b) => {
+    const ta = a[key] || 0, tb = b[key] || 0;
+    if (ta !== tb) return (ta - tb) * mul;
+    return 0;
+  });
+}
+
+function getRepDate(r, sortBy) {
+  const raw = sortBy === 'createdAt' ? gf(r,'createdAt') : gf(r,'reservationDate') || gf(r,'createdAt');
+  return parseDate(raw) || null;
+}
+
+function dateDayKey(d) {
+  if (!d) return '__unknown__';
+  return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+}
+
+function dateDayLabel(d) {
+  if (!d) return '未知日期';
+  const str = dateDayKey(d);
+  const todayKey = dateDayKey(TODAY);
+  const label = d.toLocaleDateString('zh-TW', { year:'numeric', month:'long', day:'numeric', weekday:'short' });
+  if (str === todayKey) return label + '<span class="today-marker">今天</span>';
+  const diff = Math.round((d - new Date(todayKey)) / 86400000);
+  if (diff === 1)  return label + '<span class="future-marker">明天</span>';
+  if (diff === -1) return label + '<span class="past-marker">昨天</span>';
+  if (diff > 0)   return label + `<span class="future-marker">+${diff}天後</span>`;
+  return label + `<span class="past-marker">${Math.abs(diff)}天前</span>`;
+}
+
+function calcStats(orders) {
+  let totalGuests = 0, totalAmt = 0, countConfirmed = 0, countPending = 0;
+  for (const r of orders) {
+    const g = parseInt(gf(r,'guestCount'));
+    if (!isNaN(g)) totalGuests += g;
+    const n = parseFloat(String(gf(r,'amount')).replace(/[^0-9.-]/g,''));
+    if (!isNaN(n)) totalAmt += n;
+    const st = gf(r,'status').toLowerCase();
+    if (['已確認','confirmed','已入座','seated','用餐中','dining','已完成','completed','done','processing'].includes(st)) countConfirmed++;
+    else if (['待確認','pending'].includes(st)) countPending++;
+  }
+  return { total: orders.length, totalGuests, totalAmt, countConfirmed, countPending };
+}
+
+function getAllToolbarHTML() {
+  const f = state.allFilter;
+  return `
+  <div class="all-toolbar">
+    <div class="all-toolbar-row">
+      <div class="quick-btns">
+        <button class="quick-btn ${f.quickRange==='today' ?'active':''}" onclick="setAllQuick('today')">今天</button>
+        <button class="quick-btn ${f.quickRange==='week'  ?'active':''}" onclick="setAllQuick('week')">本週</button>
+        <button class="quick-btn ${f.quickRange==='month' ?'active':''}" onclick="setAllQuick('month')">本月</button>
+        <button class="quick-btn ${f.quickRange==='all'   ?'active':''}" onclick="setAllQuick('all')">全部</button>
+        <button class="quick-btn ${f.quickRange==='custom'?'active':''}" onclick="setAllQuick('custom')">自訂日期</button>
+      </div>
+    </div>
+    <div class="all-toolbar-row" id="customDateRow" style="${f.quickRange==='custom'?'':'display:none;'}">
+      <input class="date-input" type="date" id="allDateFrom" value="${esc(f.dateFrom)}" onchange="setAllDateFrom(this.value)">
+      <span class="date-sep">～</span>
+      <input class="date-input" type="date" id="allDateTo" value="${esc(f.dateTo)}" onchange="setAllDateTo(this.value)">
+    </div>
+    <div class="all-toolbar-row">
+      <input class="search-input" type="text" placeholder="搜尋姓名、電話、桌型、場合…" id="allSearchInput"
+        value="${esc(f.keyword)}" oninput="setAllKeyword(this.value)" style="flex:1;min-width:180px;">
+      <select class="filter-select" id="allStatusFilter" onchange="setAllStatus(this.value)">
+        <option value="" ${!f.status?'selected':''}>全部狀態</option>
+        <option value="待確認"  ${'待確認'===f.status?'selected':''}>待確認</option>
+        <option value="pending" ${'pending'===f.status?'selected':''}>Pending</option>
+        <option value="已確認"  ${'已確認'===f.status?'selected':''}>已確認</option>
+        <option value="confirmed" ${'confirmed'===f.status?'selected':''}>Confirmed</option>
+        <option value="已入座"  ${'已入座'===f.status?'selected':''}>已入座</option>
+        <option value="seated"  ${'seated'===f.status?'selected':''}>Seated</option>
+        <option value="用餐中"  ${'用餐中'===f.status?'selected':''}>用餐中</option>
+        <option value="dining"  ${'dining'===f.status?'selected':''}>Dining</option>
+        <option value="已完成"  ${'已完成'===f.status?'selected':''}>已完成</option>
+        <option value="completed" ${'completed'===f.status?'selected':''}>Completed</option>
+        <option value="已取消"  ${'已取消'===f.status?'selected':''}>已取消</option>
+        <option value="cancelled" ${'cancelled'===f.status?'selected':''}>Cancelled</option>
+        <option value="未到店"  ${'未到店'===f.status?'selected':''}>未到店</option>
+        <option value="no_show" ${'no_show'===f.status?'selected':''}>No Show</option>
+      </select>
+      <select class="sort-select" id="allSortBy" onchange="setAllSort(this.value)">
+        <option value="reservationDate" ${'reservationDate'===f.sortBy?'selected':''}>依訂位日期</option>
+        <option value="createdAt"       ${'createdAt'===f.sortBy?'selected':''}>依建立時間</option>
+      </select>
+      <button class="btn" onclick="toggleAllSortDir()" title="切換排序方向">
+        <i class="ti ti-sort-${f.sortDir==='desc'?'descending':'ascending'}-letters" id="sortDirIcon"></i>
+        ${f.sortDir==='desc'?'新→舊':'舊→新'}
+      </button>
+    </div>
+  </div>`;
+}
+
+function getStatsBarHTML(stats) {
+  return `
+  <div class="stats-bar">
+    <div class="stat-card">
+      <div class="stat-label">篩選結果</div>
+      <div class="stat-value primary">${stats.total} <span style="font-size:13px;font-weight:500;color:var(--text-muted);">筆</span></div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-label">訂位人數</div>
+      <div class="stat-value gold">${stats.totalGuests} <span style="font-size:13px;font-weight:500;color:var(--text-muted);">位</span></div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-label">已確認</div>
+      <div class="stat-value green">${stats.countConfirmed}</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-label">待確認</div>
+      <div class="stat-value amber">${stats.countPending}</div>
+    </div>
+  </div>`;
+}
+
+/* ══════════════════════════════════════════
+   13. Render 函式
+══════════════════════════════════════════ */
+function getAllOrders() { return [...state.orders, ...state.src1]; }
+
+function renderMenu(data) {
+  const el = document.getElementById('panelMenu');
+  if (!data || !data.length) {
+    el.replaceChildren(emptyStateEl('ti-notebook', '尚無菜單資料', '請確認 menu 分頁已公開'));
+    return;
+  }
+  const cols = Object.keys(data[0]).filter(k => !k.startsWith('__'));
+  const grid = document.createElement('div');
+  grid.className = 'menu-grid';
+  const frag = document.createDocumentFragment();
+  data.forEach((r, i) => frag.appendChild(createMenuCard(r, i, cols)));
+  grid.appendChild(frag);
+  el.replaceChildren(grid);
+}
+
+function renderToday() {
+  const el = document.getElementById('panelToday');
+  const todayOrders = getAllOrders().filter(r => r.__isToday__);
+  const badge = document.getElementById('badgeToday');
+  badge.textContent = todayOrders.length;
+  badge.style.display = todayOrders.length ? 'inline' : 'none';
+
+  if (!todayOrders.length) {
+    el.replaceChildren(emptyStateEl('ti-calendar-off', '今日尚無訂位', '系統比對所有日期欄位，當天預約自動顯示'));
+    return;
+  }
+
+  const wrapper = document.createElement('div');
+  wrapper.innerHTML = `
+    ${getSearchBarHTML('today')}
+    <div class="section-header">
+      <div>
+        <div style="font-size:14px;font-weight:600;color:var(--text);">${todayOrders.length} 筆今日訂位</div>
+        <div style="font-size:12px;color:var(--text-muted);">${TODAY.toLocaleDateString('zh-TW', { month:'long', day:'numeric' })}</div>
+      </div>
+    </div>
+  `;
+  const listEl = document.createElement('div');
+  listEl.id = 'orderList_today';
+  renderOrderList(listEl, todayOrders, false);
+  wrapper.appendChild(listEl);
+  el.replaceChildren(wrapper);
+}
+
+function renderNew() {
+  const el = document.getElementById('panelNew');
+  const badge = document.getElementById('badgeNew');
+  badge.textContent = state.newOrders.length;
+  badge.style.display = state.newOrders.length ? 'inline' : 'none';
+
+  if (!state.newOrders.length) {
+    el.replaceChildren(emptyStateEl('ti-sparkles', '尚無今日新增預約', '依 CreatedAt 欄位篩選，每 30 秒自動偵測'));
+    return;
+  }
+
+  const wrapper = document.createElement('div');
+  wrapper.innerHTML = `
+    ${getSearchBarHTML('new')}
+    <div class="section-header">
+      <div>
+        <div style="font-size:14px;font-weight:600;color:var(--primary);">+ ${state.newOrders.length} 筆今日新增預約</div>
+        <div style="font-size:12px;color:var(--text-muted);">依 CreatedAt 欄位</div>
+      </div>
+    </div>
+  `;
+  const listEl = document.createElement('div');
+  listEl.id = 'orderList_new';
+  renderOrderList(listEl, state.newOrders, true);
+  wrapper.appendChild(listEl);
+  el.replaceChildren(wrapper);
+}
+
+function renderAll() {
+  const el = document.getElementById('panelAll');
+  const all = getAllOrders();
+
+  const badge = document.getElementById('badgeAll');
+  badge.textContent = all.length;
+  badge.style.display = all.length ? 'inline' : 'none';
+
+  if (!all.length) {
+    const toolbar = document.createElement('div');
+    toolbar.innerHTML = getAllToolbarHTML();
+    el.replaceChildren(toolbar, emptyStateEl('ti-database-off', '尚無預約資料', '請確認 reservations 分頁已公開'));
+    return;
+  }
+
+  const filtered = filterAllOrders(all, state.allFilter);
+  const sorted   = sortAllOrders(filtered, state.allFilter.sortBy, state.allFilter.sortDir);
+  const stats    = calcStats(filtered);
+
+  const groups = new Map();
+  for (const r of sorted) {
+    const d   = getRepDate(r, state.allFilter.sortBy);
+    const key = dateDayKey(d);
+    if (!groups.has(key)) groups.set(key, { d, label: dateDayLabel(d), rows: [] });
+    groups.get(key).rows.push(r);
+  }
+
+  const wrapper = document.createElement('div');
+  wrapper.innerHTML = getAllToolbarHTML() + getStatsBarHTML(stats);
+
+  if (!filtered.length) {
+    wrapper.appendChild(emptyStateEl('ti-search', '找不到符合的預約', '試試調整篩選條件或日期範圍'));
+  } else {
+    const listEl = document.createElement('div');
+    let globalIdx = 0;
+    for (const [, group] of groups) {
+      const gh = document.createElement('div');
+      gh.className = 'date-group-header';
+      gh.innerHTML = `
+        <span class="date-group-label">${group.label}</span>
+        <span class="date-group-line"></span>
+        <span class="date-group-count">${group.rows.length} 筆</span>`;
+      listEl.appendChild(gh);
+      const frag = document.createDocumentFragment();
+      group.rows.forEach(r => frag.appendChild(createReservationCard(r, globalIdx++, false)));
+      listEl.appendChild(frag);
+    }
+    wrapper.appendChild(listEl);
+  }
+
+  el.replaceChildren(wrapper);
+}
+
+/* ── 所有預約 filter 事件處理 ── */
+function setAllKeyword(v)   { state.allFilter.keyword  = v;   renderAll(); }
+function setAllStatus(v)    { state.allFilter.status   = v.toLowerCase(); renderAll(); }
+function setAllDateFrom(v)  { state.allFilter.dateFrom = v;   renderAll(); }
+function setAllDateTo(v)    { state.allFilter.dateTo   = v;   renderAll(); }
+function setAllSort(v)      { state.allFilter.sortBy   = v;   renderAll(); }
+function toggleAllSortDir() { state.allFilter.sortDir  = state.allFilter.sortDir === 'desc' ? 'asc' : 'desc'; renderAll(); }
+function setAllQuick(v) {
+  state.allFilter.quickRange = v;
+  if (v === 'custom' && !state.allFilter.dateFrom) {
+    const now = new Date();
+    state.allFilter.dateFrom = `${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,'0')}-01`;
+    state.allFilter.dateTo   = `${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,'0')}-${String(new Date(now.getFullYear(), now.getMonth()+1, 0).getDate()).padStart(2,'0')}`;
+  }
+  renderAll();
+}
+
+/* ══════════════════════════════════════════
+   14. 載入資料
+══════════════════════════════════════════ */
+async function loadAll() {
+  setStatus('connecting', '連線中...');
+
+  document.getElementById('panelMenu').innerHTML  = skeletonMenu();
+  document.getElementById('panelToday').innerHTML = skeletonOrders();
+  document.getElementById('panelNew').innerHTML   = skeletonOrders();
+  document.getElementById('panelAll').innerHTML   = skeletonOrders();
+
+  /* 嘗試讀取 menu / reservations 兩個分頁，以及公開的 fallback */
+  const [mk, od, s1] = await Promise.allSettled([
+    retryFetch(() => fetchGviz(gvizUrl('menu'))),
+    retryFetch(() => fetchGviz(gvizUrl('reservations'))),
+    retryFetch(() => fetchGviz(pubUrl())),
+  ]);
+
+  if (mk.status === 'fulfilled') state.menu   = mk.value;
+  if (od.status === 'fulfilled') state.orders = od.value;
+  if (s1.status === 'fulfilled') state.src1   = s1.value;
+
+  const combined = getAllOrders();
+  const todayCreated = combined.filter(r => isSameDay(gf(r, 'createdAt')));
+
+  if (state.prevCount === null) {
+    state.newOrders = todayCreated;
+  } else if (combined.length > state.prevCount) {
+    const diff  = combined.length - state.prevCount;
+    const fresh = combined.slice(-diff).filter(r => isSameDay(gf(r, 'createdAt')));
+    state.newOrders = [...fresh, ...state.newOrders];
+    showModal(diff);
+  }
+  state.prevCount = combined.length;
+
+  renderMenu(state.menu);
+  renderToday();
+  renderNew();
+  renderAll();
+
+  setStatus('ok', '已連線');
+  document.getElementById('lastUpdated').textContent = '更新於 ' + new Date().toLocaleTimeString('zh-TW');
+}
+
+/* ══════════════════════════════════════════
+   15. UI 控制
+══════════════════════════════════════════ */
+function switchTab(tab) {
+  state.currentTab = tab;
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.toggle('active', b.dataset.tab === tab));
+  document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+  const panelId = { menu:'panelMenu', today:'panelToday', new:'panelNew', all:'panelAll' }[tab];
+  document.getElementById(panelId).classList.add('active');
+}
+
+function setStatus(type, txt) {
+  document.getElementById('statusDot').style.background = { ok:'#4A8C35', error:'#C94040', connecting:'#D4913A' }[type] || '#ccc';
+  document.getElementById('statusLabel').textContent = txt;
+}
+
+function refreshAll() {
+  const ic = document.getElementById('refreshIcon');
+  ic.style.animation = 'spin .8s linear infinite';
+  setTimeout(() => ic.style.animation = '', 1500);
+  loadAll();
+  resetCountdown();
+}
+
+function resetCountdown() {
+  clearInterval(state.cdTimer);
+  state.countdown = 30;
+  document.getElementById('countdown').textContent = state.countdown;
+  state.cdTimer = setInterval(() => {
+    state.countdown--;
+    document.getElementById('countdown').textContent = state.countdown;
+    if (state.countdown <= 0) refreshAll();
+  }, 1000);
+}
+
+/* ══════════════════════════════════════════
+   16. 初始化
+══════════════════════════════════════════ */
+document.getElementById('todayLabel').textContent =
+  TODAY.toLocaleDateString('zh-TW', { year:'numeric', month:'long', day:'numeric', weekday:'long' });
+
+loadAll();
+resetCountdown();
+</script>
+</body>
+</html>
