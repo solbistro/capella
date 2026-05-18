@@ -170,6 +170,49 @@ hr.div{border:none;border-top:1px solid #F0EDE6;margin:12px 0;}
 .section-divider-line{flex:1;height:1px;background:#EDEAE3;}
 .section-divider-count{font-size:12px;color:#888;white-space:nowrap;}
  
+ 
+/* ─── Create Order Modal ─── */
+#createOrderOverlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.55);z-index:600;align-items:flex-start;justify-content:center;overflow-y:auto;padding:2rem 1rem;}
+#createOrderOverlay.show{display:flex;}
+#createOrderModal{background:#fff;border-radius:20px;width:100%;max-width:560px;box-shadow:0 32px 80px rgba(0,0,0,.22);animation:popIn .28s cubic-bezier(.175,.885,.32,1.275) both;margin:auto;}
+.co-header{display:flex;align-items:center;justify-content:space-between;padding:1.5rem 1.75rem 1rem;border-bottom:1px solid #F0EDE6;}
+.co-title{font-size:17px;font-weight:700;color:#1A1916;display:flex;align-items:center;gap:8px;}
+.co-close{width:32px;height:32px;border-radius:8px;border:none;background:#F3F1EA;cursor:pointer;display:flex;align-items:center;justify-content:center;color:#888;font-size:16px;transition:background .15s;}
+.co-close:hover{background:#EEEDFE;color:#534AB7;}
+.co-body{padding:1.5rem 1.75rem;}
+.co-section{font-size:11px;font-weight:700;color:#B0ADA6;letter-spacing:.6px;text-transform:uppercase;margin:1.25rem 0 .75rem;}
+.co-section:first-child{margin-top:0;}
+.co-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+.co-grid.full{grid-template-columns:1fr;}
+.co-field{display:flex;flex-direction:column;gap:5px;}
+.co-label{font-size:12px;font-weight:600;color:#555;}
+.co-label span{color:#E24B4A;margin-left:2px;}
+.co-input{padding:9px 12px;border:1.5px solid #E8E5DE;border-radius:10px;font-size:13px;font-family:inherit;background:#fff;outline:none;transition:border-color .15s;color:#1A1916;}
+.co-input:focus{border-color:#7F77DD;box-shadow:0 0 0 3px rgba(127,119,221,.1);}
+.co-input.error{border-color:#E24B4A;}
+.co-select{appearance:none;background:#fff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23888' stroke-width='2'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E") no-repeat right 12px center;}
+/* Items section */
+.co-items-list{display:flex;flex-direction:column;gap:10px;margin-bottom:10px;}
+.co-item-row{display:grid;grid-template-columns:1fr 80px 64px 32px;gap:8px;align-items:center;}
+.co-item-row.header{font-size:11px;color:#aaa;font-weight:600;padding:0 2px;}
+.co-item-del{width:32px;height:32px;border-radius:8px;border:1px solid #E8E5DE;background:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center;color:#ccc;font-size:14px;flex-shrink:0;transition:all .15s;}
+.co-item-del:hover{border-color:#E24B4A;color:#E24B4A;background:#FCEBEB;}
+.co-add-item{display:flex;align-items:center;gap:6px;padding:8px 12px;border:1.5px dashed #D0CCEF;border-radius:10px;background:#FAFAFE;color:#534AB7;font-size:13px;font-weight:600;cursor:pointer;width:100%;justify-content:center;transition:all .15s;font-family:inherit;}
+.co-add-item:hover{border-color:#7F77DD;background:#EEEDFE;}
+.co-total-bar{display:flex;align-items:center;justify-content:space-between;padding:12px 16px;background:#F7F5F2;border-radius:10px;margin-top:12px;}
+.co-total-label{font-size:13px;color:#888;font-weight:500;}
+.co-total-value{font-size:18px;font-weight:700;color:#534AB7;}
+/* Footer */
+.co-footer{display:flex;gap:10px;padding:1.25rem 1.75rem;border-top:1px solid #F0EDE6;}
+.co-submit{flex:1;padding:12px 0;background:#7F77DD;color:#fff;border:none;border-radius:12px;font-size:14px;font-weight:700;cursor:pointer;font-family:inherit;display:flex;align-items:center;justify-content:center;gap:8px;transition:background .15s;}
+.co-submit:hover:not(:disabled){background:#534AB7;}
+.co-submit:disabled{opacity:.55;cursor:not-allowed;}
+.co-cancel{padding:12px 20px;background:#F3F1EA;color:#888;border:none;border-radius:12px;font-size:14px;font-weight:600;cursor:pointer;font-family:inherit;transition:background .15s;}
+.co-cancel:hover{background:#E8E5DE;}
+.co-msg{text-align:center;font-size:13px;padding:8px 0;min-height:22px;}
+.co-msg.ok{color:#3B6D11;}
+.co-msg.err{color:#E24B4A;}
+ 
 /* ─── Animations ─── */
 @keyframes shimmer{to{background-position:-200% 0}}
 @keyframes spin{to{transform:rotate(360deg);}}
@@ -204,6 +247,105 @@ hr.div{border:none;border-top:1px solid #F0EDE6;margin:12px 0;}
   </div>
 </div>
  
+ 
+<!-- ─── Create Order Modal ─── -->
+<div id="createOrderOverlay">
+  <div id="createOrderModal">
+    <div class="co-header">
+      <div class="co-title"><i class="ti ti-receipt-2" style="font-size:20px;color:#534AB7;"></i>新增訂單</div>
+      <button class="co-close" onclick="closeCreateOrderModal()"><i class="ti ti-x"></i></button>
+    </div>
+    <div class="co-body">
+      <!-- 客戶資訊 -->
+      <div class="co-section">客戶資訊</div>
+      <div class="co-grid">
+        <div class="co-field">
+          <label class="co-label">客戶姓名<span>*</span></label>
+          <input class="co-input" id="co_customer" type="text" placeholder="王小明">
+        </div>
+        <div class="co-field">
+          <label class="co-label">電話</label>
+          <input class="co-input" id="co_phone" type="tel" placeholder="0912-345-678">
+        </div>
+      </div>
+ 
+      <!-- 取貨資訊 -->
+      <div class="co-section">取貨資訊</div>
+      <div class="co-grid">
+        <div class="co-field">
+          <label class="co-label">取貨日期<span>*</span></label>
+          <input class="co-input" id="co_pickupDate" type="date">
+        </div>
+        <div class="co-field">
+          <label class="co-label">取貨時間</label>
+          <input class="co-input" id="co_pickupTime" type="time" value="14:00">
+        </div>
+        <div class="co-field">
+          <label class="co-label">交付方式</label>
+          <select class="co-input co-select" id="co_delivery">
+            <option value="自取">自取</option>
+            <option value="外送">外送</option>
+          </select>
+        </div>
+        <div class="co-field">
+          <label class="co-label">付款方式</label>
+          <select class="co-input co-select" id="co_payMethod">
+            <option value="Cash">現金</option>
+            <option value="Transfer">匯款</option>
+            <option value="LinePay">Line Pay</option>
+            <option value="Card">信用卡</option>
+          </select>
+        </div>
+      </div>
+      <div class="co-grid" style="margin-top:12px;">
+        <div class="co-field">
+          <label class="co-label">付款狀態</label>
+          <select class="co-input co-select" id="co_payStatus">
+            <option value="Unpaid">未付款</option>
+            <option value="Deposit">已付訂金</option>
+            <option value="Paid">已付清</option>
+          </select>
+        </div>
+        <div class="co-field">
+          <label class="co-label">訂金金額</label>
+          <input class="co-input" id="co_deposit" type="number" placeholder="0" min="0">
+        </div>
+      </div>
+ 
+      <!-- 訂單品項 -->
+      <div class="co-section" style="display:flex;align-items:center;justify-content:space-between;">
+        <span>訂單品項</span>
+      </div>
+      <div class="co-item-row header">
+        <span>品項名稱</span><span>單價</span><span>數量</span><span></span>
+      </div>
+      <div class="co-items-list" id="coItemsList"></div>
+      <button class="co-add-item" onclick="addCoItem()">
+        <i class="ti ti-plus" style="font-size:14px;"></i>新增品項
+      </button>
+      <div class="co-total-bar" id="coTotalBar" style="display:none;">
+        <span class="co-total-label">訂單金額</span>
+        <span class="co-total-value" id="coTotalValue">NT$0</span>
+      </div>
+ 
+      <!-- 備註 -->
+      <div class="co-section">備註</div>
+      <div class="co-grid full">
+        <div class="co-field">
+          <textarea class="co-input" id="co_notes" rows="3" placeholder="特殊需求、設計說明…" style="resize:vertical;line-height:1.6;"></textarea>
+        </div>
+      </div>
+    </div>
+    <div id="coMsg" class="co-msg"></div>
+    <div class="co-footer">
+      <button class="co-cancel" onclick="closeCreateOrderModal()">取消</button>
+      <button class="co-submit" id="coSubmitBtn" onclick="submitCreateOrder()">
+        <i class="ti ti-check"></i>確認新增
+      </button>
+    </div>
+  </div>
+</div>
+ 
 <!-- ─── Header ─── -->
 <div class="header">
   <div class="logo">
@@ -215,6 +357,7 @@ hr.div{border:none;border-top:1px solid #F0EDE6;margin:12px 0;}
   </div>
   <div class="header-actions">
     <button class="btn" onclick="toggleMute()"><i class="ti ti-volume" id="muteIcon"></i><span id="muteLabel">音效</span></button>
+    <button class="btn btn-primary" onclick="showCreateOrderModal()"><i class="ti ti-plus"></i> 新增訂單</button>
     <button class="btn btn-ghost" onclick="testNotif()"><i class="ti ti-bell"></i> 測試通知</button>
     <button class="btn" onclick="refreshAll()"><i class="ti ti-refresh" id="refreshIcon"></i> 重新整理</button>
     <div class="countdown-pill">⏱ <span id="countdown">30</span>s</div>
@@ -339,6 +482,7 @@ const state = {
 ══════════════════════════════════════════ */
 const SHEET_ID  = '1CuiI3pPMEcej90c0BcgrhwYb4cX9IkojI017lgE1ut4';
 const PUB_ID    = '2PACX-1vQ7kxJjNYB3TblbQVA0pLKbE7WrB4d7FcuFzImENtt7JzIAu_kvkVgoykPGbAcTHtJ7YqUngpm1TlKF';
+const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbz89su3fQDlJRi_2kVDUtEGQG-pFCFWnJz_u_JoI-pZEhXvjQRYMn7oEIhYgtjIwZFq/exec';
 const gvizUrl   = s => `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?sheet=${encodeURIComponent(s)}`;
 const pubUrl    = ()  => `https://docs.google.com/spreadsheets/d/e/${PUB_ID}/gviz/tq?`;
  
@@ -495,6 +639,235 @@ function showModal(n) {
 function closeModal() { clearInterval(state.acInterval); document.getElementById('modalOverlay').style.display = 'none'; }
 function goToNew()    { switchTab('new'); closeModal(); }
 function testNotif()  { showModal(3); }
+ 
+ 
+/* ══════════════════════════════════════════
+   8b. Apps Script API 呼叫（JSONP）
+══════════════════════════════════════════ */
+ 
+/**
+ * 呼叫已部署的 Apps Script Web App
+ * 使用 JSONP（避免 CORS 問題）
+ */
+async function callScript(action, payload) {
+  // 使用 fetch 取代 JSONP（對 GAS redirect 更穩定）
+  const params = new URLSearchParams({
+    action: action,
+    data:   JSON.stringify(payload),
+  });
+  const url = `${SCRIPT_URL}?${params}`;
+ 
+  let resp;
+  try {
+    resp = await fetch(url, { redirect: 'follow' });
+  } catch (netErr) {
+    throw new Error('網路連線失敗，請確認網路狀態');
+  }
+ 
+  if (!resp.ok) throw new Error(`伺服器錯誤 HTTP ${resp.status}`);
+ 
+  let result;
+  try {
+    result = await resp.json();
+  } catch {
+    throw new Error('伺服器回傳格式錯誤（非 JSON）');
+  }
+ 
+  if (!result.success) throw new Error(result.error || '操作失敗');
+  return result;
+}
+ 
+/* ══════════════════════════════════════════
+   8c. 新增訂單 Modal
+══════════════════════════════════════════ */
+let _coItemCount = 0;
+ 
+function showCreateOrderModal() {
+  _coItemCount = 0;
+  document.getElementById('coItemsList').innerHTML = '';
+  document.getElementById('co_customer').value   = '';
+  document.getElementById('co_phone').value      = '';
+  document.getElementById('co_notes').value      = '';
+  document.getElementById('co_deposit').value    = '';
+  document.getElementById('co_pickupDate').value = '';
+  document.getElementById('co_pickupTime').value = '14:00';
+  document.getElementById('co_delivery').value   = '自取';
+  document.getElementById('co_payMethod').value  = 'Cash';
+  document.getElementById('co_payStatus').value  = 'Unpaid';
+  document.getElementById('coMsg').textContent   = '';
+  document.getElementById('coMsg').className     = 'co-msg';
+  document.getElementById('coTotalBar').style.display = 'none';
+  addCoItem();  // 預設一列品項
+  document.getElementById('createOrderOverlay').classList.add('show');
+  document.getElementById('co_customer').focus();
+}
+ 
+function closeCreateOrderModal() {
+  document.getElementById('createOrderOverlay').classList.remove('show');
+}
+ 
+function addCoItem() {
+  _coItemCount++;
+  const id   = _coItemCount;
+  const list = document.getElementById('coItemsList');
+ 
+  // 從 state.cakes 建立下拉選項
+  const cakeOptions = (state.cakes || []).map(c => {
+    const name  = c.CakeName || c.Name || c['名稱'] || c['蛋糕名稱'] || '';
+    const price = c.Price    || c['售價'] || c['單價'] || '';
+    const priceNum = parseFloat(String(price).replace(/[^0-9.-]/g,'')) || '';
+    if (!name) return '';
+    return `<option value="${esc(name)}" data-price="${priceNum}">${esc(name)}${priceNum ? ' (NT$'+priceNum+')' : ''}</option>`;
+  }).filter(Boolean).join('');
+ 
+  const row = document.createElement('div');
+  row.className = 'co-item-row';
+  row.id = `coRow_${id}`;
+  row.innerHTML = `
+    <select class="co-input co-select" id="coName_${id}" onchange="onCoNameChange(${id})">
+      <option value="">-- 選擇品項 --</option>
+      ${cakeOptions}
+      <option value="__custom__">自行輸入…</option>
+    </select>
+    <input class="co-input" id="coPrice_${id}" type="number" placeholder="單價" min="0" oninput="calcCoTotal()">
+    <input class="co-input" id="coQty_${id}"   type="number" placeholder="數量" min="1" value="1" oninput="calcCoTotal()">
+    <button class="co-item-del" onclick="removeCoItem(${id})" title="刪除">
+      <i class="ti ti-trash" style="font-size:13px;"></i>
+    </button>`;
+  list.appendChild(row);
+  calcCoTotal();
+}
+ 
+function onCoNameChange(id) {
+  const sel = document.getElementById(`coName_${id}`);
+  const opt = sel.selectedOptions[0];
+  const price = opt?.dataset?.price;
+  if (price) document.getElementById(`coPrice_${id}`).value = price;
+  if (sel.value === '__custom__') {
+    const custom = prompt('請輸入品項名稱：');
+    if (custom) {
+      const newOpt = document.createElement('option');
+      newOpt.value = custom;
+      newOpt.textContent = custom;
+      newOpt.selected = true;
+      sel.insertBefore(newOpt, sel.lastElementChild);
+    } else {
+      sel.value = '';
+    }
+  }
+  calcCoTotal();
+}
+ 
+function removeCoItem(id) {
+  const row = document.getElementById(`coRow_${id}`);
+  if (row) row.remove();
+  calcCoTotal();
+}
+ 
+function calcCoTotal() {
+  let total = 0;
+  document.querySelectorAll('#coItemsList .co-item-row').forEach(row => {
+    const idMatch = row.id.match(/coRow_(\d+)/);
+    if (!idMatch) return;
+    const n = idMatch[1];
+    const price = parseFloat(document.getElementById(`coPrice_${n}`)?.value) || 0;
+    const qty   = parseInt(document.getElementById(`coQty_${n}`)?.value)   || 0;
+    total += price * qty;
+  });
+  const bar = document.getElementById('coTotalBar');
+  bar.style.display = total > 0 ? 'flex' : 'none';
+  document.getElementById('coTotalValue').textContent = 'NT$' + total.toLocaleString();
+}
+ 
+async function submitCreateOrder() {
+  const btn = document.getElementById('coSubmitBtn');
+  const msg = document.getElementById('coMsg');
+ 
+  // ── 收集表單 ──
+  const customer  = document.getElementById('co_customer').value.trim();
+  const phone     = document.getElementById('co_phone').value.trim();
+  const pickupDate= document.getElementById('co_pickupDate').value;
+  const pickupTime= document.getElementById('co_pickupTime').value;
+  const delivery  = document.getElementById('co_delivery').value;
+  const payMethod = document.getElementById('co_payMethod').value;
+  const payStatus = document.getElementById('co_payStatus').value;
+  const deposit   = parseFloat(document.getElementById('co_deposit').value) || 0;
+  const notes     = document.getElementById('co_notes').value.trim();
+ 
+  // ── 驗證 ──
+  if (!customer) {
+    msg.textContent = '❌ 請填寫客戶姓名'; msg.className = 'co-msg err';
+    document.getElementById('co_customer').classList.add('error');
+    document.getElementById('co_customer').focus();
+    return;
+  }
+  if (!pickupDate) {
+    msg.textContent = '❌ 請選擇取貨日期'; msg.className = 'co-msg err';
+    document.getElementById('co_pickupDate').classList.add('error');
+    return;
+  }
+ 
+  // ── 收集品項 ──
+  const items = [];
+  let hasItem = false;
+  document.querySelectorAll('#coItemsList .co-item-row').forEach(row => {
+    const idMatch = row.id.match(/coRow_(\d+)/);
+    if (!idMatch) return;
+    const n = idMatch[1];
+    const name  = document.getElementById(`coName_${n}`)?.value?.trim();
+    const price = parseFloat(document.getElementById(`coPrice_${n}`)?.value) || 0;
+    const qty   = parseInt(document.getElementById(`coQty_${n}`)?.value)   || 1;
+    if (name && name !== '' && name !== '__custom__') {
+      items.push({ CakeID: name, ProductNameSnapshot: name, UnitPriceSnapshot: price, Qty: qty });
+      hasItem = true;
+    }
+  });
+  if (!hasItem) {
+    msg.textContent = '❌ 請至少新增一個品項'; msg.className = 'co-msg err';
+    return;
+  }
+ 
+  // ── 送出 ──
+  btn.disabled = true;
+  btn.innerHTML = '<i class="ti ti-loader spinning"></i> 送出中…';
+  msg.textContent = ''; msg.className = 'co-msg';
+ 
+  const orderData = {
+    CustomerID:     customer,
+    CustomerName:   customer,
+    Phone:          phone,
+    PickupDate:     pickupDate,
+    PickupTime:     pickupTime,
+    DeliveryMethod: delivery,
+    PaymentMethod:  payMethod,
+    PaymentStatus:  payStatus,
+    DepositAmount:  deposit,
+    Notes:          notes,
+  };
+ 
+  try {
+    const result = await callScript('createOrder', { orderData, items });
+    msg.textContent = `✅ 訂單建立成功！編號：${result.orderID || ''}`;
+    msg.className   = 'co-msg ok';
+    btn.innerHTML   = '<i class="ti ti-check"></i>確認新增';
+    btn.disabled    = false;
+    // 重新整理資料（2 秒後，等 Sheet 寫入完成）
+    setTimeout(() => {
+      loadAll();
+      closeCreateOrderModal();
+    }, 2000);
+  } catch (err) {
+    msg.textContent = '❌ ' + (err.message || '送出失敗，請重試');
+    msg.className   = 'co-msg err';
+    btn.innerHTML   = '<i class="ti ti-check"></i>確認新增';
+    btn.disabled    = false;
+  }
+}
+ 
+// 點擊背景關閉
+document.getElementById('createOrderOverlay').addEventListener('click', function(e) {
+  if (e.target === this) closeCreateOrderModal();
+});
  
 /* ══════════════════════════════════════════
    9. Fetch with Retry
@@ -1360,3 +1733,4 @@ resetCountdown();
 </script>
 </body>
 </html>
+ 
