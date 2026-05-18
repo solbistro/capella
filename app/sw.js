@@ -8,7 +8,7 @@
 
 const CACHE_VER  = 'plum-v1';
 const SHELL_URLS = [
-  './plum_order_system.html',
+  './index.html',
   './manifest.json',
   './icon.svg',
   'https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.x/tabler-icons.min.css',
