@@ -9,17 +9,17 @@
 /* ─── Reset & Base ─── */
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
 body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#F7F5F2;color:#1A1916;min-height:100vh;padding:1.5rem;}
- 
+
 /* ─── Modal ─── */
 #modalOverlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:500;align-items:center;justify-content:center;}
 #modalCard{background:#fff;border-radius:16px;padding:2.5rem 2rem 2rem;width:320px;text-align:center;box-shadow:0 24px 60px rgba(0,0,0,.18);animation:popIn .25s cubic-bezier(.175,.885,.32,1.275) both;}
- 
+
 /* ─── Header ─── */
 .header{display:flex;align-items:center;justify-content:space-between;margin-bottom:1.75rem;flex-wrap:wrap;gap:10px;}
 .logo{display:flex;align-items:center;gap:12px;}
 .logo-icon{width:40px;height:40px;border-radius:12px;background:#EEEDFE;display:flex;align-items:center;justify-content:center;}
 .header-actions{display:flex;align-items:center;gap:8px;flex-wrap:wrap;}
- 
+
 /* ─── Tabs ─── */
 .tabs{display:flex;gap:10px;margin-bottom:1.75rem;overflow-x:auto;padding-bottom:2px;}
 .tab-btn{display:flex;align-items:center;gap:8px;padding:12px 20px;border:1.5px solid #E8E5DE;background:#fff;border-radius:12px;font-size:13px;cursor:pointer;color:#888;white-space:nowrap;flex-shrink:0;transition:all .15s;font-family:inherit;}
@@ -27,29 +27,29 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 .tab-btn.active{background:#EEEDFE;border-color:#7F77DD;color:#534AB7;font-weight:600;}
 .tab-badge{background:#534AB7;color:#fff;font-size:10px;padding:1px 7px;border-radius:20px;font-weight:700;}
 .tab-badge.red{background:#E24B4A;}
- 
+
 /* ─── Search Bar ─── */
 .search-bar{display:flex;gap:8px;margin-bottom:1.25rem;flex-wrap:wrap;}
 .search-input{flex:1;min-width:180px;padding:9px 14px 9px 36px;border:1.5px solid #E8E5DE;border-radius:10px;font-size:13px;font-family:inherit;background:#fff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%23aaa' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='11' cy='11' r='8'/%3E%3Cpath d='m21 21-4.35-4.35'/%3E%3C/svg%3E") no-repeat 12px center;outline:none;transition:border-color .15s;}
 .search-input:focus{border-color:#7F77DD;}
 .filter-select{padding:9px 12px;border:1.5px solid #E8E5DE;border-radius:10px;font-size:13px;font-family:inherit;background:#fff;outline:none;cursor:pointer;transition:border-color .15s;color:#555;}
 .filter-select:focus{border-color:#7F77DD;}
- 
+
 /* ─── Panels ─── */
 .panel{display:none;}
 .panel.active{display:block;animation:fadeUp .3s ease both;}
- 
+
 /* ══════════════════════════════════════════
    ── 蛋糕介紹頁面 全面優化 ──
 ══════════════════════════════════════════ */
- 
+
 /* 頂部搜尋 & 統計 */
 .cake-page-header{margin-bottom:1.5rem;}
 .cake-search-row{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-bottom:1.25rem;}
 .cake-search-input{flex:1;min-width:200px;padding:10px 16px 10px 40px;border:1.5px solid #E8E5DE;border-radius:12px;font-size:13px;font-family:inherit;background:#fff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%23aaa' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='11' cy='11' r='8'/%3E%3Cpath d='m21 21-4.35-4.35'/%3E%3C/svg%3E") no-repeat 14px center;outline:none;transition:border-color .15s,box-shadow .15s;}
 .cake-search-input:focus{border-color:#7F77DD;box-shadow:0 0 0 3px rgba(127,119,221,.1);}
 .cake-count-chip{padding:8px 16px;background:#EEEDFE;border-radius:10px;font-size:12px;font-weight:600;color:#534AB7;white-space:nowrap;flex-shrink:0;}
- 
+
 /* 分類過濾器 */
 .cake-category-bar{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:1.75rem;padding:4px 2px;}
 .cake-cat-btn{display:flex;align-items:center;gap:6px;padding:8px 18px;border:1.5px solid #E8E5DE;background:#fff;border-radius:24px;font-size:13px;font-weight:500;cursor:pointer;color:#666;white-space:nowrap;flex-shrink:0;transition:all .18s;font-family:inherit;}
@@ -57,20 +57,20 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 .cake-cat-btn.active{background:#534AB7;border-color:#534AB7;color:#fff;font-weight:600;box-shadow:0 4px 12px rgba(83,74,183,.3);}
 .cake-cat-btn .cat-count{font-size:10px;padding:1px 6px;border-radius:20px;font-weight:700;background:rgba(83,74,183,.12);color:#534AB7;transition:all .18s;}
 .cake-cat-btn.active .cat-count{background:rgba(255,255,255,.25);color:#fff;}
- 
+
 /* 分類區塊標頭 */
 .cake-section-header{display:flex;align-items:center;gap:12px;margin:2rem 0 1rem;padding:0 2px;}
 .cake-section-title{font-size:15px;font-weight:700;color:#1A1916;white-space:nowrap;}
 .cake-section-line{flex:1;height:1px;background:linear-gradient(to right,#E8E5DE,transparent);}
 .cake-section-count{font-size:11px;color:#aaa;font-weight:500;white-space:nowrap;}
- 
+
 /* 蛋糕網格 */
 .cake-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px;}
- 
+
 /* 蛋糕卡片 */
 .cake-card{background:#fff;border:1px solid #EDEAE3;border-radius:16px;overflow:hidden;transition:box-shadow .2s,border-color .2s,transform .2s;cursor:default;display:flex;flex-direction:column;}
 .cake-card:hover{box-shadow:0 8px 32px rgba(83,74,183,.12);border-color:#C4C0F0;transform:translateY(-2px);}
- 
+
 /* 蛋糕圖片區 */
 .cake-img-wrap{width:100%;height:210px;background:linear-gradient(135deg,#F0EFFD 0%,#E8E5F8 100%);position:relative;flex-shrink:0;}
 .cake-img-wrap img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .3s ease;}
@@ -82,27 +82,27 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 .cake-unavail-badge{background:#fff;border:1.5px solid #E24B4A;color:#E24B4A;font-size:12px;font-weight:700;padding:6px 16px;border-radius:20px;}
 .cake-cat-ribbon{position:absolute;top:12px;left:12px;}
 .cake-cat-ribbon .chip{font-size:11px;font-weight:600;padding:4px 10px;backdrop-filter:blur(4px);}
- 
+
 /* 圖片上的懸浮價格 */
 .cake-price-overlay{position:absolute;bottom:12px;right:12px;background:rgba(255,255,255,.92);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);border-radius:10px;padding:6px 12px;box-shadow:0 2px 10px rgba(0,0,0,.12);display:flex;flex-direction:column;align-items:flex-end;line-height:1;}
 .cake-price-overlay-num{font-size:17px;font-weight:800;color:#534AB7;letter-spacing:-.3px;}
 .cake-price-overlay-label{font-size:9px;color:#B0ADA6;font-weight:500;margin-top:2px;letter-spacing:.3px;}
- 
+
 /* 蛋糕卡片內容 */
 .cake-card-body{padding:1.1rem 1.25rem .875rem;}
- 
+
 /* 名稱並排：中文 (左) + 英文 (右) */
 .cake-name-row{display:flex;align-items:baseline;gap:8px;margin-bottom:10px;flex-wrap:wrap;}
 .cake-name-zh{font-size:15px;font-weight:700;color:#1A1916;line-height:1.3;flex-shrink:0;}
 .cake-name-sep{width:1px;height:12px;background:#DEDAD2;flex-shrink:0;align-self:center;}
 .cake-name-en{font-size:11px;color:#B0ADA6;font-weight:500;letter-spacing:.3px;line-height:1.3;min-width:0;}
- 
+
 /* 雙語描述 */
 .cake-desc-wrap{display:flex;flex-direction:column;gap:6px;margin-bottom:10px;}
 .cake-desc-en{font-size:11px;color:#ABA8A0;line-height:1.6;font-style:italic;}
 .cake-desc-zh{font-size:12px;color:#666;line-height:1.65;}
 .cake-desc-divider{height:1px;background:#F0EDE6;margin:2px 0;}
- 
+
 /* 蛋糕底部（只剩製作時間）*/
 .cake-card-footer{padding:.75rem 1.25rem;background:#FAFAF8;border-top:1px solid #F0EDE6;display:flex;align-items:center;gap:8px;}
 .cake-prep-chip{display:inline-flex;align-items:center;gap:5px;padding:5px 11px;background:#F3F1EA;border-radius:20px;font-size:11px;font-weight:600;color:#555;}
@@ -110,7 +110,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 .cake-prep-label{font-size:10px;color:#B0ADA6;font-weight:500;margin-left:2px;}
 .cake-avail-chip.ok{background:#EAF3DE;color:#3B6D11;}
 .cake-avail-chip.no{background:#FCEBEB;color:#A32D2D;}
- 
+
 /* Skeleton for cakes */
 .skeleton-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px;}
 .skeleton-cake-card{background:#fff;border:1px solid #EDEAE3;border-radius:16px;overflow:hidden;}
@@ -128,7 +128,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 .sk-line{height:12px;border-radius:4px;}
 .sk-line.wide{width:50%;margin-bottom:6px;}
 .sk-line.narrow{width:30%;}
- 
+
 /* ─── Chips ─── */
 .chip{display:inline-flex;align-items:center;gap:4px;padding:3px 10px;border-radius:20px;font-size:11px;font-weight:500;}
 .chip-purple{background:#EEEDFE;color:#534AB7;}
@@ -137,7 +137,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 .chip-red{background:#FCEBEB;color:#A32D2D;}
 .chip-blue{background:#E6F1FB;color:#0C447C;}
 .chip-amber{background:#FEF3E6;color:#854F0B;}
- 
+
 /* ─── Order Cards ─── */
 .order-card{background:#fff;border:1px solid #EDEAE3;border-radius:14px;margin-bottom:12px;overflow:hidden;transition:border-color .15s;}
 .order-card:hover{border-color:#B8B4F0;}
@@ -146,7 +146,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 .order-card-header{display:flex;align-items:center;justify-content:space-between;padding:1rem 1.25rem;border-bottom:1px solid #F0EDE6;flex-wrap:wrap;gap:8px;}
 .order-card-body{padding:1rem 1.25rem;}
 .order-card-footer{padding:.75rem 1.25rem;background:#FAFAF8;border-top:1px solid #F0EDE6;}
- 
+
 /* ─── Detail Grid ─── */
 .detail-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:12px;}
 .detail-label{font-size:11px;color:#888;font-weight:500;margin-bottom:3px;text-transform:uppercase;letter-spacing:.4px;}
@@ -154,17 +154,17 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 .detail-value.muted{color:#888;font-weight:400;}
 .detail-value.large{font-size:16px;font-weight:700;color:#534AB7;}
 .section-block{font-size:11px;font-weight:600;color:#B0ADA6;letter-spacing:.5px;margin-bottom:8px;}
- 
+
 /* ─── Status Badge ─── */
 .status-badge{padding:4px 12px;border-radius:20px;font-size:12px;font-weight:600;}
- 
+
 /* ─── Buttons ─── */
 .btn{padding:7px 14px;border-radius:8px;border:1px solid #E8E5DE;background:#fff;font-size:12px;cursor:pointer;color:#888;font-family:inherit;display:inline-flex;align-items:center;gap:5px;transition:all .15s;}
 .btn:hover{border-color:#B8B4F0;color:#534AB7;}
 .btn-primary{background:#7F77DD;border-color:#7F77DD;color:#fff;}
 .btn-primary:hover{background:#534AB7;border-color:#534AB7;}
 .btn-ghost{background:#EEEDFE;border-color:#EEEDFE;color:#534AB7;}
- 
+
 /* ─── Misc ─── */
 .countdown-pill{font-size:11px;background:#EEEDFE;color:#534AB7;padding:4px 10px;border-radius:20px;font-weight:600;}
 .section-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;padding:0 2px;}
@@ -175,7 +175,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 .status-dot{width:6px;height:6px;border-radius:50%;background:#ccc;display:inline-block;}
 hr.div{border:none;border-top:1px solid #F0EDE6;margin:12px 0;}
 .note-block{background:#FAFAF8;border-left:3px solid #E8E5DE;border-radius:0 8px 8px 0;padding:8px 12px;font-size:12px;color:#888;line-height:1.6;margin-top:10px;}
- 
+
 /* ─── All Orders Panel ─── */
 .all-toolbar{display:flex;flex-direction:column;gap:10px;margin-bottom:1.25rem;}
 .all-toolbar-row{display:flex;gap:8px;flex-wrap:wrap;align-items:center;}
@@ -203,7 +203,7 @@ hr.div{border:none;border-top:1px solid #F0EDE6;margin:12px 0;}
 .today-marker{display:inline-block;font-size:10px;background:#534AB7;color:#fff;padding:1px 7px;border-radius:20px;font-weight:700;margin-left:6px;vertical-align:middle;}
 .past-marker{display:inline-block;font-size:10px;background:#F3F1EA;color:#888;padding:1px 7px;border-radius:20px;font-weight:500;margin-left:6px;vertical-align:middle;}
 .future-marker{display:inline-block;font-size:10px;background:#EAF3DE;color:#3B6D11;padding:1px 7px;border-radius:20px;font-weight:700;margin-left:6px;vertical-align:middle;}
- 
+
 /* ─── Tomorrow Pickup Panel ─── */
 .tmr-hero{background:linear-gradient(135deg,#534AB7 0%,#7F77DD 100%);border-radius:16px;padding:1.5rem 1.75rem;margin-bottom:1.25rem;color:#fff;}
 .tmr-hero-title{font-size:13px;font-weight:600;opacity:.75;letter-spacing:.5px;margin-bottom:6px;text-transform:uppercase;}
@@ -229,7 +229,7 @@ hr.div{border:none;border-top:1px solid #F0EDE6;margin:12px 0;}
 .section-divider-label{font-size:13px;font-weight:700;color:#1A1916;white-space:nowrap;}
 .section-divider-line{flex:1;height:1px;background:#EDEAE3;}
 .section-divider-count{font-size:12px;color:#888;white-space:nowrap;}
- 
+
 /* ─── Create Order Modal ─── */
 #createOrderOverlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.55);z-index:600;align-items:flex-start;justify-content:center;overflow-y:auto;padding:2rem 1rem;}
 #createOrderOverlay.show{display:flex;}
@@ -269,7 +269,30 @@ hr.div{border:none;border-top:1px solid #F0EDE6;margin:12px 0;}
 .co-msg{text-align:center;font-size:13px;padding:8px 0;min-height:22px;}
 .co-msg.ok{color:#3B6D11;}
 .co-msg.err{color:#E24B4A;}
- 
+
+/* ══ 三列式訂單卡片 ══ */
+.order-card-header2{display:flex;align-items:center;justify-content:space-between;padding:.8rem 1.1rem;border-bottom:1px solid #F0EDE6;gap:8px;flex-wrap:wrap;}
+.order-3row{display:grid;grid-template-columns:repeat(4,1fr);}
+.order-3row-divider{grid-column:1/-1;height:1px;background:#F0EDE6;}
+.o3cell{padding:.65rem 1rem;border-right:1px solid #F5F2EE;min-width:0;}
+.o3cell:last-child{border-right:none;}
+.o3cell:nth-child(4n){border-right:none;}
+.o3-label{font-size:9.5px;font-weight:700;color:#C0BDB6;text-transform:uppercase;letter-spacing:.5px;margin-bottom:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.o3-value{font-size:12.5px;color:#1A1916;font-weight:500;line-height:1.35;word-break:break-word;}
+.o3-value.accent{color:#534AB7;font-weight:700;}
+.o3-value.amber{color:#854F0B;font-weight:600;}
+.o3-value.large{font-size:14px;font-weight:800;color:#534AB7;}
+.o3-value.muted{color:#AAA7A0;}
+.o3-notes{grid-column:4;padding:.65rem 1rem;min-width:0;}
+.order-card-footer2{padding:.6rem 1.1rem;background:#FAFAF8;border-top:1px solid #F0EDE6;display:flex;align-items:center;gap:7px;}
+@media(max-width:540px){
+  .order-3row{grid-template-columns:repeat(2,1fr);}
+  .order-3row-divider{grid-column:1/-1;}
+  .o3cell:nth-child(4n){border-right:1px solid #F5F2EE;}
+  .o3cell:nth-child(2n){border-right:none;}
+  .o3-notes{grid-column:2;}
+}
+
 /* ─── Animations ─── */
 @keyframes shimmer{to{background-position:-200% 0}}
 @keyframes spin{to{transform:rotate(360deg);}}
@@ -288,7 +311,7 @@ hr.div{border:none;border-top:1px solid #F0EDE6;margin:12px 0;}
 </style>
 </head>
 <body>
- 
+
 <!-- ─── Notification Modal ─── -->
 <div id="modalOverlay">
   <div id="modalCard">
@@ -307,98 +330,7 @@ hr.div{border:none;border-top:1px solid #F0EDE6;margin:12px 0;}
     <p id="acLabel" style="margin-top:1rem;font-size:11px;color:#bbb;"></p>
   </div>
 </div>
- 
-<!-- ─── Create Order Modal ─── -->
-<div id="createOrderOverlay">
-  <div id="createOrderModal">
-    <div class="co-header">
-      <div class="co-title"><i class="ti ti-receipt-2" style="font-size:20px;color:#534AB7;"></i>新增訂單</div>
-      <button class="co-close" onclick="closeCreateOrderModal()"><i class="ti ti-x"></i></button>
-    </div>
-    <div class="co-body">
-      <div class="co-section">客戶資訊</div>
-      <div class="co-grid">
-        <div class="co-field">
-          <label class="co-label">客戶姓名<span>*</span></label>
-          <input class="co-input" id="co_customer" type="text" placeholder="王小明">
-        </div>
-        <div class="co-field">
-          <label class="co-label">電話</label>
-          <input class="co-input" id="co_phone" type="tel" placeholder="0912-345-678">
-        </div>
-      </div>
-      <div class="co-section">取貨資訊</div>
-      <div class="co-grid">
-        <div class="co-field">
-          <label class="co-label">取貨日期<span>*</span></label>
-          <input class="co-input" id="co_pickupDate" type="date">
-        </div>
-        <div class="co-field">
-          <label class="co-label">取貨時間</label>
-          <input class="co-input" id="co_pickupTime" type="time" value="14:00">
-        </div>
-        <div class="co-field">
-          <label class="co-label">交付方式</label>
-          <select class="co-input co-select" id="co_delivery">
-            <option value="自取">自取</option>
-            <option value="外送">外送</option>
-          </select>
-        </div>
-        <div class="co-field">
-          <label class="co-label">付款方式</label>
-          <select class="co-input co-select" id="co_payMethod">
-            <option value="Cash">現金</option>
-            <option value="Transfer">匯款</option>
-            <option value="LinePay">Line Pay</option>
-            <option value="Card">信用卡</option>
-          </select>
-        </div>
-      </div>
-      <div class="co-grid" style="margin-top:12px;">
-        <div class="co-field">
-          <label class="co-label">付款狀態</label>
-          <select class="co-input co-select" id="co_payStatus">
-            <option value="Unpaid">未付款</option>
-            <option value="Deposit">已付訂金</option>
-            <option value="Paid">已付清</option>
-          </select>
-        </div>
-        <div class="co-field">
-          <label class="co-label">訂金金額</label>
-          <input class="co-input" id="co_deposit" type="number" placeholder="0" min="0">
-        </div>
-      </div>
-      <div class="co-section" style="display:flex;align-items:center;justify-content:space-between;">
-        <span>訂單品項</span>
-      </div>
-      <div class="co-item-row header">
-        <span>品項名稱</span><span>單價</span><span>數量</span><span></span>
-      </div>
-      <div class="co-items-list" id="coItemsList"></div>
-      <button class="co-add-item" onclick="addCoItem()">
-        <i class="ti ti-plus" style="font-size:14px;"></i>新增品項
-      </button>
-      <div class="co-total-bar" id="coTotalBar" style="display:none;">
-        <span class="co-total-label">訂單金額</span>
-        <span class="co-total-value" id="coTotalValue">NT$0</span>
-      </div>
-      <div class="co-section">備註</div>
-      <div class="co-grid full">
-        <div class="co-field">
-          <textarea class="co-input" id="co_notes" rows="3" placeholder="特殊需求、設計說明…" style="resize:vertical;line-height:1.6;"></textarea>
-        </div>
-      </div>
-    </div>
-    <div id="coMsg" class="co-msg"></div>
-    <div class="co-footer">
-      <button class="co-cancel" onclick="closeCreateOrderModal()">取消</button>
-      <button class="co-submit" id="coSubmitBtn" onclick="submitCreateOrder()">
-        <i class="ti ti-check"></i>確認新增
-      </button>
-    </div>
-  </div>
-</div>
- 
+
 <!-- ─── Header ─── -->
 <div class="header">
   <div class="logo">
@@ -410,24 +342,22 @@ hr.div{border:none;border-top:1px solid #F0EDE6;margin:12px 0;}
   </div>
   <div class="header-actions">
     <button class="btn" onclick="toggleMute()"><i class="ti ti-volume" id="muteIcon"></i><span id="muteLabel">音效</span></button>
-    <button class="btn btn-primary" onclick="showCreateOrderModal()"><i class="ti ti-plus"></i> 新增訂單</button>
     <button class="btn btn-ghost" onclick="testNotif()"><i class="ti ti-bell"></i> 測試通知</button>
     <button class="btn" onclick="refreshOrders()"><i class="ti ti-refresh" id="refreshIcon"></i> 重新整理</button>
-    <div class="countdown-pill">⏱ <span id="countdown">30</span>s</div>
   </div>
 </div>
- 
+
 <!-- ─── Tabs ─── -->
 <div class="tabs">
   <button class="tab-btn active" data-tab="cakes" onclick="switchTab('cakes')">
     <i class="ti ti-cake" style="font-size:17px;"></i>蛋糕介紹
   </button>
   <button class="tab-btn" data-tab="today" onclick="switchTab('today')">
-    <i class="ti ti-clipboard-list" style="font-size:17px;"></i>今日所有訂單
+    <i class="ti ti-truck-delivery" style="font-size:17px;"></i>今日取貨
     <span class="tab-badge" id="badgeToday" style="display:none;"></span>
   </button>
   <button class="tab-btn" data-tab="new" onclick="switchTab('new')">
-    <i class="ti ti-sparkles" style="font-size:17px;"></i>今日新增訂單
+    <i class="ti ti-sparkles" style="font-size:17px;"></i>今日新增
     <span class="tab-badge red" id="badgeNew" style="display:none;"></span>
   </button>
   <button class="tab-btn" data-tab="all" onclick="switchTab('all')">
@@ -439,14 +369,14 @@ hr.div{border:none;border-top:1px solid #F0EDE6;margin:12px 0;}
     <span class="tab-badge red" id="badgeTomorrow" style="display:none;"></span>
   </button>
 </div>
- 
+
 <!-- ─── Panels ─── -->
 <div id="panelCakes"    class="panel active"></div>
 <div id="panelToday"    class="panel"></div>
 <div id="panelNew"      class="panel"></div>
 <div id="panelAll"      class="panel"></div>
 <div id="panelTomorrow" class="panel"></div>
- 
+
 <!-- ─── Status Bar ─── -->
 <div class="status-bar">
   <div style="display:flex;align-items:center;gap:6px;">
@@ -455,24 +385,29 @@ hr.div{border:none;border-top:1px solid #F0EDE6;margin:12px 0;}
   </div>
   <span style="font-size:12px;color:#888;" id="lastUpdated"></span>
 </div>
- 
+
 <script>
 'use strict';
- 
+
 /* ══════════════════════════════════════════
    1. FIELD MAP
 ══════════════════════════════════════════ */
 const FIELD_MAP = {
-  orderId:     ['OrderID','Order_ID','order_id','訂單編號','ID','id','No','NO'],
-  customer:    ['CustomerName','Customer','客戶姓名','姓名','Name','name','客戶'],
-  phone:       ['Phone','電話','phone','Tel','tel','手機','Mobile'],
-  email:       ['Email','email','電子郵件','mail'],
-  status:      ['Status','狀態','status','OrderStatus'],
-  payment:     ['PaymentStatus','Payment','付款狀態','付款','PayStatus'],
-  amount:      ['TotalAmount','Amount','Total','金額','total','price','Price','小計','Subtotal'],
+  orderId:        ['OrderID','Order_ID','order_id','訂單編號','ID','id','No','NO'],
+  customer:       ['CustomerName','CustomerID','Customer','客戶姓名','姓名','Name','name','客戶'],
+  phone:          ['Phone','電話','phone','Tel','tel','手機','Mobile'],
+  email:          ['Email','email','電子郵件','mail'],
+  status:         ['OrderStatus','Status','狀態','status'],
+  payment:        ['PaymentStatus','PayStatus','付款狀態','付款','Payment'],
+  paymentMethod:  ['PaymentMethod','payment_method','付款方式'],
+  deliveryMethod: ['DeliveryMethod','delivery_method','Delivery','delivery','取貨方式','配送方式'],
+  pickupTime:     ['PickupTime','pickup_time','取貨時間'],
+  unitPrice:      ['UnitPriceSnapshot','UnitPrice','unit_price','單價快照'],
+  subtotal:       ['Subtotal','subtotal','小計金額'],
+  amount:         ['TotalAmount','Amount','Total','金額','total','price','Price'],
   deposit:     ['Deposit','訂金','deposit','定金'],
   balance:     ['Balance','餘款','balance','尾款'],
-  cakeName:    ['CakeName','Cake','蛋糕名稱','蛋糕','Item','item','商品','Product'],
+  cakeName:    ['ProductNameSnapshot','CakeName','Cake','蛋糕名稱','蛋糕','Item','item','商品','Product'],
   size:        ['Size','尺寸','size','大小','CakeSize'],
   flavor:      ['Flavor','口味','flavor','Taste','taste'],
   quantity:    ['Quantity','數量','qty','Qty','quantity','Count'],
@@ -484,6 +419,9 @@ const FIELD_MAP = {
   createdAt:   ['CreatedAt','created_at','Created','建立時間','createdat','CreatedDate','create_time'],
   updatedAt:   ['UpdatedAt','updated_at','Updated','更新時間'],
   note:        ['Notes','Note','備註','備註事項','Remark','remark','memo','Memo','comment','Comment'],
+  specialRequest: ['SpecialRequest','special_request','商品備註','ItemNote','item_note'],
+  totalOrders:    ['TotalOrders','total_orders','訂單總筆數','總筆數','OrderCount'],
+  totalSpent:     ['TotalSpent','total_spent','總消費金額','累計金額','TotalAmount'],
   address:     ['Address','地址','address','Addr','addr','DeliveryAddress','送貨地址'],
   source:      ['Source','來源','source','Channel','channel','通路'],
   member:      ['MemberID','CustomerID','Member','會員','customer_id'],
@@ -496,7 +434,8 @@ const FIELD_MAP = {
   category:    ['Category','分類','category','類別','Type','type'],
   isAvailable: ['IsAvailable','is_available','available','Available','上架','供應中'],
   prepTime:    ['PreparationTime','PrepTime','prep_time','製作時間','前置時間'],
-  image:       ['Image','image','圖片','ImageUrl','image_url','img','Img','照片'],
+  image:       ['Image','image','圖片','ImageUrl','image_url','img','Img','照片','CakeImage','Photo','photo','圖片連結','ImageLink'],
+  cakeId:      ['CakeID','cake_id','Cake_ID','CakeId','CakeCode','蛋糕ID','商品ID'],
   tag:         ['Tag','標籤'],
   stock:       ['Stock','庫存','Available','stock'],
   allergen:    ['Allergen','過敏原','allergen'],
@@ -505,13 +444,15 @@ const FIELD_MAP = {
   cakeNote:    ['Note','備註','notes','Notes','Remark'],
 };
 const KNOWN_KEYS = new Set(Object.values(FIELD_MAP).flat());
- 
+
 /* ══════════════════════════════════════════
    2. State
 ══════════════════════════════════════════ */
 const state = {
   cakes:         [],
   cakesLoaded:   false,     /* ← 蛋糕只載入一次 */
+  orderItems:    [],
+  customers:     [],
   cakeKeyword:   '',
   cakeCategory:  'all',     /* 目前選中的分類 */
   orders:        [],
@@ -520,15 +461,13 @@ const state = {
   prevCount:     null,
   muted:         false,
   currentTab:    'cakes',
-  countdown:     30,
-  cdTimer:       null,
   acInterval:    null,
   allFilter: {
     keyword: '', status: '', sortBy: 'orderDate', sortDir: 'desc',
     dateFrom: '', dateTo: '', quickRange: 'all',
   },
 };
- 
+
 /* ══════════════════════════════════════════
    3. Google Sheets 設定
 ══════════════════════════════════════════ */
@@ -537,7 +476,7 @@ const PUB_ID     = '2PACX-1vQ7kxJjNYB3TblbQVA0pLKbE7WrB4d7FcuFzImENtt7JzIAu_kvkV
 const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbz89su3fQDlJRi_2kVDUtEGQG-pFCFWnJz_u_JoI-pZEhXvjQRYMn7oEIhYgtjIwZFq/exec';
 const gvizUrl    = s => `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?sheet=${encodeURIComponent(s)}`;
 const pubUrl     = ()  => `https://docs.google.com/spreadsheets/d/e/${PUB_ID}/gviz/tq?`;
- 
+
 /* ══════════════════════════════════════════
    4. 工具函式
 ══════════════════════════════════════════ */
@@ -563,7 +502,7 @@ const TODAY       = new Date();
 const TODAY_STR   = `${TODAY.getFullYear()}-${TODAY.getMonth()}-${TODAY.getDate()}`;
 const TOMORROW    = new Date(TODAY); TOMORROW.setDate(TODAY.getDate() + 1);
 const TOMORROW_STR= `${TOMORROW.getFullYear()}-${TOMORROW.getMonth()}-${TOMORROW.getDate()}`;
- 
+
 function isSameDay(val) {
   const d = parseDate(val);
   if (!d) return false;
@@ -580,7 +519,7 @@ function fmtDate(val) {
   return d.toLocaleDateString('zh-TW', { year:'numeric', month:'2-digit', day:'2-digit' })
     + ' ' + d.toLocaleTimeString('zh-TW', { hour:'2-digit', minute:'2-digit' });
 }
- 
+
 /** IsAvailable 判斷：FALSE / 0 / no / 否 → 不顯示 */
 function isAvailable(row) {
   const raw = String(gf(row, 'isAvailable')).trim().toLowerCase();
@@ -588,7 +527,7 @@ function isAvailable(row) {
   const falsy = ['false','0','no','否','不','unavailable','下架','停售','sold out'];
   return !falsy.includes(raw);
 }
- 
+
 function normalizeRow(row) {
   const createdRaw  = gf(row, 'createdAt');
   const orderRaw    = gf(row, 'orderDate');
@@ -597,6 +536,7 @@ function normalizeRow(row) {
   row.__orderTs__          = parseDate(orderRaw)?.getTime()    || 0;
   row.__pickupTs__         = parseDate(pickupRaw)?.getTime()   || 0;
   row.__isTomorrowPickup__ = isTomorrow(pickupRaw);
+  row.__isTodayPickup__   = isSameDay(pickupRaw);
   row.__isToday__ = false;
   for (const k of Object.keys(row)) {
     if ((k.toLowerCase().includes('date') || k.toLowerCase().includes('time') || k.toLowerCase().includes('created')) && isSameDay(row[k])) {
@@ -605,7 +545,37 @@ function normalizeRow(row) {
   }
   return row;
 }
- 
+
+function joinOrdersWithItems(orders, items) {
+  if (!items || !items.length) return orders;
+  const byId = new Map();
+  for (const item of items) {
+    const oid = String(item.OrderID || item.order_id || '').trim();
+    if (!oid) continue;
+    if (!byId.has(oid)) byId.set(oid, []);
+    byId.get(oid).push(item);
+  }
+  return orders.map(order => {
+    const oid = String(gf(order, 'orderId')).trim();
+    const its = byId.get(oid) || [];
+    order.__items__ = its;
+    if (!gf(order, 'createdAt') && its.length) {
+      const ca = its[0].CreatedAt || its[0].created_at || '';
+      if (ca) order.CreatedAt = ca;
+    }
+    return normalizeRow(order);
+  });
+}
+
+function getCustomerStats(r) {
+  if (!state.customers.length) return null;
+  const cid = String(r.CustomerID || r.customer_id || gf(r,'customer') || '').trim();
+  if (!cid) return null;
+  return state.customers.find(c =>
+    String(c.CustomerID || c.customer_id || '').trim() === cid
+  ) || null;
+}
+
 /* ══════════════════════════════════════════
    5. 狀態顏色
 ══════════════════════════════════════════ */
@@ -626,7 +596,7 @@ function statusBadgeHTML(v) {
   const c  = STATUS_COLOR[l] || '#444';
   return `<span class="status-badge" style="background:${bg};color:${c};">${esc(v)}</span>`;
 }
- 
+
 /* ══════════════════════════════════════════
    6. 音效 & 通知
 ══════════════════════════════════════════ */
@@ -676,143 +646,7 @@ function showModal(n) {
 function closeModal() { clearInterval(state.acInterval); document.getElementById('modalOverlay').style.display = 'none'; }
 function goToNew()    { switchTab('new'); closeModal(); }
 function testNotif()  { showModal(3); }
- 
-/* ══════════════════════════════════════════
-   7. Apps Script API
-══════════════════════════════════════════ */
-async function callScript(action, payload) {
-  const params = new URLSearchParams({ action, data: JSON.stringify(payload) });
-  const url = `${SCRIPT_URL}?${params}`;
-  let resp;
-  try { resp = await fetch(url, { redirect: 'follow' }); }
-  catch (netErr) { throw new Error('網路連線失敗，請確認網路狀態'); }
-  if (!resp.ok) throw new Error(`伺服器錯誤 HTTP ${resp.status}`);
-  let result;
-  try { result = await resp.json(); } catch { throw new Error('伺服器回傳格式錯誤（非 JSON）'); }
-  if (!result.success) throw new Error(result.error || '操作失敗');
-  return result;
-}
- 
-/* ══════════════════════════════════════════
-   8. 新增訂單 Modal
-══════════════════════════════════════════ */
-let _coItemCount = 0;
-function showCreateOrderModal() {
-  _coItemCount = 0;
-  document.getElementById('coItemsList').innerHTML = '';
-  ['co_customer','co_phone','co_notes','co_deposit','co_pickupDate'].forEach(id => document.getElementById(id).value = '');
-  document.getElementById('co_pickupTime').value = '14:00';
-  document.getElementById('co_delivery').value   = '自取';
-  document.getElementById('co_payMethod').value  = 'Cash';
-  document.getElementById('co_payStatus').value  = 'Unpaid';
-  document.getElementById('coMsg').textContent   = '';
-  document.getElementById('coMsg').className     = 'co-msg';
-  document.getElementById('coTotalBar').style.display = 'none';
-  addCoItem();
-  document.getElementById('createOrderOverlay').classList.add('show');
-  document.getElementById('co_customer').focus();
-}
-function closeCreateOrderModal() { document.getElementById('createOrderOverlay').classList.remove('show'); }
-function addCoItem() {
-  _coItemCount++;
-  const id = _coItemCount;
-  const list = document.getElementById('coItemsList');
-  const cakeOptions = (state.cakes || []).map(c => {
-    const name  = c.CakeName || c.Name || c['名稱'] || c['蛋糕名稱'] || '';
-    const price = c.Price    || c['售價'] || c['單價'] || '';
-    const priceNum = parseFloat(String(price).replace(/[^0-9.-]/g,'')) || '';
-    if (!name) return '';
-    return `<option value="${esc(name)}" data-price="${priceNum}">${esc(name)}${priceNum ? ' (NT$'+priceNum+')' : ''}</option>`;
-  }).filter(Boolean).join('');
-  const row = document.createElement('div');
-  row.className = 'co-item-row';
-  row.id = `coRow_${id}`;
-  row.innerHTML = `
-    <select class="co-input co-select" id="coName_${id}" onchange="onCoNameChange(${id})">
-      <option value="">-- 選擇品項 --</option>${cakeOptions}
-      <option value="__custom__">自行輸入…</option>
-    </select>
-    <input class="co-input" id="coPrice_${id}" type="number" placeholder="單價" min="0" oninput="calcCoTotal()">
-    <input class="co-input" id="coQty_${id}"   type="number" placeholder="數量" min="1" value="1" oninput="calcCoTotal()">
-    <button class="co-item-del" onclick="removeCoItem(${id})" title="刪除"><i class="ti ti-trash" style="font-size:13px;"></i></button>`;
-  list.appendChild(row);
-  calcCoTotal();
-}
-function onCoNameChange(id) {
-  const sel = document.getElementById(`coName_${id}`);
-  const opt = sel.selectedOptions[0];
-  if (opt?.dataset?.price) document.getElementById(`coPrice_${id}`).value = opt.dataset.price;
-  if (sel.value === '__custom__') {
-    const custom = prompt('請輸入品項名稱：');
-    if (custom) {
-      const newOpt = document.createElement('option');
-      newOpt.value = custom; newOpt.textContent = custom; newOpt.selected = true;
-      sel.insertBefore(newOpt, sel.lastElementChild);
-    } else sel.value = '';
-  }
-  calcCoTotal();
-}
-function removeCoItem(id) { document.getElementById(`coRow_${id}`)?.remove(); calcCoTotal(); }
-function calcCoTotal() {
-  let total = 0;
-  document.querySelectorAll('#coItemsList .co-item-row').forEach(row => {
-    const idMatch = row.id.match(/coRow_(\d+)/);
-    if (!idMatch) return;
-    const n = idMatch[1];
-    total += (parseFloat(document.getElementById(`coPrice_${n}`)?.value) || 0)
-           * (parseInt(document.getElementById(`coQty_${n}`)?.value) || 0);
-  });
-  const bar = document.getElementById('coTotalBar');
-  bar.style.display = total > 0 ? 'flex' : 'none';
-  document.getElementById('coTotalValue').textContent = 'NT$' + total.toLocaleString();
-}
-async function submitCreateOrder() {
-  const btn = document.getElementById('coSubmitBtn');
-  const msg = document.getElementById('coMsg');
-  const customer   = document.getElementById('co_customer').value.trim();
-  const phone      = document.getElementById('co_phone').value.trim();
-  const pickupDate = document.getElementById('co_pickupDate').value;
-  const pickupTime = document.getElementById('co_pickupTime').value;
-  const delivery   = document.getElementById('co_delivery').value;
-  const payMethod  = document.getElementById('co_payMethod').value;
-  const payStatus  = document.getElementById('co_payStatus').value;
-  const deposit    = parseFloat(document.getElementById('co_deposit').value) || 0;
-  const notes      = document.getElementById('co_notes').value.trim();
-  if (!customer) { msg.textContent='❌ 請填寫客戶姓名'; msg.className='co-msg err'; document.getElementById('co_customer').classList.add('error'); document.getElementById('co_customer').focus(); return; }
-  if (!pickupDate) { msg.textContent='❌ 請選擇取貨日期'; msg.className='co-msg err'; document.getElementById('co_pickupDate').classList.add('error'); return; }
-  const items = [];
-  let hasItem = false;
-  document.querySelectorAll('#coItemsList .co-item-row').forEach(row => {
-    const idMatch = row.id.match(/coRow_(\d+)/);
-    if (!idMatch) return;
-    const n = idMatch[1];
-    const name  = document.getElementById(`coName_${n}`)?.value?.trim();
-    const price = parseFloat(document.getElementById(`coPrice_${n}`)?.value) || 0;
-    const qty   = parseInt(document.getElementById(`coQty_${n}`)?.value) || 1;
-    if (name && name !== '' && name !== '__custom__') { items.push({ CakeID:name, ProductNameSnapshot:name, UnitPriceSnapshot:price, Qty:qty }); hasItem=true; }
-  });
-  if (!hasItem) { msg.textContent='❌ 請至少新增一個品項'; msg.className='co-msg err'; return; }
-  btn.disabled = true;
-  btn.innerHTML = '<i class="ti ti-loader spinning"></i> 送出中…';
-  msg.textContent = ''; msg.className = 'co-msg';
-  try {
-    const result = await callScript('createOrder', { orderData:{ CustomerID:customer, CustomerName:customer, Phone:phone, PickupDate:pickupDate, PickupTime:pickupTime, DeliveryMethod:delivery, PaymentMethod:payMethod, PaymentStatus:payStatus, DepositAmount:deposit, Notes:notes }, items });
-    msg.textContent = `✅ 訂單建立成功！編號：${result.orderID || ''}`;
-    msg.className   = 'co-msg ok';
-    btn.innerHTML   = '<i class="ti ti-check"></i>確認新增';
-    btn.disabled    = false;
-    setTimeout(() => { loadOrders(); closeCreateOrderModal(); }, 2000);
-  } catch (err) {
-    msg.textContent = '❌ ' + (err.message || '送出失敗，請重試');
-    msg.className   = 'co-msg err';
-    btn.innerHTML   = '<i class="ti ti-check"></i>確認新增';
-    btn.disabled    = false;
-  }
-}
-document.getElementById('createOrderOverlay').addEventListener('click', function(e) {
-  if (e.target === this) closeCreateOrderModal();
-});
- 
+
 /* ══════════════════════════════════════════
    9. Fetch 工具
 ══════════════════════════════════════════ */
@@ -850,7 +684,7 @@ function parseGvizTable(tbl) {
     .filter(r=>Object.values(r).some(v=>v!==''))
     .map(normalizeRow);
 }
- 
+
 /* ══════════════════════════════════════════
    10. Skeleton
 ══════════════════════════════════════════ */
@@ -880,11 +714,11 @@ function skeletonOrders() {
       <div class="sk sk-line" style="width:60%;"></div>
     </div>`).join('');
 }
- 
+
 /* ══════════════════════════════════════════
    11. 蛋糕介紹 — 核心 Render（分類 + 搜尋 + IsAvailable）
 ══════════════════════════════════════════ */
- 
+
 /** 取所有可用分類 */
 function getCakeCategories(cakes) {
   const map = new Map();
@@ -895,7 +729,7 @@ function getCakeCategories(cakes) {
   }
   return map;   // Map<分類名, 數量>
 }
- 
+
 /** 主渲染函式 */
 function renderCakes(data) {
   const el = document.getElementById('panelCakes');
@@ -903,14 +737,14 @@ function renderCakes(data) {
     el.replaceChildren(emptyStateEl('ti-cake','尚無蛋糕資料','請確認 cakes 分頁已公開'));
     return;
   }
- 
+
   // 過濾：只取 IsAvailable = true 的
   const available = data.filter(r => isAvailable(r));
- 
+
   // 分類 Map（含計數）
   const catMap = getCakeCategories(data);
   const allCount = available.length;
- 
+
   // 根據目前選中分類 + 關鍵字過濾
   const kw = state.cakeKeyword.trim().toLowerCase();
   const catFiltered = available.filter(r => {
@@ -927,9 +761,9 @@ function renderCakes(data) {
     }
     return true;
   });
- 
+
   const wrapper = document.createElement('div');
- 
+
   // ── 搜尋列 ──
   const searchRow = document.createElement('div');
   searchRow.className = 'cake-search-row';
@@ -940,18 +774,18 @@ function renderCakes(data) {
       <i class="ti ti-cake" style="font-size:12px;margin-right:4px;vertical-align:middle;"></i>${catFiltered.length} 款
     </div>`;
   wrapper.appendChild(searchRow);
- 
+
   // ── 分類過濾器 ──
   const catBar = document.createElement('div');
   catBar.className = 'cake-category-bar';
- 
+
   // 「全部」按鈕
   const allBtn = document.createElement('button');
   allBtn.className = `cake-cat-btn ${state.cakeCategory==='all'?'active':''}`;
   allBtn.onclick = () => setCakeCategory('all');
   allBtn.innerHTML = `<i class="ti ti-border-all" style="font-size:14px;"></i>全部 <span class="cat-count">${allCount}</span>`;
   catBar.appendChild(allBtn);
- 
+
   // 各分類按鈕
   const catIcons = { '生日蛋糕':'ti-gift','客製化':'ti-palette','慕斯':'ti-snowflake','起司':'ti-cheese','水果':'ti-apple','巧克力':'ti-droplet','素食':'ti-leaf','限定':'ti-star','其他':'ti-tag' };
   for (const [cat, cnt] of catMap) {
@@ -963,14 +797,14 @@ function renderCakes(data) {
     catBar.appendChild(btn);
   }
   wrapper.appendChild(catBar);
- 
+
   // ── 空結果 ──
   if (!catFiltered.length) {
     wrapper.appendChild(emptyStateEl('ti-search','找不到符合的蛋糕','試試不同的關鍵字或切換分類'));
     el.replaceChildren(wrapper);
     return;
   }
- 
+
   // ── 依分類分組顯示（僅在「全部」模式時分組，選了特定分類就不分組）──
   if (state.cakeCategory === 'all' && !kw) {
     // 分組
@@ -991,7 +825,7 @@ function renderCakes(data) {
         <span class="cake-section-line"></span>
         <span class="cake-section-count">${rows.length} 款</span>`;
       wrapper.appendChild(secHeader);
- 
+
       const grid = document.createElement('div');
       grid.className = 'cake-grid';
       const frag = document.createDocumentFragment();
@@ -1008,41 +842,46 @@ function renderCakes(data) {
     grid.appendChild(frag);
     wrapper.appendChild(grid);
   }
- 
+
   el.replaceChildren(wrapper);
 }
- 
+
 /**
  * Google Drive 圖片 URL 解析
  * 支援格式：
- *   - 純 ID:            12AMP1Soh7pchBtfmA9DJQLgug3xCor6w
- *   - /file/d/{ID}/view 短連結
+ *   - 純 ID:                             12AMP1Soh7pchBtfmA9DJQLgug3xCor6w
+ *   - /file/d/{ID}/view（含自訂 ?id=）:  /file/d/12AMP.../view?id=cakes_Images/CAKE_001.png
  *   - /uc?id={ID} 或 open?id={ID}
  *   - 一般 https:// 直連（原樣使用）
+ * 注意：?id=cakes_Images/... 的自訂路徑參數會被忽略，只取路徑中的 Drive 檔案 ID。
  */
 function resolveImageUrl(raw) {
   if (!raw) return null;
   raw = raw.trim();
- 
+
+  function driveUrl(id) {
+    return `https://drive.google.com/uc?export=view&id=${id}`;
+  }
+
   // 從 /file/d/{ID}/ 格式取 ID
   let m = raw.match(/\/file\/d\/([a-zA-Z0-9_-]{10,})/);
-  if (m) return `https://drive.google.com/thumbnail?id=${m[1]}&sz=w600`;
- 
+  if (m) return driveUrl(m[1]);
+
   // 從 ?id= 或 &id= 參數取 ID（但排掉像 CAKE_001.Image... 這種自訂 id 值）
   m = raw.match(/[?&]id=([a-zA-Z0-9_-]{15,})/);
-  if (m) return `https://drive.google.com/thumbnail?id=${m[1]}&sz=w600`;
- 
+  if (m) return driveUrl(m[1]);
+
   // 純 Drive 檔案 ID（英數字 + - _ 組成，長度 25~45）
   if (/^[a-zA-Z0-9_-]{25,45}$/.test(raw)) {
-    return `https://drive.google.com/thumbnail?id=${raw}&sz=w600`;
+    return driveUrl(raw);
   }
- 
+
   // 已是完整 URL（http / https）→ 直接使用
   if (/^https?:\/\//.test(raw)) return raw;
- 
+
   return null;
 }
- 
+
 /** 蛋糕卡片 DOM */
 function createCakeCard(r, idx) {
   const nameZh   = gf(r,'name');
@@ -1052,28 +891,51 @@ function createCakeCard(r, idx) {
   const price    = gf(r,'price');
   const category = gf(r,'category');
   const prepTime = gf(r,'prepTime');
-  const image    = resolveImageUrl(gf(r,'image'));
+  const cakeId   = gf(r,'cakeId');
+  const rawImg   = gf(r,'image');
+  const driveImg = resolveImageUrl(rawImg);
+  const driveM   = rawImg && rawImg.match(/\/file\/d\/([a-zA-Z0-9_-]{10,})/);
+
+  // 圖片來源優先順序：cake_image 本地資料夾（4 種副檔名）→ Drive uc → Drive thumbnail
+  const imgSrcs = [];
+  if (cakeId) ['png','jpg','jpeg','webp'].forEach(ext => imgSrcs.push(`cake_image/${cakeId}.${ext}`));
+  if (driveImg) imgSrcs.push(driveImg);
+  if (driveM)   imgSrcs.push(`https://drive.google.com/thumbnail?id=${driveM[1]}&sz=w600`);
+  const image = imgSrcs[0] || null;
+
   const priceNum = parseFloat(String(price).replace(/[^0-9.-]/g,''));
- 
+
   const card = document.createElement('div');
   card.className = 'cake-card';
   card.style.cssText = `animation:cakeFadeIn .35s ease ${idx * .06}s both`;
- 
+
   /* ── 圖片區 ── */
   const imgWrap = document.createElement('div');
   imgWrap.className = 'cake-img-wrap';
- 
+
   if (image) {
     const img = document.createElement('img');
     img.src = image;
     img.alt = nameZh || '蛋糕';
     img.loading = 'lazy';
-    img.onerror = () => { imgWrap.innerHTML = placeholderHTML(); };
+    img.onerror = () => {
+      const tried = parseInt(img.dataset.tried || '0') + 1;
+      img.dataset.tried = tried;
+      if (tried < imgSrcs.length) {
+        img.src = imgSrcs[tried];
+      } else {
+        img.remove();
+        const ph = document.createElement('div');
+        ph.className = 'cake-img-placeholder';
+        ph.innerHTML = '<i class="ti ti-cake"></i><span>尚無圖片</span>';
+        imgWrap.insertBefore(ph, imgWrap.firstChild);
+      }
+    };
     imgWrap.appendChild(img);
   } else {
     imgWrap.innerHTML = placeholderHTML();
   }
- 
+
   // 分類 ribbon（左上角）
   if (category) {
     const ribbon = document.createElement('div');
@@ -1081,7 +943,7 @@ function createCakeCard(r, idx) {
     ribbon.innerHTML = `<span class="chip chip-purple">${esc(category)}</span>`;
     imgWrap.appendChild(ribbon);
   }
- 
+
   // ★ 價格懸浮（右下角）
   if (price) {
     const priceOverlay = document.createElement('div');
@@ -1091,13 +953,13 @@ function createCakeCard(r, idx) {
       <div class="cake-price-overlay-label">售價</div>`;
     imgWrap.appendChild(priceOverlay);
   }
- 
+
   card.appendChild(imgWrap);
- 
+
   /* ── 卡片 body ── */
   const body = document.createElement('div');
   body.className = 'cake-card-body';
- 
+
   // ★ 名稱並排：中文 ｜ 英文
   const nameRow = document.createElement('div');
   nameRow.className = 'cake-name-row';
@@ -1105,7 +967,7 @@ function createCakeCard(r, idx) {
     <span class="cake-name-zh">${esc(nameZh) || '—'}</span>
     ${nameEn ? `<span class="cake-name-sep"></span><span class="cake-name-en">${esc(nameEn)}</span>` : ''}`;
   body.appendChild(nameRow);
- 
+
   // ★ 雙語描述（英文在上、中文在下）
   if (descEn || desc) {
     const descWrap = document.createElement('div');
@@ -1129,9 +991,9 @@ function createCakeCard(r, idx) {
     }
     body.appendChild(descWrap);
   }
- 
+
   card.appendChild(body);
- 
+
   /* ── 卡片 footer：最小製作時間 ── */
   if (prepTime) {
     const footer = document.createElement('div');
@@ -1144,14 +1006,14 @@ function createCakeCard(r, idx) {
       </span>`;
     card.appendChild(footer);
   }
- 
+
   return card;
 }
- 
+
 function placeholderHTML() {
   return `<div class="cake-img-placeholder"><i class="ti ti-cake"></i><span>尚無圖片</span></div>`;
 }
- 
+
 /* 蛋糕頁面互動 */
 function setCakeKeyword(v) {
   state.cakeKeyword = v;
@@ -1161,7 +1023,7 @@ function setCakeCategory(cat) {
   state.cakeCategory = cat;
   renderCakes(state.cakes);
 }
- 
+
 /* ══════════════════════════════════════════
    12. 訂單相關 render 函式
 ══════════════════════════════════════════ */
@@ -1219,168 +1081,196 @@ function applyFilter(panelId) {
   if (!container) return;
   renderOrderList(container, filtered, isNew);
 }
- 
-/* ── 訂單卡片 ── */
+
+/* ── 訂單卡片（三列式） ── */
 function createOrderCard(r, i, isNew) {
-  const cols       = Object.keys(r).filter(k=>!k.startsWith('__'));
-  const orderId    = gf(r,'orderId');
-  const customer   = gf(r,'customer');
-  const phone      = gf(r,'phone');
-  const email      = gf(r,'email');
-  const status     = gf(r,'status');
-  const payment    = gf(r,'payment');
-  const amt        = gf(r,'amount');
-  const deposit    = gf(r,'deposit');
-  const balance    = gf(r,'balance');
-  const cakeName   = gf(r,'cakeName');
-  const size       = gf(r,'size');
-  const flavor     = gf(r,'flavor');
-  const quantity   = gf(r,'quantity');
-  const design     = gf(r,'design');
-  const msg        = gf(r,'message');
-  const color      = gf(r,'color');
-  const orderDate  = gf(r,'orderDate');
-  const pickupDate = gf(r,'pickupDate');
-  const createdAt  = gf(r,'createdAt');
-  const updatedAt  = gf(r,'updatedAt');
-  const note       = gf(r,'note');
-  const address    = gf(r,'address');
-  const source     = gf(r,'source');
-  const member     = gf(r,'member');
-  const amtNum     = parseFloat(String(amt).replace(/[^0-9.-]/g,''));
-  const extras     = cols.filter(k=>!KNOWN_KEYS.has(k)&&r[k]!=null&&r[k]!=='');
- 
+  const orderId        = gf(r,'orderId');
+  const customer       = gf(r,'customer');
+  const phone          = gf(r,'phone');
+  const status         = gf(r,'status');
+  const payment        = gf(r,'payment');
+  const paymentMethod  = gf(r,'paymentMethod');
+  const deliveryMethod = gf(r,'deliveryMethod');
+  const pickupDate     = gf(r,'pickupDate');
+  const pickupTime     = gf(r,'pickupTime');
+  const createdAt      = gf(r,'createdAt');
+  const cakeName       = gf(r,'cakeName');
+  const unitPrice      = gf(r,'unitPrice');
+  const quantity       = gf(r,'quantity');
+  const subtotal       = gf(r,'subtotal');
+  const amt            = gf(r,'amount');
+  const note           = gf(r,'note');
+  const amtNum         = parseFloat(String(amt).replace(/[^0-9.-]/g,''));
+
+  let itemsHTML;
+  if (r.__items__ && r.__items__.length) {
+    itemsHTML = r.__items__.map((it, idx) => {
+      const iName  = esc(it.ProductNameSnapshot || it.CakeName || '');
+      const iPrice = it.UnitPriceSnapshot || it.UnitPrice || '';
+      const iQty   = it.Qty || it.Quantity || '';
+      const iReq   = esc(it.SpecialRequest || '');
+      const divider = idx > 0 ? '<div class="order-3row-divider"></div>' : '';
+      return `${divider}
+        <div class="o3cell"><div class="o3-label">蛋糕品項</div><div class="o3-value">${iName||'<span class="o3-value muted">—</span>'}</div></div>
+        <div class="o3cell"><div class="o3-label">單價</div><div class="o3-value">${iPrice?'NT$'+esc(String(iPrice)):'<span class="o3-value muted">—</span>'}</div></div>
+        <div class="o3cell"><div class="o3-label">數量</div><div class="o3-value">${esc(String(iQty))||'<span class="o3-value muted">—</span>'}</div></div>
+        <div class="o3cell"><div class="o3-label">備註</div><div class="o3-value muted" style="font-size:12px;">${iReq||'<span style="color:#D0CCC5;">無</span>'}</div></div>`;
+    }).join('');
+  } else {
+    itemsHTML = `
+      <div class="o3cell"><div class="o3-label">蛋糕品項</div><div class="o3-value">${esc(cakeName)||'<span class="o3-value muted">—</span>'}</div></div>
+      <div class="o3cell"><div class="o3-label">單價</div><div class="o3-value">${unitPrice?'NT$'+esc(unitPrice):'<span class="o3-value muted">—</span>'}</div></div>
+      <div class="o3cell"><div class="o3-label">數量</div><div class="o3-value">${esc(quantity)||'<span class="o3-value muted">—</span>'}</div></div>
+      <div class="o3cell"><div class="o3-label">備註</div><div class="o3-value muted" style="font-size:12px;">${esc(note)||'<span style="color:#D0CCC5;">無</span>'}</div></div>`;
+  }
+
+  function fmtPickupDate(val) {
+    const d = parseDate(val);
+    if (!d) return esc(val) || '—';
+    return d.toLocaleDateString('zh-TW', { year:'numeric', month:'2-digit', day:'2-digit', weekday:'short' });
+  }
+
+  const payDisplay = paymentMethod || payment;
+
+  const custStats = getCustomerStats(r);
+  let statsChip = '', statsSubLine = '';
+  if (custStats) {
+    const to  = gf(custStats, 'totalOrders');
+    const tsRaw = parseFloat(String(gf(custStats, 'totalSpent')).replace(/[^0-9.-]/g,''));
+    const ts  = !isNaN(tsRaw) && tsRaw ? tsRaw : null;
+    const parts = [];
+    if (to)  parts.push(`第 ${esc(String(to))} 筆`);
+    if (ts)  parts.push(`累計 NT$${ts.toLocaleString()}`);
+    if (parts.length) {
+      statsChip    = `<span style="font-size:10px;background:#EAF3DE;color:#3B6D11;padding:2px 8px;border-radius:20px;font-weight:600;">${parts.join(' · ')}</span>`;
+      statsSubLine = `<div style="font-size:10.5px;color:#6A9B3A;font-weight:600;margin-top:3px;">${parts.join(' · ')}</div>`;
+    }
+  }
+
   const card = document.createElement('div');
   card.className = `order-card${isNew?' new-order pulse':''}`;
   card.style.cssText = `animation:fadeUp .28s ease ${i*.05}s both`;
- 
-  const iconName  = isNew?'sparkles':'receipt';
-  const iconColor = isNew?'#534AB7':'#888';
-  const iconBg    = isNew?'#EEEDFE':'#F3F1EA';
- 
+
+  const iconBg    = isNew ? '#EEEDFE' : '#F3F1EA';
+  const iconColor = isNew ? '#534AB7' : '#888';
+  const iconName  = isNew ? 'sparkles' : 'receipt';
+
   card.innerHTML = `
-    <div class="order-card-header">
-      <div style="display:flex;align-items:center;gap:12px;">
-        <div style="width:40px;height:40px;border-radius:10px;background:${iconBg};display:flex;align-items:center;justify-content:center;flex-shrink:0;">
-          <i class="ti ti-${iconName}" style="font-size:18px;color:${iconColor}"></i>
+    <div class="order-card-header2">
+      <div style="display:flex;align-items:center;gap:10px;min-width:0;">
+        <div style="width:36px;height:36px;border-radius:9px;background:${iconBg};display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+          <i class="ti ti-${iconName}" style="font-size:16px;color:${iconColor};"></i>
         </div>
-        <div>
-          <div style="font-size:14px;font-weight:600;color:#1A1916;">
+        <div style="min-width:0;">
+          <div style="font-size:14px;font-weight:700;color:#1A1916;display:flex;align-items:center;gap:6px;flex-wrap:wrap;">
             ${esc(customer)||'未知客戶'}
-            ${isNew?'<span style="font-size:10px;background:#EEEDFE;color:#534AB7;padding:2px 7px;border-radius:20px;font-weight:700;margin-left:6px;vertical-align:middle;">NEW</span>':''}
+            ${isNew?'<span style="font-size:10px;background:#EEEDFE;color:#534AB7;padding:2px 7px;border-radius:20px;font-weight:700;">NEW</span>':''}
+            ${statsChip}
           </div>
-          <div style="font-size:11px;color:#888;margin-top:2px;">
-            ${orderId?'訂單 #'+esc(orderId):''}${createdAt?' · 建立 '+fmtDate(createdAt):''}
+          <div style="font-size:11px;color:#B0ADA6;margin-top:1px;">
+            ${orderId?'#'+esc(orderId):''}${phone?' · <a href="tel:'+esc(phone)+'" style="color:#534AB7;text-decoration:none;">'+esc(phone)+'</a>':''}${createdAt?' · '+fmtDate(createdAt):''}
           </div>
         </div>
       </div>
-      <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
-        ${statusBadgeHTML(status)}
-        ${!isNaN(amtNum)&&amtNum?`<span style="font-size:16px;font-weight:700;color:#1A1916;">NT$${amtNum.toLocaleString()}</span>`:''}
+      <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;flex-shrink:0;">
+        ${payDisplay ? statusBadgeHTML(payDisplay) : ''}
+        ${!isNaN(amtNum)&&amtNum?`<span style="font-size:16px;font-weight:800;color:#534AB7;">NT$${amtNum.toLocaleString()}</span>`:''}
       </div>
     </div>
-    <div class="order-card-body">
-      <div class="section-block">聯絡資訊</div>
-      <div class="detail-grid">
-        ${customer?`<div><div class="detail-label">客戶姓名</div><div class="detail-value">${esc(customer)}</div></div>`:''}
-        ${phone?`<div><div class="detail-label">電話</div><div class="detail-value"><a href="tel:${esc(phone)}" style="color:#534AB7;text-decoration:none;">${esc(phone)}</a></div></div>`:''}
-        ${email?`<div><div class="detail-label">Email</div><div class="detail-value"><a href="mailto:${esc(email)}" style="color:#534AB7;text-decoration:none;font-size:12px;">${esc(email)}</a></div></div>`:''}
-        ${member?`<div><div class="detail-label">會員編號</div><div class="detail-value muted">${esc(member)}</div></div>`:''}
-        ${source?`<div><div class="detail-label">訂單來源</div><div class="detail-value">${esc(source)}</div></div>`:''}
-        ${address?`<div style="grid-column:1/-1;"><div class="detail-label">地址</div><div class="detail-value">${esc(address)}</div></div>`:''}
+
+    <div class="order-3row">
+      <!-- 列1：OrderStatus · Customer · PickupDate · PickupTime -->
+      <div class="o3cell">
+        <div class="o3-label">訂單狀態</div>
+        <div class="o3-value">${status ? statusBadgeHTML(status) : '<span class="o3-value muted">—</span>'}</div>
       </div>
-      ${(cakeName||size||flavor||quantity||color||design||msg)?`
-        <hr class="div">
-        <div class="section-block" style="margin-top:12px;">蛋糕訂單內容</div>
-        <div class="detail-grid">
-          ${cakeName?`<div><div class="detail-label">蛋糕品項</div><div class="detail-value">${esc(cakeName)}</div></div>`:''}
-          ${size?`<div><div class="detail-label">尺寸</div><div class="detail-value">${esc(size)}</div></div>`:''}
-          ${flavor?`<div><div class="detail-label">口味</div><div class="detail-value">${esc(flavor)}</div></div>`:''}
-          ${quantity?`<div><div class="detail-label">數量</div><div class="detail-value">${esc(quantity)}</div></div>`:''}
-          ${color?`<div><div class="detail-label">顏色</div><div class="detail-value">${esc(color)}</div></div>`:''}
-          ${design?`<div style="grid-column:1/-1;"><div class="detail-label">設計風格</div><div class="detail-value">${esc(design)}</div></div>`:''}
-          ${msg?`<div style="grid-column:1/-1;"><div class="detail-label">蛋糕文字 / 祝福語</div><div class="detail-value" style="color:#534AB7;font-style:italic;">&ldquo;${esc(msg)}&rdquo;</div></div>`:''}
-        </div>`:''}
-      <hr class="div">
-      <div class="section-block" style="margin-top:12px;">日期 &amp; 金流</div>
-      <div class="detail-grid">
-        ${orderDate?`<div><div class="detail-label">訂單日期</div><div class="detail-value">${fmtDate(orderDate)}</div></div>`:''}
-        ${pickupDate?`<div><div class="detail-label">取貨日期</div><div class="detail-value" style="color:#854F0B;font-weight:600;">${fmtDate(pickupDate)}</div></div>`:''}
-        ${createdAt?`<div><div class="detail-label">建立時間</div><div class="detail-value muted">${fmtDate(createdAt)}</div></div>`:''}
-        ${updatedAt?`<div><div class="detail-label">更新時間</div><div class="detail-value muted">${fmtDate(updatedAt)}</div></div>`:''}
-        ${!isNaN(amtNum)&&amtNum?`<div><div class="detail-label">訂單金額</div><div class="detail-value large">NT$${amtNum.toLocaleString()}</div></div>`:''}
-        ${payment?`<div><div class="detail-label">付款狀態</div><div class="detail-value">${statusBadgeHTML(payment)}</div></div>`:''}
-        ${deposit?`<div><div class="detail-label">訂金</div><div class="detail-value">NT$${esc(deposit)}</div></div>`:''}
-        ${balance?`<div><div class="detail-label">餘款</div><div class="detail-value">NT$${esc(balance)}</div></div>`:''}
+      <div class="o3cell">
+        <div class="o3-label">客戶</div>
+        <div class="o3-value">${esc(customer)||'<span class="o3-value muted">—</span>'}</div>
+        ${statsSubLine}
       </div>
-      ${extras.length?`
-        <hr class="div">
-        <div class="section-block" style="margin-top:12px;">其他資訊</div>
-        <div class="detail-grid">
-          ${extras.map(k=>`<div><div class="detail-label">${esc(k)}</div><div class="detail-value">${esc(r[k])}</div></div>`).join('')}
-        </div>`:''}
+      <div class="o3cell">
+        <div class="o3-label">取貨日期 / 時間</div>
+        <div class="o3-value amber">${pickupDate ? fmtPickupDate(pickupDate) : '<span class="o3-value muted">—</span>'}${pickupTime ? ' ' + esc(pickupTime) : ''}</div>
+      </div>
+      <div class="o3cell">
+        <div class="o3-label">取貨方式</div>
+        <div class="o3-value">${esc(deliveryMethod)||'<span class="o3-value muted">—</span>'}</div>
+      </div>
+
+      <div class="order-3row-divider"></div>
+
+      <!-- 列2：品項列（動態，依品項數顯示對應列數） -->
+      ${itemsHTML}
     </div>
-    ${note?`
-      <div class="order-card-footer">
-        <div style="display:flex;align-items:flex-start;gap:8px;">
-          <i class="ti ti-message" style="font-size:13px;color:#888;margin-top:1px;flex-shrink:0;"></i>
-          <div style="font-size:12px;color:#888;line-height:1.6;">${esc(note)}</div>
-        </div>
-      </div>`:''}
   `;
   return card;
 }
- 
+
 /* ══════════════════════════════════════════
    13. 今日 / 新增 / 明日 render
+
 ══════════════════════════════════════════ */
 function renderToday() {
   const el = document.getElementById('panelToday');
-  const todayOrders = getAllOrders().filter(r=>r.__isToday__);
+  const orders = getAllOrders().filter(r => r.__isTodayPickup__);
   const badge = document.getElementById('badgeToday');
-  badge.textContent  = todayOrders.length;
-  badge.style.display = todayOrders.length?'inline':'none';
-  if (!todayOrders.length) { el.replaceChildren(emptyStateEl('ti-calendar-off','今日尚無訂單','系統比對所有日期欄位，當天訂單自動顯示')); return; }
-  const wrapper = document.createElement('div');
-  wrapper.innerHTML = `
-    ${getSearchBarHTML('today')}
-    <div class="section-header">
-      <div>
-        <div style="font-size:14px;font-weight:600;color:#1A1916;">${todayOrders.length} 筆今日訂單</div>
-        <div style="font-size:12px;color:#888;">${TODAY.toLocaleDateString('zh-TW',{month:'long',day:'numeric'})}</div>
-      </div>
-    </div>`;
-  const listEl = document.createElement('div');
-  listEl.id = 'orderList_today';
-  renderOrderList(listEl, todayOrders, false);
-  wrapper.appendChild(listEl);
-  el.replaceChildren(wrapper);
+  badge.textContent = orders.length;
+  badge.style.display = orders.length ? 'inline' : 'none';
+  const todayLabel = TODAY.toLocaleDateString('zh-TW', {year:'numeric',month:'long',day:'numeric',weekday:'long'});
+  if (!orders.length) {
+    const wrap = document.createElement('div');
+    wrap.innerHTML = `<div class="tmr-hero"><div class="tmr-hero-title">今日取貨清單</div><div class="tmr-hero-date">${esc(todayLabel)}</div><div class="tmr-hero-sub">依「取貨日期」欄位篩選</div></div>`;
+    const empty = document.createElement('div'); empty.className = 'tmr-empty';
+    empty.innerHTML = `<i class="ti ti-mood-happy"></i><div style="font-size:15px;font-weight:600;color:#1A1916;margin-bottom:6px;">今日沒有取貨訂單</div><div style="font-size:13px;">請確認訂單的「取貨日期」欄位已正確填寫</div>`;
+    wrap.appendChild(empty); el.replaceChildren(wrap); return;
+  }
+  const cakeItems = aggregateCakes(orders);
+  const totalCakes = cakeItems.reduce((s,i) => s + i.qty, 0);
+  const totalAmt = orders.reduce((s,r) => { const n=parseFloat(String(gf(r,'amount')).replace(/[^0-9.-]/g,'')); return s+(isNaN(n)?0:n); }, 0);
+  const wrap = document.createElement('div');
+  wrap.innerHTML = `<div class="tmr-hero"><div class="tmr-hero-title">今日取貨清單</div><div class="tmr-hero-date">${esc(todayLabel)}</div><div class="tmr-hero-sub">依「取貨日期」欄位篩選</div><div class="tmr-hero-chips"><div class="tmr-chip accent"><i class="ti ti-receipt" style="font-size:13px;margin-right:4px;"></i>${orders.length} 筆訂單</div><div class="tmr-chip"><i class="ti ti-cake" style="font-size:13px;margin-right:4px;"></i>${totalCakes} 個蛋糕</div><div class="tmr-chip"><i class="ti ti-coin" style="font-size:13px;margin-right:4px;"></i>NT$${totalAmt.toLocaleString()}</div><div class="tmr-chip"><i class="ti ti-package" style="font-size:13px;margin-right:4px;"></i>${cakeItems.length} 種品項</div></div></div>`;
+  const summarySection = document.createElement('div'); summarySection.className = 'summary-section';
+  summarySection.innerHTML = `<div class="summary-title"><i class="ti ti-clipboard-check"></i>需備蛋糕品項彙總</div>`;
+  const grid = document.createElement('div'); grid.className = 'cake-summary-grid';
+  const frag1 = document.createDocumentFragment(); cakeItems.forEach((item,i) => frag1.appendChild(createCakeSummaryCard(item,i))); grid.appendChild(frag1); summarySection.appendChild(grid); wrap.appendChild(summarySection);
+  const divider = document.createElement('div'); divider.className = 'section-divider';
+  divider.innerHTML = `<span class="section-divider-label"><i class="ti ti-truck-delivery" style="margin-right:5px;font-size:14px;color:#534AB7;"></i>今日取貨訂單</span><span class="section-divider-line"></span><span class="section-divider-count">${orders.length} 筆</span>`; wrap.appendChild(divider);
+  const listEl = document.createElement('div'); const frag2 = document.createDocumentFragment(); orders.forEach((r,i) => frag2.appendChild(createOrderCard(r,i,false))); listEl.appendChild(frag2); wrap.appendChild(listEl);
+  el.replaceChildren(wrap);
 }
 function renderNew() {
   const el = document.getElementById('panelNew');
+  const orders = getAllOrders().filter(r => isSameDay(gf(r,'createdAt')));
   const badge = document.getElementById('badgeNew');
-  badge.textContent = state.newOrders.length;
-  badge.style.display = state.newOrders.length?'inline':'none';
-  if (!state.newOrders.length) { el.replaceChildren(emptyStateEl('ti-sparkles','尚無今日新增訂單','依 CreatedAt 欄位篩選，每 30 秒自動偵測')); return; }
-  const wrapper = document.createElement('div');
-  wrapper.innerHTML = `
-    ${getSearchBarHTML('new')}
-    <div class="section-header">
-      <div>
-        <div style="font-size:14px;font-weight:600;color:#534AB7;">+ ${state.newOrders.length} 筆今日新增</div>
-        <div style="font-size:12px;color:#888;">依 CreatedAt 欄位</div>
-      </div>
-    </div>`;
-  const listEl = document.createElement('div');
-  listEl.id = 'orderList_new';
-  renderOrderList(listEl, state.newOrders, true);
-  wrapper.appendChild(listEl);
-  el.replaceChildren(wrapper);
+  badge.textContent = orders.length;
+  badge.style.display = orders.length ? 'inline' : 'none';
+  const todayLabel = TODAY.toLocaleDateString('zh-TW', {year:'numeric',month:'long',day:'numeric',weekday:'long'});
+  if (!orders.length) {
+    const wrap = document.createElement('div');
+    wrap.innerHTML = `<div class="tmr-hero"><div class="tmr-hero-title">今日新增訂單</div><div class="tmr-hero-date">${esc(todayLabel)}</div><div class="tmr-hero-sub">依「建立時間」欄位篩選</div></div>`;
+    const empty = document.createElement('div'); empty.className = 'tmr-empty';
+    empty.innerHTML = `<i class="ti ti-mood-happy"></i><div style="font-size:15px;font-weight:600;color:#1A1916;margin-bottom:6px;">今日尚無新增訂單</div><div style="font-size:13px;">請確認訂單的「建立時間」欄位已正確填寫</div>`;
+    wrap.appendChild(empty); el.replaceChildren(wrap); return;
+  }
+  const cakeItems = aggregateCakes(orders);
+  const totalCakes = cakeItems.reduce((s,i) => s + i.qty, 0);
+  const totalAmt = orders.reduce((s,r) => { const n=parseFloat(String(gf(r,'amount')).replace(/[^0-9.-]/g,'')); return s+(isNaN(n)?0:n); }, 0);
+  const wrap = document.createElement('div');
+  wrap.innerHTML = `<div class="tmr-hero"><div class="tmr-hero-title">今日新增訂單</div><div class="tmr-hero-date">${esc(todayLabel)}</div><div class="tmr-hero-sub">依「建立時間」欄位篩選</div><div class="tmr-hero-chips"><div class="tmr-chip accent"><i class="ti ti-receipt" style="font-size:13px;margin-right:4px;"></i>${orders.length} 筆訂單</div><div class="tmr-chip"><i class="ti ti-cake" style="font-size:13px;margin-right:4px;"></i>${totalCakes} 個蛋糕</div><div class="tmr-chip"><i class="ti ti-coin" style="font-size:13px;margin-right:4px;"></i>NT$${totalAmt.toLocaleString()}</div><div class="tmr-chip"><i class="ti ti-package" style="font-size:13px;margin-right:4px;"></i>${cakeItems.length} 種品項</div></div></div>`;
+  const summarySection = document.createElement('div'); summarySection.className = 'summary-section';
+  summarySection.innerHTML = `<div class="summary-title"><i class="ti ti-sparkles" style="color:#534AB7;"></i>今日新增品項彙總</div>`;
+  const grid = document.createElement('div'); grid.className = 'cake-summary-grid';
+  const frag1 = document.createDocumentFragment(); cakeItems.forEach((item,i) => frag1.appendChild(createCakeSummaryCard(item,i))); grid.appendChild(frag1); summarySection.appendChild(grid); wrap.appendChild(summarySection);
+  const divider = document.createElement('div'); divider.className = 'section-divider';
+  divider.innerHTML = `<span class="section-divider-label"><i class="ti ti-sparkles" style="margin-right:5px;font-size:14px;color:#534AB7;"></i>今日新增訂單</span><span class="section-divider-line"></span><span class="section-divider-count">${orders.length} 筆</span>`; wrap.appendChild(divider);
+  const listEl = document.createElement('div'); const frag2 = document.createDocumentFragment(); orders.forEach((r,i) => frag2.appendChild(createOrderCard(r,i,true))); listEl.appendChild(frag2); wrap.appendChild(listEl);
+  el.replaceChildren(wrap);
 }
- 
+
 /* ── 所有訂單 ── */
 function getAllOrders() { return [...state.orders, ...state.src1]; }
- 
+
 function getQuickRange(range) {
   const now=new Date(), ymd=d=>new Date(d.getFullYear(),d.getMonth(),d.getDate());
   if (range==='today') return { from:ymd(now).getTime(), to:ymd(now).getTime()+86399999 };
@@ -1502,11 +1392,27 @@ function setAllQuick(v){
   if(v==='custom'&&!state.allFilter.dateFrom){ const now=new Date(); state.allFilter.dateFrom=`${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,'0')}-01`; state.allFilter.dateTo=`${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,'0')}-${String(new Date(now.getFullYear(),now.getMonth()+1,0).getDate()).padStart(2,'0')}`; }
   renderAll();
 }
- 
+
 /* ── 明日取貨 ── */
 function aggregateCakes(orders){
   const map=new Map();
-  for(const r of orders){ const name=gf(r,'cakeName')||'未指定品項',size=gf(r,'size')||'',flavor=gf(r,'flavor')||'',qty=parseInt(gf(r,'quantity'))||1,key=`${name}|${size}|${flavor}`; if(!map.has(key))map.set(key,{name,size,flavor,qty:0,orders:[]}); const entry=map.get(key); entry.qty+=qty; entry.orders.push(r); }
+  for(const r of orders){
+    if(r.__items__ && r.__items__.length){
+      for(const it of r.__items__){
+        const name=it.ProductNameSnapshot||it.CakeName||gf(r,'cakeName')||'未指定品項';
+        const size=it.Size||gf(r,'size')||'';
+        const flavor=it.Flavor||gf(r,'flavor')||'';
+        const qty=parseInt(it.Qty||it.Quantity)||1;
+        const key=`${name}|${size}|${flavor}`;
+        if(!map.has(key))map.set(key,{name,size,flavor,qty:0,orders:[]});
+        const entry=map.get(key); entry.qty+=qty; if(!entry.orders.includes(r))entry.orders.push(r);
+      }
+    } else {
+      const name=gf(r,'cakeName')||'未指定品項',size=gf(r,'size')||'',flavor=gf(r,'flavor')||'',qty=parseInt(gf(r,'quantity'))||1,key=`${name}|${size}|${flavor}`;
+      if(!map.has(key))map.set(key,{name,size,flavor,qty:0,orders:[]});
+      const entry=map.get(key); entry.qty+=qty; entry.orders.push(r);
+    }
+  }
   return [...map.values()].sort((a,b)=>b.qty-a.qty);
 }
 function createCakeSummaryCard(item,idx){
@@ -1533,13 +1439,13 @@ function renderTomorrow(){
   const listEl=document.createElement('div'); const frag2=document.createDocumentFragment(); orders.forEach((r,i)=>frag2.appendChild(createOrderCard(r,i,false))); listEl.appendChild(frag2); wrap.appendChild(listEl);
   el.replaceChildren(wrap);
 }
- 
+
 /* ══════════════════════════════════════════
    14. 資料載入 — 分離蛋糕 / 訂單載入週期
    ★ 蛋糕：只在第一次初始化時載入，之後不再觸發
    ★ 訂單：每 30 秒自動刷新
 ══════════════════════════════════════════ */
- 
+
 /** 只載入蛋糕（第一次且僅一次） */
 async function loadCakes() {
   document.getElementById('panelCakes').innerHTML = skeletonCakes();
@@ -1553,27 +1459,32 @@ async function loadCakes() {
   }
   renderCakes(state.cakes);
 }
- 
+
 /** 只載入訂單（每 30 秒執行）*/
 async function loadOrders() {
   setStatus('connecting','連線中...');
- 
+
   // 只在訂單相關 panel 顯示 skeleton，不動蛋糕介紹
   ['panelToday','panelNew','panelAll','panelTomorrow'].forEach(id => {
     document.getElementById(id).innerHTML = skeletonOrders();
   });
- 
-  const [od, s1] = await Promise.allSettled([
+
+  const [od, s1, oi, cu] = await Promise.allSettled([
     retryFetch(() => fetchGviz(gvizUrl('orders'))),
     retryFetch(() => fetchGviz(pubUrl())),
+    retryFetch(() => fetchGviz(gvizUrl('orderitems'))),
+    retryFetch(() => fetchGviz(gvizUrl('customers'))),
   ]);
- 
-  if (od.status==='fulfilled') state.orders = od.value;
-  if (s1.status==='fulfilled') state.src1   = s1.value;
- 
+
+  const rawItems = oi.status === 'fulfilled' ? oi.value : [];
+  if (rawItems.length) state.orderItems = rawItems;
+  if (cu.status === 'fulfilled' && cu.value.length) state.customers = cu.value;
+  if (od.status==='fulfilled') state.orders = joinOrdersWithItems(od.value, state.orderItems);
+  if (s1.status==='fulfilled') state.src1   = joinOrdersWithItems(s1.value, state.orderItems);
+
   const combined = getAllOrders();
   const todayCreated = combined.filter(r => isSameDay(gf(r,'createdAt')));
- 
+
   if (state.prevCount === null) {
     state.newOrders = todayCreated;
   } else if (combined.length > state.prevCount) {
@@ -1583,16 +1494,16 @@ async function loadOrders() {
     showModal(diff);
   }
   state.prevCount = combined.length;
- 
+
   renderToday();
   renderNew();
   renderAll();
   renderTomorrow();
- 
+
   setStatus('ok','已連線');
   document.getElementById('lastUpdated').textContent = '更新於 ' + new Date().toLocaleTimeString('zh-TW');
 }
- 
+
 /* ══════════════════════════════════════════
    15. UI 控制
 ══════════════════════════════════════════ */
@@ -1606,37 +1517,24 @@ function setStatus(type,txt) {
   document.getElementById('statusDot').style.background={ok:'#639922',error:'#E24B4A',connecting:'#EF9F27'}[type]||'#ccc';
   document.getElementById('statusLabel').textContent=txt;
 }
- 
+
 /** 「重新整理」按鈕 — 只刷新訂單；蛋糕介紹保持不動 */
 function refreshOrders() {
   const ic = document.getElementById('refreshIcon');
   ic.style.animation = 'spin .8s linear infinite';
   setTimeout(()=>ic.style.animation='',1500);
   loadOrders();
-  resetCountdown();
 }
- 
-function resetCountdown() {
-  clearInterval(state.cdTimer);
-  state.countdown = 30;
-  document.getElementById('countdown').textContent = state.countdown;
-  state.cdTimer = setInterval(()=>{
-    state.countdown--;
-    document.getElementById('countdown').textContent = state.countdown;
-    if (state.countdown <= 0) refreshOrders();
-  },1000);
-}
- 
+
 /* ══════════════════════════════════════════
    16. 初始化
 ══════════════════════════════════════════ */
 document.getElementById('todayLabel').textContent =
   TODAY.toLocaleDateString('zh-TW',{year:'numeric',month:'long',day:'numeric',weekday:'long'});
- 
+
 // 蛋糕與訂單分開載入：蛋糕先載，不影響後續訂單刷新
 loadCakes();
 loadOrders();
-resetCountdown();
 </script>
 </body>
 </html>
